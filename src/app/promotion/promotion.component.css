@@ -1,0 +1,17 @@
+table {
+    width: 100%;
+}
+
+.delete-icon{
+    color: red;
+    cursor: pointer;
+}
+
+.edit-icon{
+    color: blue;
+    cursor: pointer;
+}
+
+.row-clickable{
+    cursor: pointer;
+}

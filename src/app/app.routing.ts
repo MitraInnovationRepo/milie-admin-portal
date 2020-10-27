@@ -26,6 +26,14 @@ const routes: Routes = [
       path: '',
       loadChildren: './layouts/admin-layout/admin-layout.module#AdminLayoutModule'
     }]
+  },
+  {
+    path: 'promotion',
+    component: AdminLayoutComponent,
+    children: [{
+      path: '',
+      loadChildren: './promotion/promotion.module#PromotionModule',
+    }]
   }
 ];
 

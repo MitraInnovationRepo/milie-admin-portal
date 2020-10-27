@@ -4,6 +4,7 @@ import { DatePipe, registerLocaleData } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Title } from '@angular/platform-browser';
 import locale from '@angular/common/locales/en';
+import { UserService } from './service/user.service';
 @NgModule({
   declarations: [],
   imports: [
@@ -17,6 +18,7 @@ import locale from '@angular/common/locales/en';
         useValue: 'en'
     },
     DatePipe,
+    UserService
 ]
 })
 export class CoreModule { 
