@@ -25,15 +25,19 @@ export class PromotionComponent implements OnInit {
 
     ngOnInit(): void {
         this.ngxService.start();
+        this.getPromotions();
+    }
+
+    getPromotions(){
         this.promotionService.getPromotions()
-            .subscribe(
-                result => {
-                    this.dataSource = new MatTableDataSource(result);
-                    this.dataSource.paginator = this.paginator;
-                    this.dataSource.sort = this.sort;
-                    this.ngxService.stop();
-                }
-            );
+        .subscribe(
+            result => {
+                this.dataSource = new MatTableDataSource(result);
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+                this.ngxService.stop();
+            }
+        );
     }
 
     applyFilter(event: Event) {
@@ -54,7 +58,7 @@ export class PromotionComponent implements OnInit {
         this.promotionService.deletePromotion(id)
         .subscribe(
             result => {
-                this.router.navigate(['/promotion']);
+                this.getPromotions();
                 this.ngxService.stop();
                 this.messageService.snakBarSuccessMessage('Promotion Deleted Successfully');
             }
