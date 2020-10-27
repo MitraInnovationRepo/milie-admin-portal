@@ -1,0 +1,14 @@
+<div id="search-container">
+  <div class="search-fields">
+    <mat-form-field>
+      <input matInput #searchInput placeholder="Search..." (keyup.enter)="search()" autocomplete="off">
+    </mat-form-field>
+    <button mat-icon-button class="submitButton" (click)="search()">
+      <mat-icon>search</mat-icon>
+    </button>
+  </div>
+  <button  type="button" mat-icon-button class="toggleBtn" (click)="toggleSearch()">
+    <mat-icon>{{searchIcon}}</mat-icon>
+  </button>
+  
+</div>

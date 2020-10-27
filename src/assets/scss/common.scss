@@ -1,0 +1,58 @@
+@import "../scss/core/variables/colors";
+
+.mat-snack-bar-container{
+    color: rgb(60, 72, 88);
+    opacity: 0.85 !important;
+    border-radius: 3px !important;
+    box-shadow: 0 3px 6px 0 $color-box-shadow;
+    background-color: $color-white;
+    position: absolute !important;
+    top:50px !important;
+    right: 0;
+    min-height: auto !important;
+    max-width: 78vw !important;
+    min-width: 250px !important; 
+}
+
+.success-snackbar{
+    color: $color-green;
+    border-left:12px solid $color-green;
+}
+
+.failed-snackbar{
+    color: $color-red;
+    border-left:12px solid $color-red;
+}
+mat-panel-title.mat-expansion-panel-header-title{
+    width: 300px;
+}
+
+mat-dialog-container{
+    width: 600px;
+}
+
+.settings-list{
+    cursor: default;
+}
+
+.time-picker{
+    display: flex;
+}
+
+.time-picker input{
+    border: 0;
+    font-size: 16px;
+    width: 120px !important;
+}
+
+button.mat-focus-indicator.mat-mini-fab.mat-button-base.mat-primary {
+    margin: 0 5px;
+}
+
+.holiday-list{
+    padding: 10px 0;
+}
+
+ngx-material-timepicker-toggle.ngx-timepicker__toggle.ng-star-inserted{
+    order: unset !important;
+}

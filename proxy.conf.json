@@ -1,0 +1,14 @@
+{
+    "/auth/**": {
+      "target": "https://dev-api.milieapp.com:8443",
+      "secure": true,
+      "loglevel": "debug",
+      "changeOrigin":"true"
+    },
+    "/api/**": {
+        "target": "http://localhost:8083/",
+        "secure": false,
+        "loglevel": "debug",
+        "changeOrigin":"true"
+      }
+  }
