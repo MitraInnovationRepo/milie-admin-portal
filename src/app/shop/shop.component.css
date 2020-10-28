@@ -2,11 +2,11 @@ table {
     width: 100%;
 }
 
-.delete-icon{
-    color: red;
+.row-clickable{
     cursor: pointer;
 }
 
-.row-clickable{
+.delete-icon{
+    color: red;
     cursor: pointer;
 }

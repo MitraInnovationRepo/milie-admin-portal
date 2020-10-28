@@ -1,0 +1,207 @@
+<ngx-ui-loader></ngx-ui-loader>
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">Shop</h4>
+                        <p class="card-category">Add New Shop</p>
+                    </div>
+                    <div class="card-body">
+                        <form [formGroup]="shopForm" style="display: grid;">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>Mobile Number</mat-label>
+                                        <input matInput formControlName="phoneNumber" placeholder="Enter Mobile Number">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>Email</mat-label>
+                                        <input matInput formControlName="email" placeholder="Enter Email">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>First Name</mat-label>
+                                        <input matInput formControlName="firstName" placeholder="Enter First Name">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>Last Name</mat-label>
+                                        <input matInput formControlName="lastName" placeholder="Enter Last Name">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <mat-list>
+                                <mat-divider></mat-divider>
+                            </mat-list>
+                            <hr>
+
+                            <div>
+                                <h4>Shop Details</h4>
+                            </div>
+
+                            <div class="row">
+                                <mat-form-field class="col-md-12" appearance="fill">
+                                    <mat-label>Select a type</mat-label>
+                                    <mat-select formControlName="shopType" required>
+                                        <mat-option *ngFor="let shopType of shopTypeList" [value]="shopType.id">
+                                            {{shopType.name}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>Shop Name</mat-label>
+                                        <input matInput formControlName="name" placeholder="Enter Shop Name">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>Display City</mat-label>
+                                        <input matInput formControlName="displayCity" placeholder="Enter Display City">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>Description</mat-label>
+                                        <input matInput formControlName="description" placeholder="Enter Description">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>Slogan</mat-label>
+                                        <input matInput formControlName="slogan" placeholder="Enter Slogan">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>Latitude</mat-label>
+                                        <input matInput formControlName="latitude" placeholder="Enter Latitude">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>Longitude</mat-label>
+                                        <input matInput formControlName="longitude" placeholder="Enter Longitude">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>Openinig Hour</mat-label>
+                                        <input matInput formControlName="openingHour" placeholder="Enter Opening Hour">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>Closing Hour</mat-label>
+                                        <input matInput formControlName="closingHour" placeholder="Enter Closing Hour">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <mat-form-field class="col-md-6" appearance="fill">
+                                    <mat-label>Select a range</mat-label>
+                                    <mat-select formControlName="priceRange" required>
+                                        <mat-option value="Cheap">
+                                            Budget</mat-option>
+                                        <mat-option value="Average">
+                                            Average</mat-option>
+                                        <mat-option value="Expensive">
+                                            Expensive</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <div class="col-md-6">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>Miinimum Order Amount</mat-label>
+                                        <input matInput formControlName="minimumOrderAmount"
+                                            placeholder="Enter Minimum Order Amount">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>Billing Address</mat-label>
+                                        <input matInput formControlName="billingAddress"
+                                            placeholder="Enter Billing Address">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <mat-label>Shop Image</mat-label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input formControlName="image" type="file" id="file" (change)="handleFileInput($event.target.files)">
+                                </div>
+                                <div class="col-md-6" *ngIf="imageSrc">
+                                    <img id="blah" width="200" height="100" src="api/file/download/{{imageSrc}}"
+                                        alt="Uploded image" />
+                                </div>
+                            </div>
+
+                            <mat-list>
+                                <mat-divider></mat-divider>
+                            </mat-list>
+                            <hr>
+
+
+                            <div>
+                                <h4>Financial Details</h4>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>Bank</mat-label>
+                                        <input matInput formControlName="bank" placeholder="Enter Bank">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>Branch</mat-label>
+                                        <input matInput formControlName="branch" placeholder="Enter Branch">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>Account Number</mat-label>
+                                        <input matInput formControlName="accountNumber"
+                                            placeholder="Enter Account Number">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <button mat-raised-button color="primary"
+                                (click)="submitShop(shopForm.value)">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

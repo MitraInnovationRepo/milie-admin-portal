@@ -1,5 +1,5 @@
-export class User{
-    id: number;
+export class UserCreation{
+    countryCode: String;
     phoneNumber: String;
     firstName: String;
     lastName: String;

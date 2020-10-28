@@ -34,6 +34,14 @@ const routes: Routes = [
       path: '',
       loadChildren: './promotion/promotion.module#PromotionModule',
     }]
+  },
+  {
+    path: 'shop',
+    component: AdminLayoutComponent,
+    children: [{
+      path: '',
+      loadChildren: './shop/shop.module#ShopModule',
+    }]
   }
 ];
 
