@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
     styleUrls: ['./shop.component.css']
 })
 export class ShopComponent implements OnInit {
-    displayedColumns: string[] = ['shopName', 'city', 'openingHour', 'closingHour', 'status', 'action'];
+    displayedColumns: string[] = ['shopName', 'city', 'openingHour', 'closingHour', 'status'];
     dataSource: MatTableDataSource<ShopSummary>;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -32,6 +32,7 @@ export class ShopComponent implements OnInit {
             result => {
                 this.dataSource = new MatTableDataSource(result);
                 this.dataSource.paginator = this.paginator;
+                this.dataSource.paginator.pageSize = 10;
                 this.dataSource.sort = this.sort;
                 this.ngxService.stop();
             }

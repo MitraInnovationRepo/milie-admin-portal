@@ -6,7 +6,7 @@
         <div class="card">
           <div class="card-header card-header-danger">
             <h4 class="card-title">Promotion</h4>
-            <p class="card-category">Add New promotions</p>
+            <p class="card-category">Configure Promotions</p>
           </div>
           <div class="card-body">
             <form [formGroup]="promotionForm" style="display: grid;">
@@ -181,7 +181,7 @@
                     <ng-container matColumnDef="remove" stickyEnd>
                       <th mat-header-cell *matHeaderCellDef></th>
                       <td mat-cell *matCellDef="let element">
-                        <button type="button" mat-mini-fab class="btn-remove-customer">
+                        <button (click)="removeCustomer(element.id)" type="button" mat-mini-fab class="btn-remove-customer">
                           <mat-icon>remove</mat-icon>
                         </button>
                       </td>
@@ -195,7 +195,8 @@
 
               <hr>
 
-              <button mat-raised-button color="primary" (click)="submitPromotion(promotionForm.value)">Submit</button>
+              <button *ngIf="!promotionId" mat-raised-button color="primary" (click)="submitPromotion(promotionForm.value)">Save</button>
+              <button *ngIf="promotionId" mat-raised-button color="primary" (click)="submitPromotion(promotionForm.value)">Update</button>
             </form>
           </div>
         </div>

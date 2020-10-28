@@ -47,6 +47,11 @@ export class LoginComponent implements OnInit {
             this.ngxService.stop();
             this.messageService.snakBarErrorMessage("Login Failed");
           }
+        },
+        error => {
+          this.ngxService.stop();
+          console.log(error);
+          this.messageService.snakBarErrorMessage(error.error.error_description);
         }
       );
   }

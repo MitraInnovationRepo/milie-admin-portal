@@ -6,7 +6,7 @@
                 <div class="card">
                     <div class="card-header card-header-danger">
                         <h4 class="card-title">Shop</h4>
-                        <p class="card-category">Add New Shop</p>
+                        <p class="card-category">Configure Shops</p>
                     </div>
                     <div class="card-body">
                         <form [formGroup]="shopForm" style="display: grid;">
@@ -153,7 +153,8 @@
                             <mat-label>Shop Image</mat-label>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <input formControlName="image" type="file" id="file" (change)="handleFileInput($event.target.files)">
+                                    <input formControlName="image" type="file" id="file"
+                                        (change)="handleFileInput($event.target.files)">
                                 </div>
                                 <div class="col-md-6" *ngIf="imageSrc">
                                     <img id="blah" width="200" height="100" src="api/file/download/{{imageSrc}}"
@@ -196,8 +197,10 @@
                                 </div>
                             </div>
 
-                            <button mat-raised-button color="primary"
-                                (click)="submitShop(shopForm.value)">Submit</button>
+                            <button *ngIf="!shopId" mat-raised-button color="primary"
+                                (click)="submitShop(shopForm.value)">Save</button>
+                            <button *ngIf="shopId" mat-raised-button color="primary"
+                                (click)="updateShop(shopForm.value)">Update</button>
                         </form>
                     </div>
                 </div>

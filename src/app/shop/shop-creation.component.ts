@@ -76,6 +76,7 @@ export class ShopCreationComponent implements OnInit {
     }
 
     patchValues(shop: Shop) {
+        this.imageSrc = shop.imageName;
         this.shopForm.patchValue({
             phoneNumber: shop.user.phoneNumber,
             firstName: shop.user.firstName,
@@ -151,5 +152,21 @@ export class ShopCreationComponent implements OnInit {
                         );
                 });
         }
+    }
+
+    updateShop(shop){
+        this.shopType = new ShopType();
+        this.shopType.id = shop.shopType;
+        shop.shopType = this.shopType;
+        shop.imageName = this.imageSrc;
+
+        this.shopService.createShop(shop)
+            .subscribe(
+                result => {
+                    this.messageService.snakBarSuccessMessage("shop updated successfully");
+                    this.router.navigate(['/shop']);
+                    this.ngxService.stop();
+                }
+            );
     }
 }

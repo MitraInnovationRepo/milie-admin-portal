@@ -62,7 +62,7 @@ export class PromotionCreationComponent {
                         result => {
                             this.patchValues(result);
                             result.customerPromotionList.forEach(element => {
-                                this.customers.push({ id: element.user.id, mobileNumber: element.user.phoneNumber, customerName: element.user.name });
+                                this.customers.push({ id: element.id, mobileNumber: element.user.phoneNumber, customerName: element.user.name, userId: element.user.id });
                             });
                             this.dataSource = new MatTableDataSource(this.customers);
                             this.ngxService.stop();
@@ -97,7 +97,7 @@ export class PromotionCreationComponent {
         this.userService.getUserByPhoneNumber(mobile)
             .subscribe(
                 result => {
-                    this.customers.push({ id: result.id, mobileNumber: mobile, customerName: result.name })
+                    this.customers.push({ userId: result.id, mobileNumber: mobile, customerName: result.name })
                     this.dataSource = new MatTableDataSource(this.customers);
                     this.promotionForm.get('phoneNumber').setValue(null);
                 },
@@ -107,27 +107,47 @@ export class PromotionCreationComponent {
             );
     }
 
+    removeCustomer(id) {
+        var element = this.customers.filter(i => i.id == id)[0];
+        var index = this.customers.indexOf(element);
+        this.customers.splice(index, 1);
+        this.dataSource = new MatTableDataSource(this.customers);
+    }
+
     submitPromotion(promotion) {
-        var customerPromotionList = [];
-        this.customers.forEach(element => {
-            var customerPromotion = new CustomerPromotion();
-            var user = new User();
-            user.phoneNumber = element.mobileNumber;
-            user.id = element.id;
-            customerPromotion.user = user;
-            customerPromotionList.push(customerPromotion);
-        });
-        promotion.customerPromotionList = customerPromotionList;
-        promotion.id = this.promotionId;
-        var registration = promotion.registration == true ? 1 : 0;
-        var allCustomer = promotion.allCustomer == true ? 1 : 0;
-        promotion.registration = registration;
-        promotion.allCustomer = allCustomer;
-        this.promotionService.addPromotion(promotion).subscribe(
-            result => {
-                this.messageService.snakBarSuccessMessage('Promotion Added Successfully');
-                this.router.navigate(['/promotion']);
+        this.ngxService.start();
+        if (this.promotionForm.valid) {
+            var customerPromotionList = [];
+            this.customers.forEach(element => {
+                var customerPromotion = new CustomerPromotion();
+                customerPromotion.id = element.id;
+                var user = new User();
+                user.phoneNumber = element.mobileNumber;
+                user.id = element.userId;
+                customerPromotion.user = user;
+                customerPromotionList.push(customerPromotion);
+            });
+            if (this.promotionId != null) {
+                promotion.id = this.promotionId;
             }
-        );
+            promotion.customerPromotionList = customerPromotionList;
+            promotion.id = this.promotionId;
+            var registration = promotion.registration == true ? 1 : 0;
+            var allCustomer = promotion.allCustomer == true ? 1 : 0;
+            promotion.registration = registration;
+            promotion.allCustomer = allCustomer;
+            this.promotionService.addPromotion(promotion).subscribe(
+                result => {
+                    if (this.promotionId == null) {
+                        this.messageService.snakBarSuccessMessage('Promotion Added Successfully');
+                    }
+                    else {
+                        this.messageService.snakBarSuccessMessage('Promotion Updated Successfully');
+                    }
+                    this.ngxService.stop();
+                    this.router.navigate(['/promotion']);
+                }
+            );
+        }
     }
 }

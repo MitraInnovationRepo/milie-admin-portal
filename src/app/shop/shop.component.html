@@ -54,11 +54,11 @@
                     <td mat-cell *matCellDef="let row" class="row-clickable" (click)="openShop(row.id)"> {{row.status == 1 ? 'Active' : 'Inactive'}} </td>
                   </ng-container>
             
-                  <ng-container matColumnDef="action">
+                  <!-- <ng-container matColumnDef="action">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
                     <td mat-cell *matCellDef="let row"> <mat-icon (click)="deleteShop(row.id)" class="delete-icon">delete</mat-icon>
                     </td>
-                  </ng-container>
+                  </ng-container> -->
               
                   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
