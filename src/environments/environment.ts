@@ -8,5 +8,6 @@ export const environment = {
   AUTH_URL:'auth',
   API_URL:'api',
   CLIENT_ID: 'milie-mobile',
+  REALM: 'milie',
   CLIENT_SECRET: 'b44d59e3-0b25-4aee-9668-12e66ace71eb'
 };

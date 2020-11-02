@@ -7,6 +7,7 @@ import { IdentityUser } from 'app/core/user/identity_user';
 import { Router } from '@angular/router';
 
 const AUTH_URL = environment.AUTH_URL
+const REALM = environment.REALM;
 
 @Injectable({
     providedIn: 'root'
@@ -28,12 +29,12 @@ export class AuthenitcationService {
                 'Authorization': 'Basic ' + btoa(`${environment.CLIENT_ID}:${environment.CLIENT_SECRET}`),
                 'login': 'true'
             });
-        const url = AUTH_URL + '/realms/milie/protocol/openid-connect/token';
+        const url = AUTH_URL + `/realms/${REALM}/protocol/openid-connect/token`;
         return this.http.post<Auth>(url, params.toString(), { headers });
     }
 
     fetchUserInfo() {
-        return this.http.get<IdentityUser>('/auth/realms/milie/protocol/openid-connect/userinfo');
+        return this.http.get<IdentityUser>(`/auth/realms/${REALM}/protocol/openid-connect/userinfo`);
     }
 
     refreshToken(){
@@ -48,7 +49,7 @@ export class AuthenitcationService {
                 'Authorization': 'Basic ' + btoa(`${environment.CLIENT_ID}:${environment.CLIENT_SECRET}`),
                 'login': 'true'
             });
-        const url = AUTH_URL + '/realms/milie/protocol/openid-connect/token';
+        const url = AUTH_URL + `/realms/${REALM}/protocol/openid-connect/token`;
         return this.http.post<Auth>(url, params.toString(), { headers });
     }
 
