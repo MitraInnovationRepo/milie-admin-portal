@@ -10,11 +10,15 @@
                     </div>
                     <div class="card-body">
                         <form [formGroup]="shopForm" style="display: grid;">
+                            <div>
+                                <h4>User Details</h4>
+                            </div>
+
                             <div class="row">
                                 <div class="col-md-12">
                                     <mat-form-field class="col-md-10">
                                         <mat-label>Mobile Number</mat-label>
-                                        <input matInput formControlName="phoneNumber" placeholder="Enter Mobile Number">
+                                        <input matInput formControlName="phoneNumber" placeholder="Enter Mobile Number without leading 0, ex: 777123456">
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -150,6 +154,26 @@
                                 </div>
                             </div>
 
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>Primary Phone Number</mat-label>
+                                        <input matInput formControlName="primaryPhoneNumber"
+                                            placeholder="Enter Primary Phone Number">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>Secondary Phone Number</mat-label>
+                                        <input matInput formControlName="secondaryPhoneNumber"
+                                            placeholder="Enter Secondary Phone Number">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
                             <mat-label>Shop Image</mat-label>
                             <div class="row">
                                 <div class="col-md-6">
@@ -193,6 +217,15 @@
                                         <mat-label>Account Number</mat-label>
                                         <input matInput formControlName="accountNumber"
                                             placeholder="Enter Account Number">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>Commission</mat-label>
+                                        <input matInput formControlName="commission" placeholder="Enter Commission, ex: 0.3">
                                     </mat-form-field>
                                 </div>
                             </div>

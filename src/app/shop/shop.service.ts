@@ -32,4 +32,9 @@ export class ShopService{
         const url = API_URL + `/shops`;
         return this.http.post(url, shop);
     }
+
+    updateShop(shop){
+        const url = API_URL + `/shops/admin`;
+        return this.http.put(url, shop);
+    }
 }

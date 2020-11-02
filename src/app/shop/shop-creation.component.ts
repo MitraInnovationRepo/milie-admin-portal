@@ -55,7 +55,10 @@ export class ShopCreationComponent implements OnInit {
             priceRange: new FormControl('', [Validators.required]),
             minimumOrderAmount: new FormControl('', [Validators.required]),
             billingAddress: new FormControl('', [Validators.required]),
-            image: new FormControl('', [Validators.required])
+            image: new FormControl('', [Validators.required]),
+            commission: new FormControl('', [Validators.required]),
+            primaryPhoneNumber: new FormControl('', [Validators.required]),
+            secondaryPhoneNumber: new FormControl('', [Validators.required])
         });
 
         this.route.params.subscribe(params => {
@@ -96,7 +99,10 @@ export class ShopCreationComponent implements OnInit {
             bank: shop.bank,
             branch: shop.branch,
             accountNumber: shop.accountNumber,
-            billingAddress: shop.address.billingAddress
+            billingAddress: shop.address.billingAddress,
+            commission: shop.commission,
+            primaryPhoneNumber: shop.primaryPhoneNumber,
+            secondaryPhoneNumber: shop.secondaryPhoneNumber
         });
     }
 
@@ -159,8 +165,9 @@ export class ShopCreationComponent implements OnInit {
         this.shopType.id = shop.shopType;
         shop.shopType = this.shopType;
         shop.imageName = this.imageSrc;
-
-        this.shopService.createShop(shop)
+        shop.id = this.shopId;
+        this.ngxService.start();
+        this.shopService.updateShop(shop)
             .subscribe(
                 result => {
                     this.messageService.snakBarSuccessMessage("shop updated successfully");

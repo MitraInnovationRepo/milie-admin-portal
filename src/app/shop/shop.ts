@@ -24,4 +24,6 @@ export interface Shop {
     bank: String;
     branch: String;
     accountNumber: String;
+    commission: number;
+    primaryPhoneNumber: String;
 }

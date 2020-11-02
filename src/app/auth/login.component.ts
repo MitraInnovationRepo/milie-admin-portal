@@ -50,7 +50,6 @@ export class LoginComponent implements OnInit {
         },
         error => {
           this.ngxService.stop();
-          console.log(error);
           this.messageService.snakBarErrorMessage(error.error.error_description);
         }
       );
