@@ -43,22 +43,23 @@ export class ShopCreationComponent implements OnInit {
             shopType: new FormControl('', [Validators.required]),
             name: new FormControl('', [Validators.required]),
             displayCity: new FormControl('', [Validators.required]),
-            description: new FormControl('', [Validators.required]),
-            slogan: new FormControl('', [Validators.required]),
+            description: new FormControl(''),
+            slogan: new FormControl(''),
             latitude: new FormControl('', [Validators.required]),
             longitude: new FormControl('', [Validators.required]),
             openingHour: new FormControl('', [Validators.required]),
             closingHour: new FormControl('', [Validators.required]),
-            bank: new FormControl('', [Validators.required]),
-            branch: new FormControl('', [Validators.required]),
-            accountNumber: new FormControl('', [Validators.required]),
+            bank: new FormControl(''),
+            branch: new FormControl(''),
+            accountNumber: new FormControl(''),
             priceRange: new FormControl('', [Validators.required]),
             minimumOrderAmount: new FormControl('', [Validators.required]),
             billingAddress: new FormControl('', [Validators.required]),
             image: new FormControl('', [Validators.required]),
             commission: new FormControl('', [Validators.required]),
             primaryPhoneNumber: new FormControl('', [Validators.required]),
-            secondaryPhoneNumber: new FormControl('', [Validators.required])
+            secondaryPhoneNumber: new FormControl(''),
+            businessRegistrationNumber: new FormControl('')
         });
 
         this.route.params.subscribe(params => {
@@ -102,7 +103,8 @@ export class ShopCreationComponent implements OnInit {
             billingAddress: shop.address.billingAddress,
             commission: shop.commission,
             primaryPhoneNumber: shop.primaryPhoneNumber,
-            secondaryPhoneNumber: shop.secondaryPhoneNumber
+            secondaryPhoneNumber: shop.secondaryPhoneNumber,
+            businessRegistrationNumber: shop.businessRegistrationNumber
         });
     }
 

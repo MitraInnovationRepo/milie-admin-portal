@@ -26,4 +26,5 @@ export interface Shop {
     accountNumber: String;
     commission: number;
     primaryPhoneNumber: String;
+    businessRegistrationNumber: String;
 }
