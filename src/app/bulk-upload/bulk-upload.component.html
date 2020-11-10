@@ -1,0 +1,73 @@
+<ngx-ui-loader></ngx-ui-loader>
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">Product Type</h4>
+                    </div>
+                    <div class="card-body">
+
+                        <mat-lable>Select a Shop</mat-lable>
+                        <hr>
+                        <mat-select [(ngModel)]="productTypeShopId">
+                            <mat-option *ngFor="let shop of shopList" [value]="shop.id">
+                                {{shop.name}}</mat-option>
+                        </mat-select>
+
+                        <hr>
+                        <input type="file" (change)="onProductTypeFileSelect($event)" />
+
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <button [disabled]="!productTypeShopId || !productTypeFile" mat-raised-button color="primary" (click)="uploadProductTypes()">Upload</button>
+                            </div>
+                            <div class="col-md-4">
+                                <button [disabled]="!productTypeShopId"  mat-raised-button (click)="getProductTypeCount()">Check Product Type Count</button>
+                            </div>
+                            <div class="col-md-4">
+                                {{productTypeCount}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">Product</h4>
+                    </div>
+                    <div class="card-body">
+                        <mat-lable>Select a Shop</mat-lable>
+                        <hr>
+                        <mat-select [(ngModel)]="productShopId">
+                            <mat-option *ngFor="let shop of shopList" [value]="shop.id">
+                                {{shop.name}}</mat-option>
+                        </mat-select>
+
+                        <hr>
+                        <input type="file" (change)="onProductFileSelect($event)" />
+
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <button [disabled]="!productShopId || !productFile" mat-raised-button color="primary" (click)="uploadProducts()">Upload</button>
+                            </div>
+                            <div class="col-md-4">
+                                <button [disabled]="!productShopId" mat-raised-button (click)="getProductCount()">Check Product Count</button>
+                            </div>
+                            <div class="col-md-4">
+                                {{productCount}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

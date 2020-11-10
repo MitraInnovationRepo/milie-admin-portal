@@ -7,7 +7,7 @@ export const environment = {
   production: false,
   AUTH_URL:'auth',
   API_URL:'api',
-  CLIENT_ID: 'milie-mobile',
-  REALM: 'milie',
-  CLIENT_SECRET: 'b44d59e3-0b25-4aee-9668-12e66ace71eb'
+  CLIENT_ID: 'foodie-mobile',
+  REALM: 'foodie',
+  CLIENT_SECRET: '265c6a99-607e-4324-8bcd-23c7d8e50508'
 };

@@ -42,6 +42,14 @@ const routes: Routes = [
       path: '',
       loadChildren: './shop/shop.module#ShopModule',
     }]
+  },
+  {
+    path: 'bulk-upload',
+    component: AdminLayoutComponent,
+    children: [{
+      path: '',
+      loadChildren: './bulk-upload/bulk-upload.module#BulkUploadModule',
+    }]
   }
 ];
 

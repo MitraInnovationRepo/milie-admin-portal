@@ -32,7 +32,6 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
         ReactiveFormsModule,
         MaterialModule,
         MatFormFieldModule,
-        MatInputModule,
         MatSelectModule,
         MatTooltipModule,
         MatDatepickerModule,
@@ -40,7 +39,6 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
         MatCheckboxModule,
         MatDividerModule,
         MatCardModule,
-        MatInputModule,
         NgxUiLoaderModule.forRoot(ngxUiLoaderConfig)
     ],
     declarations: [
