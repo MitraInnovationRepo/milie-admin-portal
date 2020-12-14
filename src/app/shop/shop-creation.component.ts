@@ -156,8 +156,16 @@ export class ShopCreationComponent implements OnInit {
                                 this.messageService.snakBarSuccessMessage("shop created successfully");
                                 this.router.navigate(['/shop']);
                                 this.ngxService.stop();
+                            },
+                            error =>{ 
+                                this.ngxService.stop();
+                                this.messageService.snakBarErrorMessage(error.error.error_description);
                             }
                         );
+                },
+                error => {
+                    this.ngxService.stop();
+                    this.messageService.snakBarErrorMessage(error.error.error_description);
                 });
         }
     }
