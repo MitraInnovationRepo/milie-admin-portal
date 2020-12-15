@@ -53,6 +53,17 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ]
+            },
+            "development": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
             }
           }
         },
@@ -64,6 +75,9 @@
           "configurations": {
             "production": {
               "browserTarget": "foodie-web:production"
+            },
+            "development": {
+              "browserTarget": "foodie-web:development"
             }
           }
         },
