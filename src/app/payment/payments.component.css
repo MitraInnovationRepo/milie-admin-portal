@@ -1,0 +1,19 @@
+table {
+    width: 100%;
+}
+
+.mat-header-cell {
+    text-align: center !important;
+}
+
+.mat-cell{
+    text-align: center !important;
+}
+
+.action-button{
+    cursor: pointer;
+}
+
+.pay-button{
+    margin: 20px;
+}

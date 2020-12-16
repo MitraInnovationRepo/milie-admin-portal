@@ -50,6 +50,14 @@ const routes: Routes = [
       path: '',
       loadChildren: './bulk-upload/bulk-upload.module#BulkUploadModule',
     }]
+  },
+  {
+    path: 'payment',
+    component: AdminLayoutComponent,
+    children: [{
+      path: '',
+      loadChildren: './payment/payment.module#PaymentModule',
+    }]
   }
 ];
 
