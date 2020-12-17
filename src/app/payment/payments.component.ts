@@ -7,11 +7,14 @@ import { PaymentService } from './payment.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { MessageService } from 'app/shared/services/message.service';
 import { SelectionModel } from '@angular/cdk/collections';
-import { PeriodicElement } from 'app/shared/components/table/table.component';
 import { ShopAccountDialogComponent } from './dialog/shop-account-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { PaymentPendingOrderComponent } from './dialog/payment-pending-order-dialog.component';
 import { FormControl } from '@angular/forms';
+import { PaymentsRequest } from './payments-request';
+import { Router } from '@angular/router';
+import { PaymentHistoryComponent } from './dialog/payment-history-dialog.component';
+import { error } from 'protractor';
 
 @Component({
     selector: 'app-payments',
@@ -20,7 +23,7 @@ import { FormControl } from '@angular/forms';
 })
 export class PaymentsComponent {
     pendingPaymentList: PendingPayment[];
-    displayedColumns: string[] = ['select', 'shopCode', 'shopName', 'mobileNumber', 'orderCount', 'orderAmount', 'commissionRate', 'commissionAmount', 'totalPayable', 'orders', 'account', 'payments'];
+    displayedColumns: string[] = ['select', 'shopCode', 'shopName', 'startDate', 'endDate', 'mobileNumber', 'orderCount', 'orderAmount', 'commissionRate', 'commissionAmount', 'totalPayable', 'orders', 'account', 'payments'];
     dataSource: MatTableDataSource<PendingPayment>;
     selection = new SelectionModel<PendingPayment>(true, []);
     date = new FormControl(new Date());
@@ -30,7 +33,7 @@ export class PaymentsComponent {
     @ViewChild(MatSort) sort: MatSort;
 
     constructor(private paymentService: PaymentService, private ngxService: NgxUiLoaderService,
-        private messageService: MessageService, private dialog: MatDialog) { }
+        private messageService: MessageService, private dialog: MatDialog, private router: Router) { }
 
     ngOnInit(): void {
         this.paymentStatus = "pending";
@@ -39,7 +42,7 @@ export class PaymentsComponent {
     }
 
     getPayments() {
-        this.paymentService.getPendingPayments()
+        this.paymentService.getPendingPayments(this.date.value)
             .subscribe(
                 result => {
                     this.pendingPaymentList = result;
@@ -47,6 +50,11 @@ export class PaymentsComponent {
                     this.dataSource.paginator = this.paginator;
                     this.dataSource.sort = this.sort;
                     this.ngxService.stop();
+                },
+                error => {
+                    this.ngxService.stop();
+                    console.log(error);
+                    this.messageService.snakBarErrorMessage(error.error.message);
                 }
             );
     }
@@ -83,6 +91,13 @@ export class PaymentsComponent {
     openOrdersDialog(shopCode) {
         let dialogRef = this.dialog.open(PaymentPendingOrderComponent, {
             width: '1000px',
+            data: { shopCode: shopCode, date: this.date.value }
+        });
+    }
+
+    openPaymentHistoryDialog(shopCode) {
+        let dialogRef = this.dialog.open(PaymentHistoryComponent, {
+            width: '1000px',
             data: { shopCode: shopCode }
         });
     }
@@ -101,5 +116,38 @@ export class PaymentsComponent {
         this.dataSource = new MatTableDataSource(paymentList);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+    }
+
+    postPayment() {
+        this.ngxService.start();
+        var shopIdList = [];
+        this.selection.selected.forEach(row => {
+            shopIdList.push(row.shopCode);
+        });
+        var paymentRequest = new PaymentsRequest();
+        paymentRequest.requestingDate = this.date.value;
+        paymentRequest.shopIdList = shopIdList;
+        this.paymentService.postPayments(paymentRequest)
+            .subscribe(
+                result => {
+                    this.ngxService.stop();
+                    this.messageService.snakBarSuccessMessage("Payment posted successfully");
+                    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+                        return false;
+                    }
+                    this.router.onSameUrlNavigation = 'reload';
+                    this.router.navigate(['/payment']);
+                },
+                error => {
+                    this.ngxService.stop();
+                    this.messageService.snakBarErrorMessage(error.error.error_description);
+                }
+            );
+    }
+    
+    onDateChange(){
+        this.paymentStatus = "pending";
+        this.ngxService.start();
+        this.getPayments();
     }
 }

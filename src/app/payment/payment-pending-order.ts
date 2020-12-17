@@ -7,4 +7,6 @@ export class PaymentPendingOrder{
     amount: number;
     discount: number;
     netAmount: number;
+    startDate: Date;
+    endDate: Date;
 }

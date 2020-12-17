@@ -18,6 +18,7 @@ import { PaymentRoutes } from './payment.routing';
 import { PaymentService } from './payment.service';
 import { ShopAccountDialogComponent } from './dialog/shop-account-dialog.component';
 import { PaymentPendingOrderComponent } from './dialog/payment-pending-order-dialog.component';
+import { PaymentHistoryComponent } from './dialog/payment-history-dialog.component';
 
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -47,7 +48,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     declarations: [
         PaymentsComponent,
         ShopAccountDialogComponent,
-        PaymentPendingOrderComponent
+        PaymentPendingOrderComponent,
+        PaymentHistoryComponent
     ],
     providers: [PaymentService]
 })
