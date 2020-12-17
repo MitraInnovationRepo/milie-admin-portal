@@ -1,0 +1,11 @@
+table {
+    width: 100%;
+}
+
+.mat-header-cell {
+    text-align: center !important;
+}
+
+.mat-cell{
+    text-align: center !important;
+}

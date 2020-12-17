@@ -12,6 +12,7 @@ export const ROUTES: RouteInfo[] = [
   { path: '/promotion', title: 'Promotions', icon: 'local_parking', class: '' },
   { path: '/shop', title: 'Shops', icon: 'storefront', class: '' },
   { path: '/bulk-upload', title: 'Bulk Upload', icon: 'upload', class: '' },
+  { path: '/payment', title: 'Payments', icon: 'money', class: '' },
 ];
 
 @Component({

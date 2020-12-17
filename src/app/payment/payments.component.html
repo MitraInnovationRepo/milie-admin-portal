@@ -1,0 +1,147 @@
+<ngx-ui-loader></ngx-ui-loader>
+<div class="main-content">
+    <div class="container-fluid">
+        <mat-accordion>
+            <div class="row">
+                <div class="col-md-6">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Date</mat-label>
+                        <input matInput [matDatepicker]="picker1" [formControl]="date" (dateChange)="onDateChange()">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Payment Status</mat-label>
+                        <mat-select [(value)]="paymentStatus" (selectionChange)="onPaymentStatusChange();">
+                            <mat-option value="pending">Pending</mat-option>
+                            <mat-option value="paid">Paid</mat-option>
+                            <mat-option value="all">All</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="mat-elevation-z8">
+                <table mat-table [dataSource]="dataSource" matSort>
+
+                    <ng-container matColumnDef="select">
+                        <th mat-header-cell *matHeaderCellDef>
+            
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            <mat-checkbox (click)="$event.stopPropagation()" [disabled]="row.totalPayable == 0"
+                                (change)="$event ? selection.toggle(row) : null"
+                                [checked]="selection.isSelected(row) && row.totalPayable > 0"
+                                [aria-label]="checkboxLabel(row)">
+                            </mat-checkbox>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="shopCode">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Merchant Code </th>
+                        <td mat-cell *matCellDef="let row" class="row-clickable"> {{row.shopCode}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="shopName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Merchant Name </th>
+                        <td mat-cell *matCellDef="let row" class="row-clickable"> {{row.shopName}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="startDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Start Date </th>
+                        <td mat-cell *matCellDef="let row" class="row-clickable"> {{row.startDate | date : 'yyyy-MM-dd HH:mm'}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="endDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> End Date </th>
+                        <td mat-cell *matCellDef="let row" class="row-clickable"> {{row.endDate | date : 'yyyy-MM-dd HH:mm'}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="mobileNumber">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Mobile Number </th>
+                        <td mat-cell *matCellDef="let row" class="row-clickable"> {{row.mobileNumber}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="orderCount">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Order Count </th>
+                        <td mat-cell *matCellDef="let row" class="row-clickable"> {{row.orderCount}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="orderAmount">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Order Amount </th>
+                        <td mat-cell *matCellDef="let row" class="row-clickable"> {{row.orderAmount | currency:'':''}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="commissionRate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Commission Rate </th>
+                        <td mat-cell *matCellDef="let row" class="row-clickable"> {{row.commissionRate | percent }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="commissionAmount">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Commission Amount </th>
+                        <td mat-cell *matCellDef="let row" class="row-clickable">
+                            {{row.commissionAmount | currency:'':''}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="totalPayable">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Playable Amount </th>
+                        <td mat-cell *matCellDef="let row" class="row-clickable"> {{row.totalPayable | currency:'':''}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="orders">
+                        <th mat-header-cell *matHeaderCellDef>
+                            Orders
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            <mat-icon (click)="openOrdersDialog(row.shopCode)" class="action-button">assignment
+                            </mat-icon>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="account">
+                        <th mat-header-cell *matHeaderCellDef>
+                            Account
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            <mat-icon (click)="openAccountDialog(row.shopCode)" class="action-button">account_balance
+                            </mat-icon>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="payments">
+                        <th mat-header-cell *matHeaderCellDef>
+                            Payments
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            <mat-icon (click)="openPaymentHistoryDialog(row.shopCode)" class="action-button">money</mat-icon>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                    </tr>
+                </table>
+
+                <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+
+                <div class="row">
+                    <div class="col-4"></div>
+                    <div class="col-4">
+
+                    </div>
+                    <div class="col-4">
+                        <button (click)="postPayment()" [disabled]="!selection.hasValue()" class="pull-right pay-button" mat-raised-button
+                            color="primary">Pay</button>
+                    </div>
+                </div>
+            </div>
+        </mat-accordion>
+    </div>
+</div>
