@@ -56,7 +56,7 @@ export class ShopCreationComponent implements OnInit {
             minimumOrderAmount: new FormControl('', [Validators.required]),
             billingAddress: new FormControl('', [Validators.required]),
             image: new FormControl('', [Validators.required]),
-            commission: new FormControl('', [Validators.required]),
+            commission: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*(\.[0-9]{1,4})?$")]),
             primaryPhoneNumber: new FormControl('', [Validators.required]),
             secondaryPhoneNumber: new FormControl(''),
             businessRegistrationNumber: new FormControl('')
@@ -157,20 +157,25 @@ export class ShopCreationComponent implements OnInit {
                                 this.router.navigate(['/shop']);
                                 this.ngxService.stop();
                             },
-                            error =>{ 
+                            error => {
                                 this.ngxService.stop();
                                 this.messageService.snakBarErrorMessage(error.error.error_description);
                             }
                         );
                 },
-                error => {
-                    this.ngxService.stop();
-                    this.messageService.snakBarErrorMessage(error.error.error_description);
-                });
+                    error => {
+                        this.ngxService.stop();
+                        if (error.status == 400) {
+                            this.messageService.snakBarErrorMessage("Input Value Error");
+                        }
+                        else {
+                            this.messageService.snakBarErrorMessage(error.error.error);
+                        }
+                    });
         }
     }
 
-    updateShop(shop){
+    updateShop(shop) {
         this.shopType = new ShopType();
         this.shopType.id = shop.shopType;
         shop.shopType = this.shopType;
@@ -183,6 +188,15 @@ export class ShopCreationComponent implements OnInit {
                     this.messageService.snakBarSuccessMessage("shop updated successfully");
                     this.router.navigate(['/shop']);
                     this.ngxService.stop();
+                },
+                error => {
+                    this.ngxService.stop();
+                    if (error.status == 400) {
+                        this.messageService.snakBarErrorMessage("Input Value Error");
+                    }
+                    else {
+                        this.messageService.snakBarErrorMessage(error.error.error);
+                    }
                 }
             );
     }
