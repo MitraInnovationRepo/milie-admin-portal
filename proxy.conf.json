@@ -1,6 +1,6 @@
 {
     "/auth/**": {
-      "target": "http://ec2-65-0-73-169.ap-south-1.compute.amazonaws.com:8080",
+      "target": "http://ec2-65-0-173-201.ap-south-1.compute.amazonaws.com:8080",
       "secure": true,
       "loglevel": "debug",
       "changeOrigin":"true"
