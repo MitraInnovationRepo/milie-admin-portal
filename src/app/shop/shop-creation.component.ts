@@ -81,6 +81,7 @@ export class ShopCreationComponent implements OnInit {
     }
 
     patchValues(shop: Shop) {
+        console.log("shop", shop)
         this.imageSrc = shop.imageName;
         this.shopForm.patchValue({
             phoneNumber: shop.user.phoneNumber,
@@ -145,9 +146,6 @@ export class ShopCreationComponent implements OnInit {
                     this.shopType = new ShopType();
                     this.shopType.id = shop.shopType;
                     shop.shopType = this.shopType;
-                    delete this.shopType.id;
-
-
                     this.address = new Address();
                     this.address.billingAddress = shop.billingAddress;
                     shop.address = this.address;

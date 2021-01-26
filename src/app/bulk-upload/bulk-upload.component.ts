@@ -18,8 +18,10 @@ export class BulkUploadComponent implements OnInit {
     productTypeCount;
     productShopId;
     productCount;
+    productTypeUploaded: boolean = false;
+    productUploaded: boolean = false;
 
-    constructor(private _formBuilder: FormBuilder, private shopService: ShopService, 
+    constructor(private _formBuilder: FormBuilder, private shopService: ShopService,
         private bulkUploadService: BulkUploadService, private messageService: MessageService) { }
 
     ngOnInit() {
@@ -31,19 +33,21 @@ export class BulkUploadComponent implements OnInit {
             )
     }
 
-    onProductTypeFileSelect(event){
+    onProductTypeFileSelect(event) {
         this.productTypeFile = event.target.files[0];
+        this.productTypeUploaded = true;
     }
 
-    onProductFileSelect(event){
+    onProductFileSelect(event) {
         this.productFile = event.target.files[0];
+        this.productUploaded = true;
     }
 
-    uploadProductTypes(){
+    uploadProductTypes() {
         this.messageService.snakBarSuccessMessage("Product Type Creation process will be running in the background. You are free to navigate to a different page. You can always check the Product Type count with 'Check Product Type Count' Button")
         this.bulkUploadService.uploadProductType(this.productTypeShopId, this.productTypeFile)
             .subscribe(
-                result =>{ 
+                result => {
                     this.messageService.snakBarSuccessMessage("Product Type Creation Complete");
                 },
                 error => {
@@ -52,20 +56,20 @@ export class BulkUploadComponent implements OnInit {
             );
     }
 
-    uploadProducts(){
+    uploadProducts() {
         this.messageService.snakBarSuccessMessage("Product Creation process will be running in the background. You are free to navigate to a different page. You can always check the Product Type count with 'Check Product Count' Button")
         this.bulkUploadService.uploadProduct(this.productShopId, this.productFile)
-        .subscribe(
-            result =>{ 
-                this.messageService.snakBarSuccessMessage("Product Creation Complete");
-            },
-            error => {
-                this.messageService.snakBarErrorMessage("Product Creation Failed");
-            }
-        );
+            .subscribe(
+                result => {
+                    this.messageService.snakBarSuccessMessage("Product Creation Complete");
+                },
+                error => {
+                    this.messageService.snakBarErrorMessage("Product Creation Failed");
+                }
+            );
     }
 
-    getProductTypeCount(){
+    getProductTypeCount() {
         this.bulkUploadService.getProductTypeCount(this.productTypeShopId)
             .subscribe(
                 result => {
@@ -74,12 +78,12 @@ export class BulkUploadComponent implements OnInit {
             )
     }
 
-    getProductCount(){
+    getProductCount() {
         this.bulkUploadService.getProductCount(this.productShopId)
-        .subscribe(
-            result => {
-                this.productCount = result;
-            }
-        )
+            .subscribe(
+                result => {
+                    this.productCount = result;
+                }
+            )
     }
 }
