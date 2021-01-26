@@ -16,6 +16,7 @@ import { NgxUiLoaderConfig, NgxUiLoaderModule, PB_DIRECTION, POSITION, SPINNER }
 import { AuthInterceptor } from './core/interceptor/auth.interceptor';
 import { MaterialModule } from './material';
 import { CoreModule } from './core/core.module';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   fgsColor: "#ef5350",
@@ -42,11 +43,12 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     AdminLayoutComponent,
   ],
   providers: [
-   {
+    {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
-      multi: true
-    } 
+      multi: true,
+    },
+    {provide: MAT_DATE_LOCALE, useValue: 'en-GB'} 
   ],
   bootstrap: [AppComponent]
 })

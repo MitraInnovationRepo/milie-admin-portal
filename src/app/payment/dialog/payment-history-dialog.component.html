@@ -13,7 +13,7 @@
                 <div>
                     <table mat-table [dataSource]="dataSource" matSort>
                         <ng-container matColumnDef="paymentDate">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Payment Date Date </th>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Payment Date </th>
                             <td mat-cell *matCellDef="let row" class="row-clickable">
                                 {{row.paymentDate | date : 'yyyy-MM-dd'}} </td>
                         </ng-container>

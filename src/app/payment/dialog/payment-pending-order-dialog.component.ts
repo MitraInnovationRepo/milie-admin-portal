@@ -14,16 +14,31 @@ import { MessageService } from 'app/shared/services/message.service';
     styleUrls: ['./payment-dialog.component.css']
 })
 export class PaymentPendingOrderComponent implements OnInit {
-    constructor(@Inject(MAT_DIALOG_DATA) public data: { shopCode: string, date: Date }, private paymentService: PaymentService,
+    constructor(@Inject(MAT_DIALOG_DATA) public data: { shopCode: string, date: Date, isPaid: boolean }, private paymentService: PaymentService,
         private ngxService: NgxUiLoaderService, private messageService: MessageService) { }
 
     displayedColumns: string[] = ['orderNo', 'orderDate', 'customerName', 'amount', 'discount', 'netAmount'];
     dataSource: MatTableDataSource<PaymentPendingOrder>;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-
+    
     ngOnInit() {
         this.ngxService.start();
+        if(this.data.isPaid) {
+            this.paymentService.getPaymentPaidOrders(this.data.shopCode, this.data.date)
+            .subscribe(
+                result => {
+                    this.dataSource = new MatTableDataSource(result);
+                    this.dataSource.paginator = this.paginator;
+                    this.dataSource.sort = this.sort;
+                    this.ngxService.stop();
+                },
+                error => {
+                    this.messageService.snakBarErrorMessage("Error Fetching Orders");
+                }
+            )
+        }
+        else {
         this.paymentService.getPaymentPendingOrders(this.data.shopCode, this.data.date)
             .subscribe(
                 result => {
@@ -36,5 +51,6 @@ export class PaymentPendingOrderComponent implements OnInit {
                     this.messageService.snakBarErrorMessage("Error Fetching Orders");
                 }
             )
+        }
     }
 } 
