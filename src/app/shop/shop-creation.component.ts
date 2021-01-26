@@ -26,6 +26,7 @@ export class ShopCreationComponent implements OnInit {
     imageSrc: String;
     shopType: ShopType;
     address: Address;
+    fileUploaded: boolean = false;
 
     ngOnInit(): void {
         this.shopService.getShopType()
@@ -59,7 +60,7 @@ export class ShopCreationComponent implements OnInit {
             commission: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*(\.[0-9]{1,4})?$")]),
             primaryPhoneNumber: new FormControl('', [Validators.required]),
             secondaryPhoneNumber: new FormControl(''),
-            businessRegistrationNumber: new FormControl('')
+            businessRegistrationNumber: new FormControl(''),
         });
 
         this.route.params.subscribe(params => {
@@ -118,9 +119,9 @@ export class ShopCreationComponent implements OnInit {
             .subscribe(
                 res => {
                     this.ngxService.stop();
-                    console.log(res);
                     this.imageSrc = res;
-                    this.messageService.snakBarSuccessMessage('Image Uploaded')
+                    this.messageService.snakBarSuccessMessage('Image Uploaded');
+                    this.fileUploaded = true;
                 },
                 err => {
                     this.ngxService.stop();
@@ -144,6 +145,8 @@ export class ShopCreationComponent implements OnInit {
                     this.shopType = new ShopType();
                     this.shopType.id = shop.shopType;
                     shop.shopType = this.shopType;
+                    delete this.shopType.id;
+
 
                     this.address = new Address();
                     this.address.billingAddress = shop.billingAddress;
@@ -159,7 +162,9 @@ export class ShopCreationComponent implements OnInit {
                             },
                             error => {
                                 this.ngxService.stop();
-                                this.messageService.snakBarErrorMessage(error.error.error_description);
+                                error.status === 400 ?
+                                    this.messageService.snakBarErrorMessage("Fill inputs as given sample values") :
+                                    this.messageService.snakBarErrorMessage(error.error.message)
                             }
                         );
                 },
@@ -169,7 +174,7 @@ export class ShopCreationComponent implements OnInit {
                             this.messageService.snakBarErrorMessage("Input Value Error");
                         }
                         else {
-                            this.messageService.snakBarErrorMessage(error.error.error);
+                            this.messageService.snakBarErrorMessage(error.error.message);
                         }
                     });
         }
