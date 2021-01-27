@@ -17,7 +17,7 @@
                         </mat-select>
 
                         <hr>
-                        <input type="file" (change)="onProductTypeFileSelect($event)" />
+                        <input type="file" (change)="onProductTypeFileSelect($event)" [ngStyle]="{'color':(!productTypeUploaded)?'red':'black'}"/>
 
                         <hr>
                         <div class="row">
@@ -51,7 +51,7 @@
                         </mat-select>
 
                         <hr>
-                        <input type="file" (change)="onProductFileSelect($event)" />
+                        <input type="file" (change)="onProductFileSelect($event)" [ngStyle]="{'color':(!productUploaded)?'red':'black'}"/>
 
                         <hr>
                         <div class="row">

@@ -18,7 +18,8 @@
                                 <div class="col-md-12">
                                     <mat-form-field class="col-md-10">
                                         <mat-label>Mobile Number</mat-label>
-                                        <input matInput formControlName="phoneNumber" placeholder="Enter Mobile Number without leading 0, ex: 777123456">
+                                        <input matInput formControlName="phoneNumber"
+                                            placeholder="Enter Mobile Number without leading 0, ex: 777123456">
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -97,13 +98,15 @@
                                 <div class="col-md-6">
                                     <mat-form-field class="col-md-10">
                                         <mat-label>Latitude</mat-label>
-                                        <input matInput formControlName="latitude" placeholder="Enter Latitude">
+                                        <input matInput formControlName="latitude"
+                                            placeholder="Enter Latitude, ex: 6.144">
                                     </mat-form-field>
                                 </div>
                                 <div class="col-md-6">
                                     <mat-form-field class="col-md-10">
                                         <mat-label>Longitude</mat-label>
-                                        <input matInput formControlName="longitude" placeholder="Enter Longitude">
+                                        <input matInput formControlName="longitude"
+                                            placeholder="Enter Longitude, ex: 6.144">
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -112,13 +115,15 @@
                                 <div class="col-md-6">
                                     <mat-form-field class="col-md-10">
                                         <mat-label>Openinig Hour</mat-label>
-                                        <input matInput formControlName="openingHour" placeholder="24 Hour Format ex: 8">
+                                        <input matInput formControlName="openingHour"
+                                            placeholder="24 Hour Format ex: 8">
                                     </mat-form-field>
                                 </div>
                                 <div class="col-md-6">
                                     <mat-form-field class="col-md-10">
                                         <mat-label>Closing Hour</mat-label>
-                                        <input matInput formControlName="closingHour" placeholder="24 Hour Format ex: 20">
+                                        <input matInput formControlName="closingHour"
+                                            placeholder="24 Hour Format ex: 20">
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -169,7 +174,7 @@
                                     <mat-form-field class="col-md-10">
                                         <mat-label>Primary Phone Number</mat-label>
                                         <input matInput formControlName="primaryPhoneNumber"
-                                            placeholder="Enter Primary Phone Number">
+                                            placeholder="Enter Primary Phone Number without leading 0, ex: 777123456">
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -179,16 +184,17 @@
                                     <mat-form-field class="col-md-10">
                                         <mat-label>Secondary Phone Number</mat-label>
                                         <input matInput formControlName="secondaryPhoneNumber"
-                                            placeholder="Enter Secondary Phone Number">
+                                            placeholder="Enter Secondary Phone Number without leading 0, ex: 777123456">
                                     </mat-form-field>
                                 </div>
                             </div>
 
                             <mat-label>Shop Image</mat-label>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-6" id="image-uploader">
                                     <input formControlName="image" type="file" id="file"
-                                        (change)="handleFileInput($event.target.files)">
+                                        (change)="handleFileInput($event.target.files)"
+                                        [ngStyle]="{'color':(!fileUploaded)?'red':'black'}">
                                 </div>
                                 <div class="col-md-6" *ngIf="imageSrc">
                                     <img id="blah" width="200" height="100" src="api/file/download/{{imageSrc}}"
@@ -235,12 +241,13 @@
                                 <div class="col-md-6">
                                     <mat-form-field class="col-md-10">
                                         <mat-label>Commission</mat-label>
-                                        <input matInput formControlName="commission" placeholder="Enter Commission, ex: 0.3">
+                                        <input matInput formControlName="commission"
+                                            placeholder="Enter Commission, ex: 0.3">
                                     </mat-form-field>
                                 </div>
                             </div>
 
-                            <button *ngIf="!shopId" mat-raised-button color="primary"
+                            <button *ngIf="!shopId" mat-raised-button color="primary" [disabled]="shopForm.invalid"
                                 (click)="submitShop(shopForm.value)">Save</button>
                             <button *ngIf="shopId" mat-raised-button color="primary"
                                 (click)="updateShop(shopForm.value)">Update</button>
