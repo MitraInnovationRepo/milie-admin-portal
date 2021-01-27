@@ -26,6 +26,7 @@ export class ShopCreationComponent implements OnInit {
     imageSrc: String;
     shopType: ShopType;
     address: Address;
+    fileUploaded: boolean = false;
 
     ngOnInit(): void {
         this.shopService.getShopType()
@@ -59,7 +60,7 @@ export class ShopCreationComponent implements OnInit {
             commission: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*(\.[0-9]{1,4})?$")]),
             primaryPhoneNumber: new FormControl('', [Validators.required]),
             secondaryPhoneNumber: new FormControl(''),
-            businessRegistrationNumber: new FormControl('')
+            businessRegistrationNumber: new FormControl(''),
         });
 
         this.route.params.subscribe(params => {
@@ -72,6 +73,7 @@ export class ShopCreationComponent implements OnInit {
                         result => {
                             this.patchValues(result);
                             this.ngxService.stop();
+                            this.fileUploaded = true;
                         }
                     );
             }
@@ -80,6 +82,7 @@ export class ShopCreationComponent implements OnInit {
     }
 
     patchValues(shop: Shop) {
+        console.log("shop", shop)
         this.imageSrc = shop.imageName;
         this.shopForm.patchValue({
             phoneNumber: shop.user.phoneNumber,
@@ -118,9 +121,9 @@ export class ShopCreationComponent implements OnInit {
             .subscribe(
                 res => {
                     this.ngxService.stop();
-                    console.log(res);
                     this.imageSrc = res;
-                    this.messageService.snakBarSuccessMessage('Image Uploaded')
+                    this.messageService.snakBarSuccessMessage('Image Uploaded');
+                    this.fileUploaded = true;
                 },
                 err => {
                     this.ngxService.stop();
@@ -144,12 +147,10 @@ export class ShopCreationComponent implements OnInit {
                     this.shopType = new ShopType();
                     this.shopType.id = shop.shopType;
                     shop.shopType = this.shopType;
-
                     this.address = new Address();
                     this.address.billingAddress = shop.billingAddress;
                     shop.address = this.address;
                     shop.imageName = this.imageSrc;
-
                     this.shopService.createShop(shop)
                         .subscribe(
                             result => {
@@ -159,7 +160,13 @@ export class ShopCreationComponent implements OnInit {
                             },
                             error => {
                                 this.ngxService.stop();
-                                this.messageService.snakBarErrorMessage(error.error.error_description);
+                                error.status === 400 ?
+                                    this.messageService.snakBarErrorMessage("Fill inputs as given sample values") :
+                                    this.messageService.snakBarErrorMessage(error.error.message)
+                                delete this.shopType.id;
+                                delete this.shopType;
+                                delete shop.shopType.id;
+                                delete shop.shopType;
                             }
                         );
                 },
@@ -169,7 +176,7 @@ export class ShopCreationComponent implements OnInit {
                             this.messageService.snakBarErrorMessage("Input Value Error");
                         }
                         else {
-                            this.messageService.snakBarErrorMessage(error.error.error);
+                            this.messageService.snakBarErrorMessage(error.error.message);
                         }
                     });
         }
