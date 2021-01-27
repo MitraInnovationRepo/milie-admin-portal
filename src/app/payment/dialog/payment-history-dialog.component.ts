@@ -14,7 +14,7 @@ import { PaymentSummary } from '../payment-summary';
     styleUrls: ['./payment-dialog.component.css']
 })
 export class PaymentHistoryComponent implements OnInit {
-    constructor(@Inject(MAT_DIALOG_DATA) public data: { shopCode: string }, private paymentService: PaymentService,
+    constructor(@Inject(MAT_DIALOG_DATA) public data: { shopCode: string, date: Date }, private paymentService: PaymentService,
         private ngxService: NgxUiLoaderService, private messageService: MessageService) { }
 
     displayedColumns: string[] = ['paymentDate', 'paidAmount'];
@@ -24,7 +24,7 @@ export class PaymentHistoryComponent implements OnInit {
 
     ngOnInit() {
         this.ngxService.start();
-        this.paymentService.getPaymentHistory(this.data.shopCode)
+        this.paymentService.getPaymentHistory(this.data.shopCode, this.data.date)
             .subscribe(
                 result => {
                     this.dataSource = new MatTableDataSource(result);

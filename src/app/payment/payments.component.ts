@@ -23,7 +23,8 @@ import { error } from 'protractor';
 })
 export class PaymentsComponent {
     pendingPaymentList: PendingPayment[];
-    displayedColumns: string[] = ['select', 'shopCode', 'shopName', 'startDate', 'endDate', 'mobileNumber', 'orderCount', 'orderAmount', 'commissionRate', 'commissionAmount', 'totalPayable', 'orders', 'account', 'payments'];
+    // displayedColumns: string[] = ['select', 'shopCode', 'shopName', 'startDate', 'endDate', 'mobileNumber', 'orderCount', 'orderAmount', 'commissionRate', 'commissionAmount', 'totalPayable', 'orders', 'account', 'payments'];
+    displayedColumns: string[] = ['select', 'shopCode', 'shopName', 'mobileNumber', 'orderCount', 'orderAmount', 'commissionRate', 'commissionAmount', 'totalPayable', 'orders', 'account', 'payments'];
     dataSource: MatTableDataSource<PendingPayment>;
     selection = new SelectionModel<PendingPayment>(true, []);
     date = new FormControl(new Date());
@@ -45,6 +46,7 @@ export class PaymentsComponent {
         this.paymentService.getPendingPayments(this.date.value)
             .subscribe(
                 result => {
+                    console.table(result);
                     this.pendingPaymentList = result;
                     this.dataSource = new MatTableDataSource(result.filter(i => i.totalPayable > 0));
                     this.dataSource.paginator = this.paginator;
@@ -57,6 +59,16 @@ export class PaymentsComponent {
                     this.messageService.snakBarErrorMessage(error.error.message);
                 }
             );
+    }
+
+    isPaidFilter()
+    {
+        let filter = this.paymentStatus;
+        if(filter == "paid")
+        {
+            return "disabled";
+        }
+        return "";
     }
 
     applyFilter(event: Event) {
@@ -88,17 +100,19 @@ export class PaymentsComponent {
         });
     }
 
-    openOrdersDialog(shopCode) {
+    openOrdersDialog(shopCode, totalPayable) {
+        let isPaid = totalPayable == 0 ? true : false;
         let dialogRef = this.dialog.open(PaymentPendingOrderComponent, {
             width: '1000px',
-            data: { shopCode: shopCode, date: this.date.value }
+            data: { shopCode: shopCode, date: this.date.value, isPaid: isPaid }
         });
     }
 
     openPaymentHistoryDialog(shopCode) {
+        console.log('date: '+ this.date.value);
         let dialogRef = this.dialog.open(PaymentHistoryComponent, {
             width: '1000px',
-            data: { shopCode: shopCode }
+            data: { shopCode: shopCode,  date: this.date.value }
         });
     }
 
