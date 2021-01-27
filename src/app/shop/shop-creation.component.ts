@@ -73,6 +73,7 @@ export class ShopCreationComponent implements OnInit {
                         result => {
                             this.patchValues(result);
                             this.ngxService.stop();
+                            this.fileUploaded = true;
                         }
                     );
             }
@@ -150,7 +151,6 @@ export class ShopCreationComponent implements OnInit {
                     this.address.billingAddress = shop.billingAddress;
                     shop.address = this.address;
                     shop.imageName = this.imageSrc;
-
                     this.shopService.createShop(shop)
                         .subscribe(
                             result => {
@@ -163,6 +163,10 @@ export class ShopCreationComponent implements OnInit {
                                 error.status === 400 ?
                                     this.messageService.snakBarErrorMessage("Fill inputs as given sample values") :
                                     this.messageService.snakBarErrorMessage(error.error.message)
+                                delete this.shopType.id;
+                                delete this.shopType;
+                                delete shop.shopType.id;
+                                delete shop.shopType;
                             }
                         );
                 },

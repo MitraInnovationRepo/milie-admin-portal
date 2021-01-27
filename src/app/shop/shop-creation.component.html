@@ -191,7 +191,7 @@
 
                             <mat-label>Shop Image</mat-label>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-6" id="image-uploader">
                                     <input formControlName="image" type="file" id="file"
                                         (change)="handleFileInput($event.target.files)"
                                         [ngStyle]="{'color':(!fileUploaded)?'red':'black'}">
