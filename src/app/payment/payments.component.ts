@@ -14,7 +14,6 @@ import { FormControl } from '@angular/forms';
 import { PaymentsRequest } from './payments-request';
 import { Router } from '@angular/router';
 import { PaymentHistoryComponent } from './dialog/payment-history-dialog.component';
-import { error } from 'protractor';
 
 @Component({
     selector: 'app-payments',
@@ -23,13 +22,11 @@ import { error } from 'protractor';
 })
 export class PaymentsComponent {
     pendingPaymentList: PendingPayment[];
-    // displayedColumns: string[] = ['select', 'shopCode', 'shopName', 'startDate', 'endDate', 'mobileNumber', 'orderCount', 'orderAmount', 'commissionRate', 'commissionAmount', 'totalPayable', 'orders', 'account', 'payments'];
     displayedColumns: string[] = ['select', 'shopCode', 'shopName', 'mobileNumber', 'orderCount', 'orderAmount', 'commissionRate', 'commissionAmount', 'totalPayable', 'orders', 'account', 'payments'];
     dataSource: MatTableDataSource<PendingPayment>;
     selection = new SelectionModel<PendingPayment>(true, []);
     date = new FormControl(new Date());
     paymentStatus: string;
-    dateRange: string;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
@@ -47,10 +44,6 @@ export class PaymentsComponent {
         this.paymentService.getPendingPayments(this.date.value)
             .subscribe(
                 result => {
-                    let model = result;
-                    // this.setDateRange(model);
-
-                    console.table(result);
                     this.pendingPaymentList = result;
                     this.dataSource = new MatTableDataSource(result.filter(i => i.totalPayable > 0));
                     this.dataSource.paginator = this.paginator;
@@ -59,7 +52,6 @@ export class PaymentsComponent {
                 },
                 error => {
                     this.ngxService.stop();
-                    console.log(error);
                     this.messageService.snakBarErrorMessage(error.error.message);
                 }
             );
@@ -74,18 +66,6 @@ export class PaymentsComponent {
         }
         return "";
     }
-
-    // setDateRange(data)
-    // {
-    //     let model = <PendingPayment[]>data;
-    //     if(model.length > 0)
-    //     {
-    //         let item = model[0];
-    //         let startDate = new Date(item.startDate);
-    //         let endDate = new Date(item.endDate);
-    //         this.dateRange = startDate.toDateString()  + " - " + endDate.toDateString();
-    //     }
-    // }
 
     applyFilter(event: Event) {
         const filterValue = (event.target as HTMLInputElement).value;

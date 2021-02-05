@@ -8,17 +8,15 @@ import { MatSort } from '@angular/material/sort';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { MessageService } from 'app/shared/services/message.service';
 import { OrderConstants } from "../../core/constant";
-import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-payment-pending-order-dialog',
     templateUrl: './payment-pending-order-dialog.component.html',
-    styleUrls: ['./payment-dialog.component.css'],
-    providers: [DatePipe]
+    styleUrls: ['./payment-dialog.component.css']
 })
 export class PaymentPendingOrderComponent implements OnInit {
     constructor(@Inject(MAT_DIALOG_DATA) public data: { shopCode: string, date: Date, isPaid: boolean }, private paymentService: PaymentService,
-        private ngxService: NgxUiLoaderService, private messageService: MessageService, private datePipe: DatePipe) { }
+        private ngxService: NgxUiLoaderService, private messageService: MessageService) { }
 
     displayedColumns: string[] = ['orderNo', 'orderDate', 'customerName', 'amount', 'discount', 'netAmount'];
     dataSource: MatTableDataSource<PaymentPendingOrder>;
