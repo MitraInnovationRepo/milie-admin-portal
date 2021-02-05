@@ -22,17 +22,16 @@ export class PaymentPendingOrderComponent implements OnInit {
     dataSource: MatTableDataSource<PaymentPendingOrder>;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
+    orderPrefix: string;
+
     
     ngOnInit() {
+        this.orderPrefix = OrderConstants.OrderPrefix; 
         this.ngxService.start();
         if(this.data.isPaid) {
             this.paymentService.getPaymentPaidOrders(this.data.shopCode, this.data.date)
             .subscribe(
-                result => {                  
-                    result.forEach(function(item, index) {                    
-                        item.orderNo = OrderConstants.OrderPrefix + item.orderNo;
-                      });
-                      
+                result => {                                   
                     this.dataSource = new MatTableDataSource(result);
                     this.dataSource.paginator = this.paginator;
                     this.dataSource.sort = this.sort;
@@ -47,10 +46,6 @@ export class PaymentPendingOrderComponent implements OnInit {
         this.paymentService.getPaymentPendingOrders(this.data.shopCode, this.data.date)
             .subscribe(
                 result => {
-                    result.forEach(function(item, index) {                    
-                        item.orderNo = OrderConstants.OrderPrefix + item.orderNo;
-                      });
-
                     this.dataSource = new MatTableDataSource(result);
                     this.dataSource.paginator = this.paginator;
                     this.dataSource.sort = this.sort;
