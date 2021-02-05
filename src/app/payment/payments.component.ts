@@ -29,6 +29,7 @@ export class PaymentsComponent {
     selection = new SelectionModel<PendingPayment>(true, []);
     date = new FormControl(new Date());
     paymentStatus: string;
+    dateRange: string;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
@@ -46,6 +47,9 @@ export class PaymentsComponent {
         this.paymentService.getPendingPayments(this.date.value)
             .subscribe(
                 result => {
+                    let model = result;
+                    // this.setDateRange(model);
+
                     console.table(result);
                     this.pendingPaymentList = result;
                     this.dataSource = new MatTableDataSource(result.filter(i => i.totalPayable > 0));
@@ -70,6 +74,18 @@ export class PaymentsComponent {
         }
         return "";
     }
+
+    // setDateRange(data)
+    // {
+    //     let model = <PendingPayment[]>data;
+    //     if(model.length > 0)
+    //     {
+    //         let item = model[0];
+    //         let startDate = new Date(item.startDate);
+    //         let endDate = new Date(item.endDate);
+    //         this.dateRange = startDate.toDateString()  + " - " + endDate.toDateString();
+    //     }
+    // }
 
     applyFilter(event: Event) {
         const filterValue = (event.target as HTMLInputElement).value;
