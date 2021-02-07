@@ -7,6 +7,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { MessageService } from 'app/shared/services/message.service';
+import { OrderConstants } from "../../core/constant";
 
 @Component({
     selector: 'app-payment-pending-order-dialog',
@@ -21,13 +22,16 @@ export class PaymentPendingOrderComponent implements OnInit {
     dataSource: MatTableDataSource<PaymentPendingOrder>;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
+    orderPrefix: string;
+
     
     ngOnInit() {
+        this.orderPrefix = OrderConstants.OrderPrefix; 
         this.ngxService.start();
         if(this.data.isPaid) {
             this.paymentService.getPaymentPaidOrders(this.data.shopCode, this.data.date)
             .subscribe(
-                result => {
+                result => {                                   
                     this.dataSource = new MatTableDataSource(result);
                     this.dataSource.paginator = this.paginator;
                     this.dataSource.sort = this.sort;

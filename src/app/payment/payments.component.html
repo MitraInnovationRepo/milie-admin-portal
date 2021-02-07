@@ -45,7 +45,7 @@
                     </ng-container>
 
                     <ng-container matColumnDef="shopName">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Merchant Name </th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header width ="35%" > Merchant Name </th>
                         <td mat-cell *matCellDef="let row" class="row-clickable"> {{row.shopName}} </td>
                     </ng-container>
 
@@ -88,37 +88,36 @@
                     </ng-container>
 
                     <ng-container matColumnDef="totalPayable">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Total Playable Amount </th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Total Payable Amount </th>
                         <td mat-cell *matCellDef="let row" class="row-clickable"> {{row.totalPayable | currency:'':''}}
                         </td>
                     </ng-container>
 
                     <ng-container matColumnDef="orders">
-                        <th mat-header-cell *matHeaderCellDef>
-                            Orders
+                        <th mat-header-cell *matHeaderCellDef>&nbsp;                         
                         </th>
                         <td mat-cell *matCellDef="let row">
-                            <mat-icon (click)="openOrdersDialog(row.shopCode, row.totalPayable)" class="action-button">assignment
+                            <mat-icon title="Orders" (click)="openOrdersDialog(row.shopCode, row.totalPayable)" class="action-button">assignment
                             </mat-icon>
                         </td>
                     </ng-container>
 
                     <ng-container matColumnDef="account">
                         <th mat-header-cell *matHeaderCellDef>
-                            Account
+                            &nbsp;
                         </th>
                         <td mat-cell *matCellDef="let row">
-                            <mat-icon (click)="openAccountDialog(row.shopCode)" class="action-button">account_balance
+                            <mat-icon title="Account" (click)="openAccountDialog(row.shopCode)" class="action-button">account_balance
                             </mat-icon>
                         </td>
                     </ng-container>
 
                     <ng-container matColumnDef="payments">
                         <th mat-header-cell *matHeaderCellDef>
-                            Payments
+                            &nbsp;
                         </th>
                         <td mat-cell *matCellDef="let row">
-                            <mat-icon (click)="openPaymentHistoryDialog(row.shopCode)" class="action-button">money</mat-icon>
+                            <mat-icon title="Payments" (click)="openPaymentHistoryDialog(row.shopCode)" class="action-button">money</mat-icon>
                         </td>
                     </ng-container>
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
