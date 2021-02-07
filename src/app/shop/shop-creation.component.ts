@@ -27,7 +27,7 @@ export class ShopCreationComponent implements OnInit {
     shopType: ShopType;
     address: Address;
     fileUploaded: boolean = false;
-
+    isUpdate: boolean = false;
     ngOnInit(): void {
         this.shopService.getShopType()
             .subscribe(
@@ -37,29 +37,29 @@ export class ShopCreationComponent implements OnInit {
             );
 
         this.shopForm = this.formBuilder.group({
-            phoneNumber: new FormControl('', [Validators.required]),
+            phoneNumber: new FormControl('', [Validators.required, Validators.pattern("^[0-9]{9}$")]),
             firstName: new FormControl('', [Validators.required]),
             lastName: new FormControl('', [Validators.required]),
-            email: new FormControl('', [Validators.required]),
+            email: new FormControl('', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
             shopType: new FormControl('', [Validators.required]),
             name: new FormControl('', [Validators.required]),
-            displayCity: new FormControl('', [Validators.required]),
+            displayCity: new FormControl('', [Validators.required, Validators.pattern("^[a-zA-Z]+$")]),
             description: new FormControl(''),
             slogan: new FormControl(''),
-            latitude: new FormControl('', [Validators.required]),
-            longitude: new FormControl('', [Validators.required]),
-            openingHour: new FormControl('', [Validators.required]),
-            closingHour: new FormControl('', [Validators.required]),
+            latitude: new FormControl('', [Validators.required, Validators.pattern("^-?(([0-9]|[0-8][0-9])(\\.[0-9]{1,4})?|90)$")]),
+            longitude: new FormControl('', [Validators.required, Validators.pattern("^-?(([0-9][0-9]|[0-9]|1[0-7][0-9])(\\.[0-9]{1,4})?|180)$")]),
+            openingHour: new FormControl('', [Validators.required, Validators.pattern("^((1{0,1}[0-9]|2[0-4])(\\:[0-5]{1}[0-9]{1})?)$")]),
+            closingHour: new FormControl('', [Validators.required, Validators.pattern("^((1{0,1}[0-9]|2[0-4])(\\:[0-5]{1}[0-9]{1})?)$")]),
             bank: new FormControl(''),
-            branch: new FormControl(''),
+            branch: new FormControl('', [Validators.pattern("^[a-zA-Z]+$")]),
             accountNumber: new FormControl(''),
             priceRange: new FormControl('', [Validators.required]),
-            minimumOrderAmount: new FormControl('', [Validators.required]),
+            minimumOrderAmount: new FormControl('', [Validators.required, Validators.pattern("^([1-9][0-9]*)$")]),
             billingAddress: new FormControl('', [Validators.required]),
             image: new FormControl('', [Validators.required]),
             commission: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*(\.[0-9]{1,4})?$")]),
-            primaryPhoneNumber: new FormControl('', [Validators.required]),
-            secondaryPhoneNumber: new FormControl(''),
+            primaryPhoneNumber: new FormControl('', [Validators.required, Validators.pattern("^[0-9]{9}$")]),
+            secondaryPhoneNumber: new FormControl('', [Validators.pattern("^[0-9]{9}$")]),
             businessRegistrationNumber: new FormControl(''),
         });
 
@@ -74,6 +74,7 @@ export class ShopCreationComponent implements OnInit {
                             this.patchValues(result);
                             this.ngxService.stop();
                             this.fileUploaded = true;
+                            this.isUpdate = true;
                         }
                     );
             }
@@ -202,7 +203,11 @@ export class ShopCreationComponent implements OnInit {
                         this.messageService.snakBarErrorMessage("Input Value Error");
                     }
                     else {
-                        this.messageService.snakBarErrorMessage(error.error.error);
+                        this.messageService.snakBarErrorMessage(error.error.message);
+                        delete this.shopType.id;
+                        delete this.shopType;
+                        delete shop.shopType.id;
+                        delete shop.shopType;
                     }
                 }
             );

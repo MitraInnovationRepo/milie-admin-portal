@@ -18,8 +18,11 @@
                                 <div class="col-md-12">
                                     <mat-form-field class="col-md-10">
                                         <mat-label>Mobile Number</mat-label>
-                                        <input matInput formControlName="phoneNumber"
+                                        <input matInput formControlName="phoneNumber" [readonly]="isUpdate"
+                                            matTooltip="Uneditable Field" [matTooltipDisabled]="!isUpdate"
+                                            [matTooltipPosition]="'left'"
                                             placeholder="Enter Mobile Number without leading 0, ex: 777123456">
+                                        <mat-error>Please enter a valid phone number with 9 digits</mat-error>
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -27,7 +30,10 @@
                                 <div class="col-md-12">
                                     <mat-form-field class="col-md-10">
                                         <mat-label>Email</mat-label>
-                                        <input matInput formControlName="email" placeholder="Enter Email">
+                                        <input matInput formControlName="email" placeholder="Enter Email"
+                                            matTooltip="Uneditable Field" [matTooltipDisabled]="!isUpdate"
+                                            [matTooltipPosition]="'left'" [readonly]="isUpdate">
+                                        <mat-error>Please enter a valid email</mat-error>
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -75,6 +81,7 @@
                                     <mat-form-field class="col-md-10">
                                         <mat-label>Display City</mat-label>
                                         <input matInput formControlName="displayCity" placeholder="Enter Display City">
+                                        <mat-error>Please enter a valid display city</mat-error>
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -100,6 +107,7 @@
                                         <mat-label>Latitude</mat-label>
                                         <input matInput formControlName="latitude"
                                             placeholder="Enter Latitude, ex: 6.144">
+                                        <mat-error>Please enter a latitude value between -90 and 90</mat-error>
                                     </mat-form-field>
                                 </div>
                                 <div class="col-md-6">
@@ -107,6 +115,7 @@
                                         <mat-label>Longitude</mat-label>
                                         <input matInput formControlName="longitude"
                                             placeholder="Enter Longitude, ex: 6.144">
+                                        <mat-error>Please enter a longitude value between -180 and 180</mat-error>
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -116,14 +125,16 @@
                                     <mat-form-field class="col-md-10">
                                         <mat-label>Openinig Hour</mat-label>
                                         <input matInput formControlName="openingHour"
-                                            placeholder="24 Hour Format ex: 8">
+                                            placeholder="24 Hour Format ex: 8 , 8:30">
+                                        <mat-error>Please enter a valild hour between 0 and 24</mat-error>
                                     </mat-form-field>
                                 </div>
                                 <div class="col-md-6">
                                     <mat-form-field class="col-md-10">
                                         <mat-label>Closing Hour</mat-label>
                                         <input matInput formControlName="closingHour"
-                                            placeholder="24 Hour Format ex: 20">
+                                            placeholder="24 Hour Format ex: 20 , 20:30">
+                                        <mat-error>Please enter a valild hour between 0 and 24</mat-error>
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -145,6 +156,7 @@
                                         <mat-label>Minimum Order Amount</mat-label>
                                         <input matInput formControlName="minimumOrderAmount"
                                             placeholder="Enter Minimum Order Amount">
+                                        <mat-error>Please enter a valid integer order amount</mat-error>
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -175,6 +187,7 @@
                                         <mat-label>Primary Phone Number</mat-label>
                                         <input matInput formControlName="primaryPhoneNumber"
                                             placeholder="Enter Primary Phone Number without leading 0, ex: 777123456">
+                                        <mat-error>Please enter a valid phone number</mat-error>
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -185,6 +198,7 @@
                                         <mat-label>Secondary Phone Number</mat-label>
                                         <input matInput formControlName="secondaryPhoneNumber"
                                             placeholder="Enter Secondary Phone Number without leading 0, ex: 777123456">
+                                        <mat-error>Please enter a valid phone number</mat-error>
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -223,6 +237,7 @@
                                     <mat-form-field class="col-md-10">
                                         <mat-label>Branch</mat-label>
                                         <input matInput formControlName="branch" placeholder="Enter Branch">
+                                        <mat-error>Please enter a valid branch name</mat-error>
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -243,6 +258,7 @@
                                         <mat-label>Commission</mat-label>
                                         <input matInput formControlName="commission"
                                             placeholder="Enter Commission, ex: 0.3">
+                                        <mat-error>Please enter a valid commission</mat-error>
                                     </mat-form-field>
                                 </div>
                             </div>
