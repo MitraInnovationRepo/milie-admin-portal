@@ -20,7 +20,7 @@
                         
                         <ng-container matColumnDef="paidAmount">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Paid Amount </th>
-                            <td mat-cell *matCellDef="let row" class="row-clickable"> {{row.paidAmount | currency:'':''}}
+                            <td mat-cell *matCellDef="let row" class="row-clickable"> {{row.paidAmount | currency:currencyCode:'code'}}
                             </td>
                         </ng-container>
 
