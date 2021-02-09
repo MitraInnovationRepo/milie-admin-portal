@@ -7,6 +7,7 @@ import { MatSort } from '@angular/material/sort';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { MessageService } from 'app/shared/services/message.service';
 import { PaymentSummary } from '../payment-summary';
+import { Currency } from "../../core/constant";
 
 @Component({
     selector: 'app-payment-history-dialog',
@@ -21,8 +22,10 @@ export class PaymentHistoryComponent implements OnInit {
     dataSource: MatTableDataSource<PaymentSummary>;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
+    currencyCode: String;
 
     ngOnInit() {
+        this.currencyCode = Currency.Code.concat(" ");
         this.ngxService.start();
         this.paymentService.getPaymentHistory(this.data.shopCode, this.data.date)
             .subscribe(

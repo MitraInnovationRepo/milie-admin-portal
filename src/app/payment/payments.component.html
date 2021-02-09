@@ -71,7 +71,7 @@
 
                     <ng-container matColumnDef="orderAmount">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Total Order Amount </th>
-                        <td mat-cell *matCellDef="let row" class="row-clickable"> {{row.orderAmount | currency:'':''}}
+                        <td mat-cell *matCellDef="let row" class="row-clickable"> {{row.orderAmount | currency:currencyCode:'code'}}
                         </td>
                     </ng-container>
 
@@ -84,12 +84,12 @@
                     <ng-container matColumnDef="commissionAmount">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Total Commission Amount </th>
                         <td mat-cell *matCellDef="let row" class="row-clickable">
-                            {{row.commissionAmount | currency:'':''}} </td>
+                            {{row.commissionAmount | currency:currencyCode:'code'}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="totalPayable">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Total Payable Amount </th>
-                        <td mat-cell *matCellDef="let row" class="row-clickable"> {{row.totalPayable | currency:'':''}}
+                        <td mat-cell *matCellDef="let row" class="row-clickable"> {{row.totalPayable | currency:currencyCode:'code'}}
                         </td>
                     </ng-container>
 

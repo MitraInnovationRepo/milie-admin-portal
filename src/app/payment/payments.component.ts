@@ -14,6 +14,7 @@ import { FormControl } from '@angular/forms';
 import { PaymentsRequest } from './payments-request';
 import { Router } from '@angular/router';
 import { PaymentHistoryComponent } from './dialog/payment-history-dialog.component';
+import { Currency } from "../core/constant";
 
 @Component({
     selector: 'app-payments',
@@ -27,6 +28,7 @@ export class PaymentsComponent {
     selection = new SelectionModel<PendingPayment>(true, []);
     date = new FormControl(new Date());
     paymentStatus: string;
+    currencyCode: string;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
@@ -35,13 +37,14 @@ export class PaymentsComponent {
         private messageService: MessageService, private dialog: MatDialog, private router: Router) { }
 
     ngOnInit(): void {
+        this.currencyCode = Currency.Code.concat(" ");
         this.paymentStatus = "pending";
         this.ngxService.start();
         this.getPayments();
     }
 
     getPayments() {
-        this.paymentService.getPendingPayments(this.date.value)
+        return this.paymentService.getPendingPayments(this.date.value)
             .subscribe(
                 result => {
                     this.pendingPaymentList = result;
@@ -105,7 +108,6 @@ export class PaymentsComponent {
     }
 
     openPaymentHistoryDialog(shopCode) {
-        console.log('date: '+ this.date.value);
         let dialogRef = this.dialog.open(PaymentHistoryComponent, {
             width: '1000px',
             data: { shopCode: shopCode,  date: this.date.value }
@@ -140,13 +142,17 @@ export class PaymentsComponent {
         this.paymentService.postPayments(paymentRequest)
             .subscribe(
                 result => {
-                    this.ngxService.stop();
-                    this.messageService.snakBarSuccessMessage("Payment posted successfully");
-                    this.router.routeReuseStrategy.shouldReuseRoute = function () {
-                        return false;
-                    }
-                    this.router.onSameUrlNavigation = 'reload';
-                    this.router.navigate(['/payment']);
+
+                    this.getPayments().add(() => {
+                        this.messageService.snakBarSuccessMessage("Payment posted successfully");
+                    });
+
+                    // this.messageService.snakBarSuccessMessage("Payment posted successfully")
+                    // this.router.routeReuseStrategy.shouldReuseRoute = function () {
+                    //     return false;
+                    // }
+                    // this.router.onSameUrlNavigation = 'reload';
+                    // this.router.navigate(['/payment']);
                 },
                 error => {
                     this.ngxService.stop();
