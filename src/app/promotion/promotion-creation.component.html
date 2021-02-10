@@ -61,12 +61,12 @@
 
               <div class="row col-md-8">
                 <h4 class="col-md-4" id="promotion-time">Promotion valid time</h4>
-                <mat-checkbox class="col-md-3" (change)="setFullDay()" [checked]="isFullDay">full day</mat-checkbox>
-                <input class="col-md-2" aria-label="default time" [ngxTimepicker]="startTimeCom" [format]="24"
+                <mat-checkbox class="col-md-3" (change)="setFullDay()" [checked]="isFullDay">Full Day</mat-checkbox>
+                <input class="col-md-2 time-picker" aria-label="default time" [ngxTimepicker]="startTimeCom" [format]="24"
                   formControlName="startTime" readonly [disabled]="isFullDay">
                 <ngx-material-timepicker #startTimeCom>
                 </ngx-material-timepicker>
-                <input class="col-md-2" aria-label="default time" [ngxTimepicker]="endTimeCom" formControlName="endTime"
+                <input class="col-md-2 time-picker" aria-label="default time" [ngxTimepicker]="endTimeCom" formControlName="endTime"
                   [format]="24" readonly [disabled]="isFullDay">
                 <ngx-material-timepicker #endTimeCom></ngx-material-timepicker>
               </div>
