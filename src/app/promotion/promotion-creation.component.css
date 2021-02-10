@@ -13,4 +13,5 @@ table {
 .time-picker {
   background-color: rgba(0, 0, 0, 0.04);
   margin-right: 10px;
+  border-width: 1px;
 }
