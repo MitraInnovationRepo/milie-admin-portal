@@ -76,8 +76,11 @@ export class PromotionCreationComponent {
     }
 
     patchValues(promotion: Promotion) {
-        var startDate = new Date(promotion.startDate + 'Z')
-        var endDate = new Date(promotion.endDate + 'Z')
+        var startDate = new Date(promotion.startDate + 'Z');
+        var endDate = new Date(promotion.endDate + 'Z');
+        var startTime = `${startDate.getHours()}:${startDate.getMinutes()}`;
+        var endTime = `${endDate.getHours()}:${endDate.getMinutes()}`;
+        if (startTime === '0:0' && endTime === '23:59') this.isFullDay = true;
         this.promotionForm.patchValue({
             type: promotion.type,
             code: promotion.code,
@@ -95,8 +98,8 @@ export class PromotionCreationComponent {
             minOrderAmount: promotion.minOrderAmount,
             maxOrderAmount: promotion.maxOrderAmount,
             maxDiscountAmount: promotion.maxDiscountAmount,
-            startTime: `${startDate.getHours()}:${startDate.getMinutes()}`,
-            endTime: `${endDate.getHours()}:${endDate.getMinutes()}`
+            startTime: startTime,
+            endTime: endTime
         });
     }
 

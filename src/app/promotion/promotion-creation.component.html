@@ -61,7 +61,7 @@
 
               <div class="row col-md-8">
                 <h4 class="col-md-4" id="promotion-time">Promotion valid time</h4>
-                <mat-checkbox class="col-md-3" (change)="setFullDay()">full day</mat-checkbox>
+                <mat-checkbox class="col-md-3" (change)="setFullDay()" [checked]="isFullDay">full day</mat-checkbox>
                 <input class="col-md-2" aria-label="default time" [ngxTimepicker]="startTimeCom" [format]="24"
                   formControlName="startTime" readonly [disabled]="isFullDay">
                 <ngx-material-timepicker #startTimeCom>
