@@ -19,6 +19,8 @@ import { MatListModule } from '@angular/material/list';
 import { PromotionComponent } from './promotion.component';
 import { PromotionService } from './promotion.service';
 import { NgxUiLoaderConfig, SPINNER, NgxUiLoaderModule } from 'ngx-ui-loader';
+import { MerchantPromotionComponent } from './merchant-promotion/merchant-promotion.component';
+import { MerchantPromotionCreationComponent } from './merchant-promotion/merchant-promotion-creation.component';
 
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -49,7 +51,9 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     ],
     declarations: [
         PromotionCreationComponent,
-        PromotionComponent
+        PromotionComponent,
+        MerchantPromotionComponent,
+        MerchantPromotionCreationComponent,
     ],
     providers: [PromotionService]
 })
