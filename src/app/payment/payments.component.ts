@@ -22,7 +22,7 @@ import { Currency } from "../core/constant";
     styleUrls: ['./payments.component.css']
 })
 export class PaymentsComponent {
-    pendingPaymentList: PendingPayment[];
+    pendingPaymentList: PendingPayment[] = [];
     displayedColumns: string[] = ['select', 'shopCode', 'shopName', 'mobileNumber', 'orderCount', 'orderAmount', 'commissionRate', 'commissionAmount', 'totalPayable', 'orders', 'account', 'payments'];
     dataSource: MatTableDataSource<PendingPayment>;
     selection = new SelectionModel<PendingPayment>(true, []);
@@ -44,6 +44,7 @@ export class PaymentsComponent {
     }
 
     getPayments() {
+        this.pendingPaymentList = [];
         return this.paymentService.getPendingPayments(this.date.value)
             .subscribe(
                 result => {
@@ -128,6 +129,42 @@ export class PaymentsComponent {
         this.dataSource = new MatTableDataSource(paymentList);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+    }
+
+    download() {
+        let status = 2;
+        if (this.paymentStatus === "pending") {
+            status = 0
+        }
+        else if (this.paymentStatus === "paid") {
+            status = 1
+        }
+
+        this.paymentService.downloadReport("1", this.date.value, status)
+            .subscribe(
+                result => {
+
+                    const sliceSize = 512;
+                    const byteCharacters = atob(result.base64String);
+                    const byteArrays = [];
+
+                    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+                        const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+                        const byteNumbers = new Array(slice.length);
+                        for (let i = 0; i < slice.length; i++) {
+                        byteNumbers[i] = slice.charCodeAt(i);
+                        }
+
+                        const byteArray = new Uint8Array(byteNumbers);
+                        byteArrays.push(byteArray);
+                    }
+
+                    var blob = new Blob(byteArrays, { type: result.type });
+                    var url= window.URL.createObjectURL(blob);
+                    window.open(url);
+                }
+            );
     }
 
     postPayment() {
