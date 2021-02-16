@@ -154,7 +154,8 @@
               </mat-list>
               <hr>
 
-              <mat-checkbox formControlName="allCustomer" class="col-md-2">All customers</mat-checkbox>
+              <mat-checkbox formControlName="allCustomer" class="col-md-2" (click)="setIsCustomer()">All customers
+              </mat-checkbox>
               <div *ngIf="promotionForm.controls['allCustomer'].value === false">
                 <div class="d-flex align-items-center justify-content-md-between row col-md-6">
                   <mat-form-field class="col-md-10">
@@ -198,6 +199,7 @@
               <hr>
 
               <button *ngIf="!promotionId" mat-raised-button color="primary"
+                [disabled]="!promotionForm.valid || !isCustomerSet"
                 (click)="submitPromotion(promotionForm.value)">Save</button>
               <button *ngIf="promotionId" mat-raised-button color="primary"
                 (click)="submitPromotion(promotionForm.value)">Update</button>

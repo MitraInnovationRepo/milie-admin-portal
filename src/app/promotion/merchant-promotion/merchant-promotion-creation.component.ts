@@ -32,12 +32,13 @@ export class MerchantPromotionCreationComponent {
   discountTypes: string[] = ['Amount', 'Percentage'];
   promotionId: number;
   promotionTypes = [{ value: 1, type: "Buy & Get Free Item" }, { value: 2, type: "Spend & Save Money" }, { value: 3, type: "Discount" }];
+  isCustomerSet: boolean = false;
 
   ngOnInit(): void {
     this.promotionForm = this.formBuilder.group({
       name: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
-      subType: new FormControl('0', [Validators.required]),
+      subType: new FormControl('', [Validators.required]),
       discountOption: new FormControl(''),
       discountAmount: new FormControl(''),
       discountPercentage: new FormControl(''),
@@ -73,15 +74,27 @@ export class MerchantPromotionCreationComponent {
     });
 
     this.promotionForm.get('subType').valueChanges.subscribe(value => {
+      this.promotionForm.get('minOrderAmount').clearValidators();
+      this.promotionForm.get('maxOrderAmount').clearValidators();
+      this.promotionForm.get('maxFreeItemCount').clearValidators();
+      this.promotionForm.get('minFreeItemCount').clearValidators();
+      this.promotionForm.get('minDiscountPercentage').clearValidators();
+      this.promotionForm.get('maxDiscountPercentage').clearValidators();
+      this.promotionForm.get('minBuyItemCount').clearValidators();
+
       if (value === 1) {
         this.promotionForm.get('minBuyItemCount').setValidators(Validators.required);
         this.promotionForm.get('minFreeItemCount').setValidators(Validators.required);
+
+
 
       } else if (value === 2) {
         this.promotionForm.get('minOrderAmount').setValidators(Validators.required);
         this.promotionForm.get('maxOrderAmount').setValidators(Validators.required);
         this.promotionForm.get('maxFreeItemCount').setValidators(Validators.required);
         this.promotionForm.get('minFreeItemCount').setValidators(Validators.required);
+
+
       } else if (value === 3) {
         this.promotionForm.get('minDiscountPercentage').setValidators(Validators.required);
         this.promotionForm.get('maxDiscountPercentage').setValidators(Validators.required);
@@ -112,6 +125,7 @@ export class MerchantPromotionCreationComponent {
           this.customers.push({ userId: result.id, mobileNumber: mobile, customerName: result.name })
           this.dataSource = new MatTableDataSource(this.customers);
           this.promotionForm.get('phoneNumber').setValue(null);
+          this.isCustomerSet = true;
         },
         error => {
           this.messageService.snakBarErrorMessage('Customer Not Found')
@@ -162,6 +176,9 @@ export class MerchantPromotionCreationComponent {
         }
       );
     }
+  }
+  setIsCustomer() {
+    this.isCustomerSet = !this.isCustomerSet;
   }
 
 }
