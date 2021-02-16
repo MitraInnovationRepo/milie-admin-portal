@@ -131,7 +131,10 @@
                 <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
 
                 <div class="row">
-                    <div class="col-4"></div>
+                    <div class="col-4">
+                        <button (click)="download()" [disabled]="pendingPaymentList.length > 10 ? false : true"  class="pull-left pay-button" mat-raised-button
+                            color="primary">Download</button>
+                    </div>
                     <div class="col-4">
 
                     </div>
