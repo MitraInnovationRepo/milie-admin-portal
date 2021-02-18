@@ -132,7 +132,7 @@
 
                 <div class="row">
                     <div class="col-4">
-                        <button (click)="download()" [disabled]="pendingPaymentList.length > 10 ? false : true"  class="pull-left pay-button" mat-raised-button
+                        <button (click)="download()" [disabled]="pendingPaymentList.length > 0 ? false : true"  class="pull-left pay-button" mat-raised-button
                             color="primary">Download</button>
                     </div>
                     <div class="col-4">
