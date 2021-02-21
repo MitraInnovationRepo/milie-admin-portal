@@ -17,7 +17,7 @@ import { MessageService } from 'app/shared/services/message.service';
 export class MerchantPromotionComponent implements OnInit {
 
   
-  displayedColumns: string[] = ['promotionCode', 'name', 'startDate', 'endDate', 'subType', 'action'];
+  displayedColumns: string[] = ['promotionType', 'name', 'allMerchants', 'status', 'action'];
   dataSource: MatTableDataSource<Promotion>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -32,9 +32,10 @@ export class MerchantPromotionComponent implements OnInit {
   }
 
   getPromotions(){
-      this.promotionService.getPromotions()
+      this.promotionService.getMerchantPromotions()
       .subscribe(
           result => {
+              console.log(result)
               this.dataSource = new MatTableDataSource(result);
               this.dataSource.paginator = this.paginator;
               this.dataSource.sort = this.sort;

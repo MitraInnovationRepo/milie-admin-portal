@@ -5,6 +5,19 @@ table {
 .delete-icon{
     color: red;
     cursor: pointer;
+    margin-left: 10px;
+}
+
+.view-icon{
+    color: rgb(242, 200, 31);
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.edit-icon{
+    color: rgb(11, 11, 106);
+    cursor: pointer;
+    margin-left: 10px;
 }
 
 .row-clickable{

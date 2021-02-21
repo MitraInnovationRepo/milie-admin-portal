@@ -136,6 +136,7 @@ export class PromotionCreationComponent {
             var allCustomer = promotion.allCustomer == true ? 1 : 0;
             promotion.registration = registration;
             promotion.allCustomer = allCustomer;
+            promotion.isMerchantPromo = 0;
             this.promotionService.addPromotion(promotion).subscribe(
                 result => {
                     if (this.promotionId == null) {

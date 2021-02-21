@@ -1,7 +1,15 @@
 table {
-    width: 100%;
-  }
-  
-  .btn-remove-customer{
-    background-color: #800000
-  }
+  width: 100%;
+}
+
+.btn-remove-customer {
+  background-color: #800000;
+}
+
+::ng-deep .mat-option .mat-pseudo-checkbox {
+  display: none;
+}
+
+.mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+  color: black !important;
+}

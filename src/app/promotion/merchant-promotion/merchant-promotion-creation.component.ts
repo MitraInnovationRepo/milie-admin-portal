@@ -10,6 +10,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { element } from 'protractor';
 import { CustomerPromotion } from '../customer-promotion';
 import { User } from 'app/shared/data/user';
+import { MerchantPromotion } from './merchant-promotion';
 
 @Component({
   selector: 'app-merchant-promotion-creation',
@@ -22,9 +23,9 @@ export class MerchantPromotionCreationComponent {
     private userService: UserService, private messageService: MessageService, private ngxService: NgxUiLoaderService, private router: Router) { }
   promotionForm: FormGroup;
 
-  customerTableColumns = ['mobileNumber', 'customerName', 'remove'];
-  customers = []
-  dataSource = new MatTableDataSource(this.customers);
+  merchantTableColumns = ['merchantCode', 'merchantName', 'remove'];
+  merchants = []
+  dataSource = new MatTableDataSource(this.merchants);
 
   promotionApplicationTypes: string[] = ["Passenger"];
   discountOptions: string[] = ['Free', 'Amount', 'Percentage'];
@@ -32,7 +33,9 @@ export class MerchantPromotionCreationComponent {
   discountTypes: string[] = ['Amount', 'Percentage'];
   promotionId: number;
   promotionTypes = [{ value: 1, type: "Buy & Get Free Item" }, { value: 2, type: "Spend & Save Money" }, { value: 3, type: "Discount" }];
-  isCustomerSet: boolean = false;
+  merchantList: any;
+  selectedMerchants = [];
+  isMerchantSet: boolean = false;
 
   ngOnInit(): void {
     this.promotionForm = this.formBuilder.group({
@@ -40,18 +43,19 @@ export class MerchantPromotionCreationComponent {
       description: new FormControl('', [Validators.required]),
       subType: new FormControl('', [Validators.required]),
       discountOption: new FormControl(''),
-      discountAmount: new FormControl(''),
-      discountPercentage: new FormControl(''),
       allCustomer: new FormControl(false),
-      phoneNumber: new FormControl(),
-      registration: new FormControl(),
-      minOrderAmount: new FormControl(''),
-      maxOrderAmount: new FormControl(''),
-      minBuyItemCount: new FormControl(''),
-      minFreeItemCount: new FormControl(''),
-      maxFreeItemCount: new FormControl(''),
-      minDiscountPercentage: new FormControl(''),
-      maxDiscountPercentage: new FormControl(''),
+      merchants: new FormControl(),
+
+      buyItemCount: new FormControl('', [Validators.pattern("^([1-9][0-9]*)$")]),
+      freeItemCount: new FormControl('', [Validators.pattern("^([1-9][0-9]*)$")]),
+
+      minOrderAmount: new FormControl('', [Validators.pattern("^([1-9][0-9]*)$")]),
+      maxOrderAmount: new FormControl('', [Validators.pattern("^([1-9][0-9]*)$")]),
+      minFreeItemCount: new FormControl('', [Validators.pattern("^([1-9][0-9]*)$")]),
+      maxFreeItemCount: new FormControl('', [Validators.pattern("^([1-9][0-9]*)$")]),
+
+      minDiscountPercentage: new FormControl('', [Validators.pattern("^[0-9]*(\.[0-9]{1,2})?$")]),
+      maxDiscountPercentage: new FormControl('', [Validators.pattern("^[0-9]*(\.[0-9]{1,2})?$")]),
     });
 
     this.route.params.subscribe(params => {
@@ -64,13 +68,20 @@ export class MerchantPromotionCreationComponent {
             result => {
               this.patchValues(result);
               result.customerPromotionList.forEach(element => {
-                this.customers.push({ id: element.id, mobileNumber: element.user.phoneNumber, customerName: element.user.name, userId: element.user.id });
+                this.merchants.push({ id: element.id, mobileNumber: element.user.phoneNumber, customerName: element.user.name, userId: element.user.id });
               });
-              this.dataSource = new MatTableDataSource(this.customers);
+              this.dataSource = new MatTableDataSource(this.merchants);
               this.ngxService.stop();
             }
           );
       }
+      this.promotionService.getAllMerchants().subscribe(
+        result => {
+          console.log(typeof(result))
+          this.merchantList = result;
+          // this.merchantList = result.filter(element => element.status === 1);
+        }
+      )
     });
 
     this.promotionForm.get('subType').valueChanges.subscribe(value => {
@@ -80,24 +91,35 @@ export class MerchantPromotionCreationComponent {
       this.promotionForm.get('minFreeItemCount').clearValidators();
       this.promotionForm.get('minDiscountPercentage').clearValidators();
       this.promotionForm.get('maxDiscountPercentage').clearValidators();
-      this.promotionForm.get('minBuyItemCount').clearValidators();
+      this.promotionForm.get('buyItemCount').clearValidators();
+      this.promotionForm.get('freeItemCount').clearValidators();
+
+      this.promotionForm.get('minOrderAmount').reset();
+      this.promotionForm.get('maxOrderAmount').reset();
+      this.promotionForm.get('maxFreeItemCount').reset();
+      this.promotionForm.get('minFreeItemCount').reset();
+      this.promotionForm.get('minDiscountPercentage').reset();
+      this.promotionForm.get('maxDiscountPercentage').reset();
+      this.promotionForm.get('buyItemCount').reset();
+      this.promotionForm.get('freeItemCount').reset();
+
 
       if (value === 1) {
-        this.promotionForm.get('minBuyItemCount').setValidators(Validators.required);
-        this.promotionForm.get('minFreeItemCount').setValidators(Validators.required);
+        this.promotionForm.get('buyItemCount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
+        this.promotionForm.get('freeItemCount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
 
 
 
       } else if (value === 2) {
-        this.promotionForm.get('minOrderAmount').setValidators(Validators.required);
-        this.promotionForm.get('maxOrderAmount').setValidators(Validators.required);
-        this.promotionForm.get('maxFreeItemCount').setValidators(Validators.required);
-        this.promotionForm.get('minFreeItemCount').setValidators(Validators.required);
+        this.promotionForm.get('minOrderAmount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
+        this.promotionForm.get('maxOrderAmount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
+        this.promotionForm.get('maxFreeItemCount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
+        this.promotionForm.get('minFreeItemCount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
 
 
       } else if (value === 3) {
-        this.promotionForm.get('minDiscountPercentage').setValidators(Validators.required);
-        this.promotionForm.get('maxDiscountPercentage').setValidators(Validators.required);
+        this.promotionForm.get('minDiscountPercentage').setValidators([Validators.required, Validators.pattern("^[0-9]*(\.[0-9]{1,2})?$")]);
+        this.promotionForm.get('maxDiscountPercentage').setValidators([Validators.required, Validators.pattern("^[0-9]*(\.[0-9]{1,2})?$")]);
       }
     })
   }
@@ -106,10 +128,8 @@ export class MerchantPromotionCreationComponent {
     this.promotionForm.patchValue({
       name: promotion.name,
       description: promotion.description,
-      subType: promotion.subType,
+      type: promotion.subType,
       discountOption: promotion.discountOption,
-      discountAmount: promotion.discountAmount,
-      discountPercentage: promotion.discountPercentage,
       registration: promotion.registration == 1 ? true : false,
       allCustomer: promotion.allCustomer == 1 ? true : false,
       minOrderAmount: promotion.minOrderAmount,
@@ -118,67 +138,72 @@ export class MerchantPromotionCreationComponent {
     });
   }
 
-  addCustomer(mobile) {
-    this.userService.getUserByPhoneNumber(mobile)
-      .subscribe(
-        result => {
-          this.customers.push({ userId: result.id, mobileNumber: mobile, customerName: result.name })
-          this.dataSource = new MatTableDataSource(this.customers);
-          this.promotionForm.get('phoneNumber').setValue(null);
-          this.isCustomerSet = true;
-        },
-        error => {
-          this.messageService.snakBarErrorMessage('Customer Not Found')
-        }
-      );
-  }
-
-  removeCustomer(id) {
-    var element = this.customers.filter(i => i.id == id)[0];
-    var index = this.customers.indexOf(element);
-    this.customers.splice(index, 1);
-    this.dataSource = new MatTableDataSource(this.customers);
+  removeCustomer(email) {
+    var element = this.merchants.filter(i => i.id == email)[0];
+    console.log(element)
+    this.merchantList.unshift(element);
+    console.log(this.merchantList)
+    var index = this.merchants.indexOf(element);
+    this.merchants.splice(index, 1);
+    this.dataSource = new MatTableDataSource(this.merchants);
+    if (this.merchants.length === 0) {
+      this.isMerchantSet = false;
+    }
   }
 
   submitPromotion(promotion) {
     console.log("data", promotion, "valid", this.promotionForm.valid)
     this.ngxService.start();
     if (this.promotionForm.valid) {
-      var customerPromotionList = [];
-      this.customers.forEach(element => {
-        var customerPromotion = new CustomerPromotion();
-        customerPromotion.id = element.id;
-        var user = new User();
-        user.phoneNumber = element.mobileNumber;
-        user.id = element.userId;
-        customerPromotion.user = user;
-        customerPromotionList.push(customerPromotion);
+      var merchantPromotionList = [];
+      this.merchants.forEach(element => {
+        var merchantPromotion = new MerchantPromotion();
+        merchantPromotion.shop = element;
+        merchantPromotionList.push(merchantPromotion);
       });
       if (this.promotionId != null) {
         promotion.id = this.promotionId;
       }
-      promotion.customerPromotionList = customerPromotionList;
+      promotion.merchantPromotionList = merchantPromotionList;
       promotion.id = this.promotionId;
-      var registration = promotion.registration == true ? 1 : 0;
       var allCustomer = promotion.allCustomer == true ? 1 : 0;
-      promotion.registration = registration;
       promotion.allCustomer = allCustomer;
-      this.promotionService.addPromotion(promotion).subscribe(
+      promotion.type = promotion.subType;
+      delete promotion.subType;
+      console.log(promotion)
+      this.promotionService.addMerchantPromotion(promotion).subscribe(
         result => {
-          if (this.promotionId == null) {
-            this.messageService.snakBarSuccessMessage('Promotion Added Successfully');
-          }
-          else {
-            this.messageService.snakBarSuccessMessage('Promotion Updated Successfully');
-          }
+          this.messageService.snakBarSuccessMessage('You have successfully saved the new promotion template');
           this.ngxService.stop();
           this.router.navigate(['/promotion/merchant']);
+        }, error => {
+          this.ngxService.stop();
+          this.messageService.snakBarErrorMessage('Error in saving the new promotion template')
         }
       );
     }
   }
   setIsCustomer() {
-    this.isCustomerSet = !this.isCustomerSet;
+    this.isMerchantSet = !this.isMerchantSet;
+  }
+  getValues(event) {
+    if (event.source._selected) {
+      this.merchants.push(event.source.value);
+      this.dataSource = new MatTableDataSource(this.merchants);
+      this.merchantList = this.merchantList.filter(element => element.id !== event.source.value.id);
+      this.setIsCustomer();
+    } else if (!event.source._selected) {
+      this.merchants = this.merchants.filter(element => element.id !== event.source.value.id);
+      this.dataSource = new MatTableDataSource(this.merchants);
+      this.setIsCustomer();
+    }
+
+    if (this.merchants.length > 0) {
+      this.isMerchantSet = true;
+    } else if (this.merchants.length === 0) {
+      this.isMerchantSet = false;
+    }
+
   }
 
 }

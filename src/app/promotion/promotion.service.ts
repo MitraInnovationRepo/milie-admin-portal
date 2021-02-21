@@ -16,13 +16,28 @@ export class PromotionService{
         return this.http.get<Promotion[]>(url);
     }
 
+    getMerchantPromotions() {
+        const url = API_URL + '/shop-promotion/get-all-deals';
+        return this.http.get<Promotion[]>(url);
+    }
+
     getPromotion(id){
         const url = API_URL + `/promotions/${id}`;
         return this.http.get<Promotion>(url);
     }
 
+    getAllMerchants(){
+        const url = API_URL + `/shops/all`;
+        return this.http.get(url);
+    }
+
     addPromotion(promotion){
         const url = API_URL + `/promotions`;
+        return this.http.post(url, promotion);
+    }
+
+    addMerchantPromotion(promotion){
+        const url = API_URL + `/shop-promotion`;
         return this.http.post(url, promotion);
     }
 
@@ -32,3 +47,4 @@ export class PromotionService{
     }
 
 }
+
