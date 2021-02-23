@@ -18,7 +18,7 @@ export class PaymentPendingOrderComponent implements OnInit {
     constructor(@Inject(MAT_DIALOG_DATA) public data: { shopCode: string, date: Date, isPaid: boolean }, private paymentService: PaymentService,
         private ngxService: NgxUiLoaderService, private messageService: MessageService) { }
 
-    displayedColumns: string[] = ['orderNo', 'orderDate', 'customerName', 'amount', 'discount', 'netAmount'];
+    displayedColumns: string[] = ['orderNo', 'orderDate', 'customerName', 'amount', 'discount', 'netAmount', 'paymentType'];
     dataSource: MatTableDataSource<PaymentPendingOrder>;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
