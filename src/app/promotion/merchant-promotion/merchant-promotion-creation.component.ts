@@ -77,7 +77,6 @@ export class MerchantPromotionCreationComponent {
       }
       this.promotionService.getAllMerchants().subscribe(
         result => {
-          console.log(typeof(result))
           this.merchantList = result;
           // this.merchantList = result.filter(element => element.status === 1);
         }
@@ -159,6 +158,8 @@ export class MerchantPromotionCreationComponent {
       this.merchants.forEach(element => {
         var merchantPromotion = new MerchantPromotion();
         merchantPromotion.shop = element;
+        merchantPromotion.status = 1;
+        merchantPromotion.name = promotion.name;
         merchantPromotionList.push(merchantPromotion);
       });
       if (this.promotionId != null) {
@@ -170,6 +171,7 @@ export class MerchantPromotionCreationComponent {
       promotion.allCustomer = allCustomer;
       promotion.type = promotion.subType;
       delete promotion.subType;
+      promotion.status = 1;
       console.log(promotion)
       this.promotionService.addMerchantPromotion(promotion).subscribe(
         result => {
@@ -183,7 +185,7 @@ export class MerchantPromotionCreationComponent {
       );
     }
   }
-  setIsCustomer() {
+  ToggleIsMerchantSet() {
     this.isMerchantSet = !this.isMerchantSet;
   }
   getValues(event) {
@@ -191,11 +193,11 @@ export class MerchantPromotionCreationComponent {
       this.merchants.push(event.source.value);
       this.dataSource = new MatTableDataSource(this.merchants);
       this.merchantList = this.merchantList.filter(element => element.id !== event.source.value.id);
-      this.setIsCustomer();
+      this.ToggleIsMerchantSet();
     } else if (!event.source._selected) {
       this.merchants = this.merchants.filter(element => element.id !== event.source.value.id);
       this.dataSource = new MatTableDataSource(this.merchants);
-      this.setIsCustomer();
+      this.ToggleIsMerchantSet();
     }
 
     if (this.merchants.length > 0) {

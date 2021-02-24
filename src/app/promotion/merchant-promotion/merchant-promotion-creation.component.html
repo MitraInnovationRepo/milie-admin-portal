@@ -165,7 +165,7 @@
               </mat-list>
               <hr>
 
-              <mat-checkbox formControlName="allCustomer" class="col-md-2" (click)="setIsCustomer()">All customers
+              <mat-checkbox formControlName="allCustomer" class="col-md-2" (click)="ToggleIsMerchantSet()">All customers
               </mat-checkbox>
               <div *ngIf="promotionForm.controls['allCustomer'].value === false">
                 <div class="d-flex align-items-center justify-content-md-between row col-md-8">
