@@ -9,4 +9,5 @@ export class PaymentPendingOrder{
     netAmount: number;
     startDate: Date;
     endDate: Date;
+    paymentType: string;
 }
