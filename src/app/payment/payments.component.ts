@@ -159,7 +159,6 @@ export class PaymentsComponent {
         this.selection.selected.forEach(row => {
             shopIdList.push(row.shopCode);
         });
-        debugger
         var paymentRequest = new PaymentsRequest();
         paymentRequest.requestingDate = this.date.value;
         paymentRequest.shopIdList = shopIdList;
