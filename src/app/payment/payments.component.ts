@@ -15,6 +15,9 @@ import { PaymentsRequest } from './payments-request';
 import { Router } from '@angular/router';
 import { PaymentHistoryComponent } from './dialog/payment-history-dialog.component';
 import { Currency } from "../core/constant";
+import {FileType} from "../shared/const/fileType"
+import {FileUtility} from "../shared/util/fileUtilities"
+
 
 @Component({
     selector: 'app-payments',
@@ -23,7 +26,7 @@ import { Currency } from "../core/constant";
 })
 export class PaymentsComponent {
     pendingPaymentList: PendingPayment[] = [];
-    displayedColumns: string[] = ['select', 'shopCode', 'shopName', 'mobileNumber', 'orderCount', 'orderAmount', 'commissionRate', 'commissionAmount', 'totalPayable', 'orders', 'account', 'payments'];
+    displayedColumns: string[] = ['select', 'shopCode', 'shopName', 'startDate', 'endDate', 'mobileNumber', 'orderCount', 'orderAmount', 'commissionRate', 'commissionAmount', 'totalPayable', 'orders', 'account', 'payments'];
     dataSource: MatTableDataSource<PendingPayment>;
     selection = new SelectionModel<PendingPayment>(true, []);
     date = new FormControl(new Date());
@@ -140,27 +143,10 @@ export class PaymentsComponent {
             status = 1
         }
 
-        this.paymentService.downloadReport("1", this.date.value, status)
+        this.paymentService.downloadReport(FileType.pdf, this.date.value, status)
             .subscribe(
                 result => {
-
-                    const sliceSize = 512;
-                    const byteCharacters = atob(result.base64String);
-                    const byteArrays = [];
-
-                    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-                        const slice = byteCharacters.slice(offset, offset + sliceSize);
-
-                        const byteNumbers = new Array(slice.length);
-                        for (let i = 0; i < slice.length; i++) {
-                        byteNumbers[i] = slice.charCodeAt(i);
-                        }
-
-                        const byteArray = new Uint8Array(byteNumbers);
-                        byteArrays.push(byteArray);
-                    }
-
-                    var blob = new Blob(byteArrays, { type: result.type });
+                    var blob = FileUtility.Base64ToBlob(result.base64String, result.type);
                     var url= window.URL.createObjectURL(blob);
                     window.open(url);
                 }

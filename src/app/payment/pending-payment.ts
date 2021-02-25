@@ -7,6 +7,6 @@ export class PendingPayment {
     commissionRate: number;
     commissionAmount: number;
     totalPayable: number;
-    startDate: Date;
-    endDate: Date;
+    startDate: string;
+    endDate: string;
 }
