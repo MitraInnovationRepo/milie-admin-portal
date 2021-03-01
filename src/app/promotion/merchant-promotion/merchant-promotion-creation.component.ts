@@ -58,7 +58,7 @@ export class MerchantPromotionCreationComponent {
       percentageOption: new FormControl(1),
       allCustomer: new FormControl(false),
       merchants: new FormControl(),
-      imageUrl: new FormControl('set', [Validators.required]),
+      imageUrl: new FormControl('', [Validators.required]),
 
       buyItemCount: new FormControl('', [Validators.pattern("^([1-9][0-9]*)$")]),
       freeItemCount: new FormControl('', [Validators.pattern("^([1-9][0-9]*)$")]),
