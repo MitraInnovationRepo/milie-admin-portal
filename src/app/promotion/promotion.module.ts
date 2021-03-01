@@ -21,7 +21,8 @@ import { PromotionService } from './promotion.service';
 import { NgxUiLoaderConfig, SPINNER, NgxUiLoaderModule } from 'ngx-ui-loader';
 import { MerchantPromotionComponent } from './merchant-promotion/merchant-promotion.component';
 import { MerchantPromotionCreationComponent } from './merchant-promotion/merchant-promotion-creation.component';
-
+import {MerchantDialogComponent} from './merchant-promotion/dialog/merchants-dialog.component'
+import {PromotionDeleteDialogComponent} from './merchant-promotion/dialog/promotion-delete-dialog.component'
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     fgsColor: "#ef5350",
@@ -54,6 +55,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
         PromotionComponent,
         MerchantPromotionComponent,
         MerchantPromotionCreationComponent,
+        MerchantDialogComponent,
+        PromotionDeleteDialogComponent
     ],
     providers: [PromotionService]
 })

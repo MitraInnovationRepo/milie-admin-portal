@@ -2,24 +2,35 @@ table {
     width: 100%;
 }
 
-.delete-icon{
+.delete-icon {
     color: red;
     cursor: pointer;
     margin-left: 10px;
 }
 
-.view-icon{
+#view-icon {
     color: rgb(242, 200, 31);
     cursor: pointer;
     margin-left: 10px;
 }
 
-.edit-icon{
+.edit-icon {
     color: rgb(11, 11, 106);
     cursor: pointer;
     margin-left: 10px;
 }
 
-.row-clickable{
+.row-clickable {
     cursor: pointer;
+}
+
+.check-circle-outline {
+    color: rgb(2, 201, 22);
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.promotion-create-btn{
+    color:white;
+    background-color: rgb(2, 201, 22);
 }

@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-6">
-        <h1 mat-dialog-title>Merchant Information</h1>
+        <h1 mat-dialog-title>Merchants List</h1>
     </div>
     <div class="col-md-6">
         <button class="pull-right" mat-icon-button mat-dialog-close><mat-icon>close</mat-icon></button>
@@ -13,18 +13,13 @@
                 <div>
                     <table mat-table [dataSource]="dataSource" matSort>
 
-                        <ng-container matColumnDef="id">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Id</th>
-                            <td mat-cell *matCellDef="let row" class="row-clickable"> {{row.id}} </td>
-                        </ng-container>
-
                         <ng-container matColumnDef="merchantName">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Merchant Name </th>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
                             <td mat-cell *matCellDef="let row" class="row-clickable">
                                 {{row.name}} </td>
                         </ng-container>
 
-                       
+    
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
@@ -33,7 +28,7 @@
                         </tr>
                     </table>
 
-                    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                    <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator> -->
                 </div>
             </mat-accordion>
         </div>

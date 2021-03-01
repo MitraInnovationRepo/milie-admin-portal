@@ -50,7 +50,7 @@ export class PromotionComponent implements OnInit {
     }
 
     openPromotion(id){
-        this.router.navigate(['/promotion/add/' + id]);
+        this.router.navigate(['/promotion/customer/add/' + id]);
     }
 
     deletePromotion(id){

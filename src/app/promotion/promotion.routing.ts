@@ -6,13 +6,14 @@ import { MerchantPromotionCreationComponent } from './merchant-promotion/merchan
 
 
 export const PromotionRoutes: Routes = [
-    { path: '', component: PromotionComponent },
-    { path: 'add', component: PromotionCreationComponent },
+    { path: 'customer', component: PromotionComponent },
+    { path: 'customer/add', component: PromotionCreationComponent },
     {
-        path: 'add/:id',
+        path: 'customer/add/:id',
         component: PromotionCreationComponent
     },
     { path: 'merchant', component: MerchantPromotionComponent },
     { path: 'merchant/add', component: MerchantPromotionCreationComponent },
-    { path: 'merchant/add/:id', component: MerchantPromotionCreationComponent }
+    { path: 'merchant/add/:id', component: MerchantPromotionCreationComponent },
+    { path: 'merchant/view', component: MerchantPromotionCreationComponent },
 ];

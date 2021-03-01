@@ -7,66 +7,82 @@ import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { MessageService } from 'app/shared/services/message.service';
+import { MerchantDialogComponent } from './dialog/merchants-dialog.component'
+import { PromotionDeleteDialogComponent } from './dialog/promotion-delete-dialog.component'
+import { MatDialog } from '@angular/material/dialog';
+
+import { element } from 'protractor';
 
 
 @Component({
-  selector: 'app-merchant-promotion',
-  templateUrl: './merchant-promotion.component.html',
-  styleUrls: ['./merchant-promotion.component.css']
+    selector: 'app-merchant-promotion',
+    templateUrl: './merchant-promotion.component.html',
+    styleUrls: ['./merchant-promotion.component.css']
 })
 export class MerchantPromotionComponent implements OnInit {
 
-  
-  displayedColumns: string[] = ['promotionType', 'name', 'allMerchants', 'status', 'action'];
-  dataSource: MatTableDataSource<Promotion>;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+    displayedColumns: string[] = ['promotionType', 'name', 'allMerchants', 'status', 'action'];
+    dataSource: MatTableDataSource<Promotion>;
+    merchantPromotionsList = [];
 
-  constructor(private promotionService: PromotionService, private router: Router, private ngxService: NgxUiLoaderService, 
-      private messageService: MessageService) { }
+    @ViewChild(MatPaginator) paginator: MatPaginator;
+    @ViewChild(MatSort) sort: MatSort;
 
-  ngOnInit(): void {
-      this.ngxService.start();
-      this.getPromotions();
-  }
+    constructor(private promotionService: PromotionService, private router: Router, private ngxService: NgxUiLoaderService,
+        private messageService: MessageService, private dialog: MatDialog) { }
 
-  getPromotions(){
-      this.promotionService.getMerchantPromotions()
-      .subscribe(
-          result => {
-              console.log(result)
-              this.dataSource = new MatTableDataSource(result);
-              this.dataSource.paginator = this.paginator;
-              this.dataSource.sort = this.sort;
-              this.ngxService.stop();
-          }
-      );
-  }
+    ngOnInit(): void {
+        this.ngxService.start();
+        this.getPromotions();
+    }
 
-  applyFilter(event: Event) {
-      const filterValue = (event.target as HTMLInputElement).value;
-      this.dataSource.filter = filterValue.trim().toLowerCase();
+    getPromotions() {
+        this.promotionService.getMerchantPromotions()
+            .subscribe(
+                result => {
+                    this.dataSource = new MatTableDataSource(result);
+                    this.merchantPromotionsList = result;
+                    this.dataSource.paginator = this.paginator;
+                    this.dataSource.sort = this.sort;
+                    this.ngxService.stop();
+                }
+            );
+    }
 
-      if (this.dataSource.paginator) {
-          this.dataSource.paginator.firstPage();
-      }
-  }
+    applyFilter(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.dataSource.filter = filterValue.trim().toLowerCase();
 
-  openPromotion(id){
-      this.router.navigate(['/promotion/merchant/add/' + id]);
-  }
+        if (this.dataSource.paginator) {
+            this.dataSource.paginator.firstPage();
+        }
+    }
 
-  deletePromotion(id){
-      this.ngxService.start();
-      this.promotionService.deletePromotion(id)
-      .subscribe(
-          result => {
-              this.getPromotions();
-              this.ngxService.stop();
-              this.messageService.snakBarSuccessMessage('Promotion Deleted Successfully');
-          }
-      );
-  }
+    openPromotion(data) {
+        this.router.navigate(['/promotion/merchant/view'], { state: { data: data, update: false } });
+    }
 
+    updatePromotion(data) {
+        this.router.navigate(['/promotion/merchant/add/' + data.id], { state: { data: data, update: true } });
+    }
+
+    viewMerchants(id) {
+        let dialogRef = this.dialog.open(MerchantDialogComponent, {
+            width: '400px',
+            data: { id: id }
+        });
+    }
+
+    deletePromotion(id) {
+        let dialogDeletePromotionRef = this.dialog.open(PromotionDeleteDialogComponent, {
+            width: '400px',
+            data: {
+                id: id,
+                getPromotions: () => {
+                    this.getPromotions()
+                }
+            }
+        });
+    }
 }
