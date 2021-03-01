@@ -30,6 +30,7 @@ export class PromotionCreationComponent {
     deliveryDiscountType: string[] = ['Free delivery', 'Discount'];
     discountTypes: string[] = ['Amount', 'Percentage'];
     promotionId: number;
+    isFullDay: boolean = false;
 
     ngOnInit(): void {
         this.promotionForm = this.formBuilder.group({
@@ -50,6 +51,8 @@ export class PromotionCreationComponent {
             minOrderAmount: new FormControl('', [Validators.required]),
             maxOrderAmount: new FormControl('', [Validators.required]),
             maxDiscountAmount: new FormControl('', [Validators.required]),
+            startTime: new FormControl('09:00', [Validators.required]),
+            endTime: new FormControl('09:00', [Validators.required])
         });
 
         this.route.params.subscribe(params => {
@@ -73,13 +76,18 @@ export class PromotionCreationComponent {
     }
 
     patchValues(promotion: Promotion) {
+        var startDate = new Date(promotion.startDate + 'Z');
+        var endDate = new Date(promotion.endDate + 'Z');
+        var startTime = `${startDate.getHours()}:${startDate.getMinutes()}`;
+        var endTime = `${endDate.getHours()}:${endDate.getMinutes()}`;
+        if (startTime === '0:0' && endTime === '23:59') this.isFullDay = true;
         this.promotionForm.patchValue({
             type: promotion.type,
             code: promotion.code,
             name: promotion.name,
             description: promotion.description,
-            startDate: new Date(promotion.startDate),
-            endDate: new Date(promotion.endDate),
+            startDate: startDate,
+            endDate: endDate,
             subType: promotion.subType,
             discountOption: promotion.discountOption,
             discountAmount: promotion.discountAmount,
@@ -89,7 +97,9 @@ export class PromotionCreationComponent {
             allCustomer: promotion.allCustomer == 1 ? true : false,
             minOrderAmount: promotion.minOrderAmount,
             maxOrderAmount: promotion.maxOrderAmount,
-            maxDiscountAmount: promotion.maxDiscountAmount
+            maxDiscountAmount: promotion.maxDiscountAmount,
+            startTime: startTime,
+            endTime: endTime
         });
     }
 
@@ -137,6 +147,17 @@ export class PromotionCreationComponent {
             promotion.registration = registration;
             promotion.allCustomer = allCustomer;
             promotion.isMerchantPromo = 0;
+
+            var temStart = promotion.startTime.split(":");
+            var temEnd = promotion.endTime.split(":");
+            delete promotion.startTime;
+            delete promotion.endTime;
+
+            promotion.startDate.setHours(temStart[0]);
+            promotion.startDate.setMinutes(temStart[1]);
+            promotion.endDate.setHours(temEnd[0]);
+            promotion.endDate.setMinutes(temEnd[1]);
+
             this.promotionService.addPromotion(promotion).subscribe(
                 result => {
                     if (this.promotionId == null) {
@@ -150,5 +171,13 @@ export class PromotionCreationComponent {
                 }
             );
         }
+    }
+    setFullDay() {
+        this.isFullDay = !this.isFullDay;
+        this.promotionForm.patchValue({
+            startTime: '00:00',
+            endTime: '23:59'
+
+        })
     }
 }

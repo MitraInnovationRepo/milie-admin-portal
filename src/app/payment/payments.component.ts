@@ -15,6 +15,9 @@ import { PaymentsRequest } from './payments-request';
 import { Router } from '@angular/router';
 import { PaymentHistoryComponent } from './dialog/payment-history-dialog.component';
 import { Currency } from "../core/constant";
+import {FileType} from "../shared/const/fileType"
+import {FileUtility} from "../shared/util/fileUtilities"
+
 
 @Component({
     selector: 'app-payments',
@@ -22,8 +25,8 @@ import { Currency } from "../core/constant";
     styleUrls: ['./payments.component.css']
 })
 export class PaymentsComponent {
-    pendingPaymentList: PendingPayment[];
-    displayedColumns: string[] = ['select', 'shopCode', 'shopName', 'mobileNumber', 'orderCount', 'orderAmount', 'commissionRate', 'commissionAmount', 'totalPayable', 'orders', 'account', 'payments'];
+    pendingPaymentList: PendingPayment[] = [];
+    displayedColumns: string[] = ['select', 'shopCode', 'shopName', 'startDate', 'endDate', 'mobileNumber', 'orderCount', 'orderAmount', 'commissionRate', 'commissionAmount', 'totalPayable', 'orders', 'account', 'payments'];
     dataSource: MatTableDataSource<PendingPayment>;
     selection = new SelectionModel<PendingPayment>(true, []);
     date = new FormControl(new Date());
@@ -44,6 +47,7 @@ export class PaymentsComponent {
     }
 
     getPayments() {
+        this.pendingPaymentList = [];
         return this.paymentService.getPendingPayments(this.date.value)
             .subscribe(
                 result => {
@@ -128,6 +132,25 @@ export class PaymentsComponent {
         this.dataSource = new MatTableDataSource(paymentList);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+    }
+
+    download() {
+        let status = 2;
+        if (this.paymentStatus === "pending") {
+            status = 0
+        }
+        else if (this.paymentStatus === "paid") {
+            status = 1
+        }
+
+        this.paymentService.downloadReport(FileType.pdf, this.date.value, status)
+            .subscribe(
+                result => {
+                    var blob = FileUtility.Base64ToBlob(result.base64String, result.type);
+                    var url= window.URL.createObjectURL(blob);
+                    window.open(url);
+                }
+            );
     }
 
     postPayment() {

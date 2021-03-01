@@ -5,6 +5,7 @@ import { environment } from 'environments/environment';
 import { ShopAccount } from './shop-account';
 import { PaymentPendingOrder } from './payment-pending-order';
 import { PaymentSummary } from './payment-summary';
+import { ReportDownload } from './report-download';
 import { formatDate } from '@angular/common';
 
 const API_URL = environment.API_URL;
@@ -49,6 +50,13 @@ export class PaymentService {
     postPayments(paymentRequest) {
         const url = API_URL + '/shop-payment';
         return this.http.post(url, paymentRequest);
+    }
+
+    downloadReport(reportType, date, status) {
+        let formattedDate = formatDate(date, 'yyyy-MM-dd', 'en_US');
+
+        const url = `${API_URL}/shop-payment/report/${reportType}?date=${formattedDate}&status=${status}`;
+        return this.http.get<ReportDownload>(url);
     }
 
 }

@@ -1,0 +1,7 @@
+#side-by-side {
+    flex-direction: row-reverse;
+}
+
+#toggle-btn {
+    display: contents;
+}

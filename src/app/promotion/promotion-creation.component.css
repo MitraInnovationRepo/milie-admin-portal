@@ -2,6 +2,16 @@ table {
   width: 100%;
 }
 
-.btn-remove-customer{
-  background-color: #800000
+.btn-remove-customer {
+  background-color: #800000;
+}
+
+#promotion-time {
+  padding: 0px;
+}
+
+.time-picker {
+  background-color: rgba(0, 0, 0, 0.04);
+  margin-right: 10px;
+  border-width: 1px;
 }

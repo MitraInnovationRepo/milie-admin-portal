@@ -1,23 +1,26 @@
 <nav class="navbar navbar-expand-lg navbar-transparent  navbar-absolute fixed-top">
     <div class="container-fluid">
         <div class="navbar-wrapper">
-          <a class="navbar-brand" href="javascript:void(0)">{{getTitle()}}</a>
+            <a class="navbar-brand" href="javascript:void(0)">{{getTitle()}}</a>
         </div>
-        <button mat-raised-button class="navbar-toggler" type="button">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="navbar-toggler-icon icon-bar"></span>
-            <span class="navbar-toggler-icon icon-bar"></span>
-            <span class="navbar-toggler-icon icon-bar"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navigation">
-            <ul class="navbar-nav">
+
+        <div class="justify-content-end" id="navigation">
+            <ul class="navbar-nav" id="side-by-side">
+                <li class="nav-item" id="toggle-btn">
+                    <button mat-raised-button class="navbar-toggler" type="button" (click)="sidebarToggle()">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="navbar-toggler-icon icon-bar"></span>
+                        <span class="navbar-toggler-icon icon-bar"></span>
+                        <span class="navbar-toggler-icon icon-bar"></span>
+                    </button>
+                </li>
                 <li class="nav-item">
-                    <a class="nav-link"  mat-button [matMenuTriggerFor]="menu" href="javascript:void(0)">
+                    <a class="nav-link" mat-button [matMenuTriggerFor]="menu" href="javascript:void(0)">
                         <i class="material-icons">person</i>
                     </a>
                     <mat-menu #menu="matMenu">
                         <button mat-menu-item (click)="logout()">Logout</button>
-                      </mat-menu>
+                    </mat-menu>
                 </li>
             </ul>
         </div>
