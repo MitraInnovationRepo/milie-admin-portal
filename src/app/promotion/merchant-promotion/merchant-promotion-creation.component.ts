@@ -317,6 +317,7 @@ export class MerchantPromotionCreationComponent {
         res => {
           this.ngxService.stop();
           this.imageSrc = res;
+          this.promotionForm.patchValue({ imageUrl: this.imageSrc });
           this.messageService.snakBarSuccessMessage('Image Uploaded');
           this.fileUploaded = true;
         },
