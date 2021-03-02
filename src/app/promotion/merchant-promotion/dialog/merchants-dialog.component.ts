@@ -13,7 +13,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 })
 export class MerchantDialogComponent implements OnInit {
     constructor(@Inject(MAT_DIALOG_DATA) public data: { id: number }, private promotionService: PromotionService, private ngxService: NgxUiLoaderService) { }
-    displayedColumns: string[] = ['merchantName'];
+    displayedColumns: string[] = ['merchantName','telephoneNumber'];
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
     dataSource;
@@ -28,6 +28,7 @@ export class MerchantDialogComponent implements OnInit {
                       patchResult.push(result[i]);
                     }
                     this.dataSource = new MatTableDataSource(patchResult);
+                    this.dataSource.paginator = this.paginator;
                     this.ngxService.stop();
                 }
             )

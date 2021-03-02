@@ -51,6 +51,11 @@ export class PromotionService{
         return this.http.post(url, promotion);
     }
 
+    updateMerchantPromotion(promotion){
+        const url = API_URL + `/shop-promotion`;
+        return this.http.put(url, promotion);
+    }
+
     deletePromotion(id){
         const url = API_URL + `/promotions/${id}`;
         return this.http.delete(url);

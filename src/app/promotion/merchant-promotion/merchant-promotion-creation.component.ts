@@ -260,21 +260,30 @@ export class MerchantPromotionCreationComponent {
 
       promotion.status = 1;
       promotion.imageUrl = this.imageSrc;
-      this.promotionService.addMerchantPromotion(promotion).subscribe(
-        result => {
-          this.ngxService.stop();
-
-          if (promotion.id) {
+      if (promotion.id) {
+        this.promotionService.updateMerchantPromotion(promotion).subscribe(
+          result => {
             this.messageService.snakBarSuccessMessage('You have successfully updated the new promotion template');
-          } else {
-            this.messageService.snakBarSuccessMessage('You have successfully saved the new promotion template');
+            this.router.navigate(['/promotion/merchant']);
+          }, error => {
+            this.ngxService.stop();
+            this.messageService.snakBarErrorMessage('Error in updating the new promotion template')
           }
-          this.router.navigate(['/promotion/merchant']);
-        }, error => {
-          this.ngxService.stop();
-          this.messageService.snakBarErrorMessage('Error in saving the new promotion template')
-        }
-      );
+        )
+      } else {
+        this.promotionService.addMerchantPromotion(promotion).subscribe(
+          result => {
+            this.ngxService.stop();
+            this.messageService.snakBarSuccessMessage('You have successfully saved the new promotion template');
+            this.router.navigate(['/promotion/merchant']);
+          }, error => {
+            this.ngxService.stop();
+            this.messageService.snakBarErrorMessage('Error in saving the new promotion template')
+          }
+        )
+      }
+
+
     }
   }
 
