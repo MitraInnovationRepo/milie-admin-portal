@@ -146,6 +146,7 @@ export class PromotionCreationComponent {
             var allCustomer = promotion.allCustomer == true ? 1 : 0;
             promotion.registration = registration;
             promotion.allCustomer = allCustomer;
+            promotion.isMerchantPromo = 0;
 
             var temStart = promotion.startTime.split(":");
             var temEnd = promotion.endTime.split(":");
