@@ -238,6 +238,7 @@ export class MerchantPromotionCreationComponent {
         var merchantPromotion = new MerchantPromotion();
         merchantPromotion.shop = element;
         merchantPromotion.status = 1;
+        merchantPromotion.isTemplate = true;
         merchantPromotion.name = promotion.name;
         merchantPromotionList.push(merchantPromotion);
       });
