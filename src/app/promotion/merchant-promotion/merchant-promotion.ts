@@ -4,4 +4,5 @@ export class MerchantPromotion {
     shop: Shop;
     status: number;
     name: string
+    isTemplate: boolean
 }
