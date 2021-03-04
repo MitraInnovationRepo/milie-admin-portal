@@ -11,9 +11,6 @@
           <div class="card-body">
             <form [formGroup]="promotionForm" style="display: grid;">
 
-              <div>{{promotionForm.get('allCustomer').errors}}</div>
-
-
               <mat-form-field>
                 <mat-label>Promotion name</mat-label>
                 <input matInput formControlName="name" placeholder="Enter promotion name">
