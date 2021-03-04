@@ -56,7 +56,7 @@ export class MerchantPromotionCreationComponent {
       subType: new FormControl('', [Validators.required]),
       spendAndSaveMoneyOption: new FormControl(1),
       percentageOption: new FormControl(1),
-      allCustomer: new FormControl(false),
+      allShop: new FormControl(false),
       merchants: new FormControl(),
       imageUrl: new FormControl('', [Validators.required]),
 
@@ -188,7 +188,7 @@ export class MerchantPromotionCreationComponent {
       description: promotion.description,
       subType: promotion.type,
       discountOption: promotion.discountOption,
-      allCustomer: promotion.allCustomer == 1 ? true : false,
+      allShop: promotion.allShop == 1 ? true : false,
       imageUrl: promotion.imageUrl,
 
       buyItemCount: promotion.buyItemCount,
@@ -247,12 +247,12 @@ export class MerchantPromotionCreationComponent {
       }
       promotion.merchantPromotionList = merchantPromotionList;
       promotion.id = this.promotionId;
-      var allCustomer = 0;
-      if (promotion.allCustomer) {
-        var allCustomer = 1;
+      var allShop = 0;
+      if (promotion.allShop) {
+        var allShop = 1;
         promotion.merchantPromotionList = [];
       }
-      promotion.allCustomer = allCustomer;
+      promotion.allShop = allShop;
       promotion.type = promotion.subType;
       delete promotion.subType;
 
