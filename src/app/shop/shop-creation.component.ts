@@ -29,13 +29,6 @@ export class ShopCreationComponent implements OnInit {
     fileUploaded: boolean = false;
 
     ngOnInit(): void {
-        this.shopService.getShopType()
-            .subscribe(
-                result => {
-                    this.shopTypeList = result;
-                }
-            );
-
         this.shopForm = this.formBuilder.group({
             phoneNumber: new FormControl('', [Validators.required]),
             firstName: new FormControl('', [Validators.required]),
@@ -63,22 +56,28 @@ export class ShopCreationComponent implements OnInit {
             businessRegistrationNumber: new FormControl(''),
         });
 
-        this.route.params.subscribe(params => {
-            var id = params['id'];
-            if (id != null) {
-                this.shopId = id;
-                this.ngxService.start();
-                this.shopService.getShop(id)
-                    .subscribe(
-                        result => {
-                            this.patchValues(result);
-                            this.ngxService.stop();
-                            this.fileUploaded = true;
-                        }
-                    );
-            }
-        });
-
+        this.shopService.getShopType()
+            .subscribe(
+                result => {
+                    this.shopTypeList = result;
+                }
+            ).add(() => {
+                this.route.params.subscribe(params => {
+                    var id = params['id'];
+                    if (id != null) {
+                        this.shopId = id;
+                        this.ngxService.start();
+                        this.shopService.getShop(id)
+                            .subscribe(
+                                result => {
+                                    this.patchValues(result);
+                                    this.ngxService.stop();
+                                    this.fileUploaded = true;
+                                }
+                            );
+                    }
+                });
+            });
     }
 
     patchValues(shop: Shop) {
