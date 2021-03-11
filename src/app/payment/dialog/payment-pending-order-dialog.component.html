@@ -13,15 +13,15 @@
                 <div>
                     <table mat-table [dataSource]="dataSource" matSort>
 
-                        <ng-container matColumnDef="id">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Id</th>
-                            <td mat-cell *matCellDef="let row" class="row-clickable"> {{row.id}} </td>
+                        <ng-container matColumnDef="orderNo">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Order No</th>
+                            <td mat-cell *matCellDef="let row" class="row-clickable"> {{orderPrefix+row.orderNo}} </td>
                         </ng-container>
 
-                        <ng-container matColumnDef="merchantName">
+                        <ng-container matColumnDef="orderDate">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Merchant Name </th>
                             <td mat-cell *matCellDef="let row" class="row-clickable">
-                                {{row.name}} </td>
+                                {{row.orderDate | date : 'dd-MM-yyyy'}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="customerName">
