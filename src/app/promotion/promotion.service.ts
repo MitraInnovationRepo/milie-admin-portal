@@ -62,7 +62,7 @@ export class PromotionService{
     }
 
     deleteMerchantPromotion(id){
-        const url = API_URL + `/shop-promotion/${id}`;
+        const url = API_URL + `/shop-promotion/promotion-template/${id}`;
         return this.http.delete(url);
     }
 

@@ -88,7 +88,8 @@
                 </div>
               </mat-card>
 
-              <mat-card *ngIf="promotionForm.controls['subType'].value === 2 || promotionForm.controls['subType'].value === 3">
+              <mat-card
+                *ngIf="promotionForm.controls['subType'].value === 2 || promotionForm.controls['subType'].value === 3">
                 <div>
                   <h5>Spend & Save Money </h5>
                 </div>
@@ -184,39 +185,62 @@
                       </div>
                     </div>
                   </div>
-                </div>               
+                </div>
 
               </mat-card>
 
-              <mat-card *ngIf="promotionForm.controls['subType'].value === 4">
+              <mat-card
+                *ngIf="promotionForm.controls['subType'].value === 4 || promotionForm.controls['subType'].value === 5">
                 <div>
                   <h5>Discounts</h5>
                 </div>
 
                 <div class="col-md-12">
                   <div class="row">
-                    <mat-radio-group formControlName="subType" class="col-md-3">
-                      <mat-radio-button class="col-md-3" [value]="4">
-                        Percentage
-                      </mat-radio-button>
+                    <div class="col-md-6">
+                      <mat-radio-group formControlName="subType">
+                        <mat-radio-button [value]="4" class="col-md-6">
+                          Percentage
+                        </mat-radio-button>
 
-                    </mat-radio-group>
-                    <div class="col-md-4">
-                      <mat-form-field>
-                        <mat-label>Minimum Discount</mat-label>
-                        <input formControlName="minDiscountPercentage" matInput placeholder="Minimum Discount">
-                        <mat-error>Please enter valid discount</mat-error>
-                      </mat-form-field>
-                    </div>
+                        <mat-radio-button [value]="5" class="col-md-6">
+                          Discount Amount
+                        </mat-radio-button>
+                      </mat-radio-group>
 
-                    <div class="col-md-4">
-                      <mat-form-field>
-                        <mat-label>Maximum Discount</mat-label>
-                        <input formControlName="maxDiscountPercentage" matInput placeholder="Maximum Discount">
-                        <mat-error>Please enter valid discount</mat-error>
-                      </mat-form-field>
                     </div>
                   </div>
+
+                  <div class="row col-md-12">
+                    <div class="col-md-4" *ngIf="promotionForm.controls['subType'].value === 4">
+                      <div class="row">
+                        <mat-form-field>
+                          <mat-label>Minimum Discount</mat-label>
+                          <mat-select formControlName="minDiscountPercentage">
+                            <mat-option *ngFor="let percentage of discountPercentageRange" [value]="percentage">
+                              {{percentage}}
+                            </mat-option>
+                          </mat-select>
+                          <mat-error>Please select valid discount</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <div class="col-md-4" *ngIf="promotionForm.controls['subType'].value === 4">
+                      <div class="row">
+                        <mat-form-field>
+                          <mat-label>Maximum Discount</mat-label>
+                          <mat-select formControlName="maxDiscountPercentage">
+                            <mat-option *ngFor="let percentage of discountPercentageRange" [value]="percentage">
+                              {{percentage}}
+                            </mat-option>
+                          </mat-select>
+                          <mat-error>Please select valid discount</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
               </mat-card>
 

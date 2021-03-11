@@ -47,7 +47,7 @@ export class MerchantPromotionCreationComponent {
   imageSrc: String;
   fileUploaded: boolean = false;
 
-
+  discountPercentageRange: number[] = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100];
 
   ngOnInit(): void {
     this.promotionForm = this.formBuilder.group({
@@ -71,7 +71,6 @@ export class MerchantPromotionCreationComponent {
       minDiscountPercentage: new FormControl('', [Validators.pattern("^[0-9]*(\.[0-9]{1,2})?$")]),
       maxDiscountPercentage: new FormControl('', [Validators.pattern("^[0-9]*(\.[0-9]{1,2})?$")]),
     });
-
 
     this.getAllMerchants();
 
@@ -157,8 +156,9 @@ export class MerchantPromotionCreationComponent {
         this.promotionForm.get('maxFreeItemCount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
 
       } else if (value === 4) {
-        this.promotionForm.get('minDiscountPercentage').setValidators([Validators.required, Validators.pattern("^[0-9]*(\.[0-9]{1,2})?$")]);
-        this.promotionForm.get('maxDiscountPercentage').setValidators([Validators.required, Validators.pattern("^[0-9]*(\.[0-9]{1,2})?$")]);
+        this.promotionForm.get('minDiscountPercentage').setValidators([Validators.required]);
+        this.promotionForm.get('maxDiscountPercentage').setValidators([Validators.required]);
+
       }
     })
   }
