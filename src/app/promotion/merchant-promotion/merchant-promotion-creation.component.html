@@ -88,28 +88,28 @@
                 </div>
               </mat-card>
 
-              <mat-card *ngIf="promotionForm.controls['subType'].value === 2">
+              <mat-card *ngIf="promotionForm.controls['subType'].value === 2 || promotionForm.controls['subType'].value === 3">
                 <div>
                   <h5>Spend & Save Money </h5>
                 </div>
 
-                <mat-radio-group formControlName="spendAndSaveMoneyOption" class="col-md-6">
-                  <mat-radio-button class="col-md-3" [value]="1">
+                <mat-radio-group formControlName="subType" class="col-md-6">
+                  <mat-radio-button class="col-md-3" [value]="2">
                     Save Credit
                   </mat-radio-button>
-                  <mat-radio-button class="col-md-3" [value]="2">
+                  <mat-radio-button class="col-md-3" [value]="3">
                     Free Item
                   </mat-radio-button>
                 </mat-radio-group>
 
-                <div *ngIf="promotionForm.controls['spendAndSaveMoneyOption'].value === 2">
+                <div *ngIf="promotionForm.controls['subType'].value === 2">
                   <div class="col-md-12">
                     <div class="row">
                       <div class="col-md-4">
                         <mat-form-field>
                           <mat-label>Order Min Amount</mat-label>
                           <input formControlName="minOrderAmount" matInput placeholder="Order Min Amount">
-                          <mat-error>Please enter integer order count</mat-error>
+                          <mat-error>Please enter integer order amount</mat-error>
                         </mat-form-field>
                       </div>
 
@@ -117,7 +117,49 @@
                         <mat-form-field>
                           <mat-label>Order Max Amount</mat-label>
                           <input formControlName="maxOrderAmount" matInput placeholder="Order Max Amount">
-                          <mat-error>Please enter integer order count</mat-error>
+                          <mat-error>Please enter integer order amount</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-12">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <mat-label>Discount Min Amount</mat-label>
+                          <input formControlName="minDiscountAmount" matInput placeholder="No. of Free Items(Min)">
+                          <mat-error>Please enter integer discount amount</mat-error>
+                        </mat-form-field>
+                      </div>
+
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <mat-label>Discount Max Amount</mat-label>
+                          <input formControlName="maxDiscountAmount" matInput placeholder="No. of Free Items(Max)">
+                          <mat-error>Please enter integer discount amount</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="promotionForm.controls['subType'].value === 3">
+                  <div class="col-md-12">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <mat-label>Order Min Amount</mat-label>
+                          <input formControlName="minOrderAmount" matInput placeholder="Order Min Amount">
+                          <mat-error>Please enter integer order amount</mat-error>
+                        </mat-form-field>
+                      </div>
+
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <mat-label>Order Max Amount</mat-label>
+                          <input formControlName="maxOrderAmount" matInput placeholder="Order Max Amount">
+                          <mat-error>Please enter integer order amount</mat-error>
                         </mat-form-field>
                       </div>
                     </div>
@@ -142,61 +184,19 @@
                       </div>
                     </div>
                   </div>
-                </div>
-
-                <div *ngIf="promotionForm.controls['spendAndSaveMoneyOption'].value === 1">
-                  <div class="col-md-12">
-                    <div class="row">
-                      <div class="col-md-4">
-                        <mat-form-field>
-                          <mat-label>Order Min Amount</mat-label>
-                          <input formControlName="minOrderAmount" matInput placeholder="Order Min Amount">
-                          <mat-error>Please enter integer order count</mat-error>
-                        </mat-form-field>
-                      </div>
-
-                      <div class="col-md-4">
-                        <mat-form-field>
-                          <mat-label>Order Max Amount</mat-label>
-                          <input formControlName="maxOrderAmount" matInput placeholder="Order Max Amount">
-                          <mat-error>Please enter integer order count</mat-error>
-                        </mat-form-field>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-12">
-                    <div class="row">
-                      <div class="col-md-4">
-                        <mat-form-field>
-                          <mat-label>Discount Min Amount</mat-label>
-                          <input formControlName="minDiscountAmount" matInput placeholder="No. of Free Items(Min)">
-                          <mat-error>Please enter integer item count</mat-error>
-                        </mat-form-field>
-                      </div>
-
-                      <div class="col-md-4">
-                        <mat-form-field>
-                          <mat-label>Discount Max Amount</mat-label>
-                          <input formControlName="maxDiscountAmount" matInput placeholder="No. of Free Items(Max)">
-                          <mat-error>Please enter integer item count</mat-error>
-                        </mat-form-field>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                </div>               
 
               </mat-card>
 
-              <mat-card *ngIf="promotionForm.controls['subType'].value === 3">
+              <mat-card *ngIf="promotionForm.controls['subType'].value === 4">
                 <div>
                   <h5>Discounts</h5>
                 </div>
 
                 <div class="col-md-12">
                   <div class="row">
-                    <mat-radio-group formControlName="percentageOption" class="col-md-3">
-                      <mat-radio-button class="col-md-3" [value]="1">
+                    <mat-radio-group formControlName="subType" class="col-md-3">
+                      <mat-radio-button class="col-md-3" [value]="4">
                         Percentage
                       </mat-radio-button>
 

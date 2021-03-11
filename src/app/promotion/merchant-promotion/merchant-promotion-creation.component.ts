@@ -38,7 +38,7 @@ export class MerchantPromotionCreationComponent {
   deliveryDiscountType: string[] = ['Free delivery', 'Discount'];
   discountTypes: string[] = ['Amount', 'Percentage'];
   promotionId: number;
-  promotionTypes = [{ value: 1, type: "Buy & Get Free Item" }, { value: 2, type: "Spend & Save Money" }, { value: 3, type: "Discount" }];
+  promotionTypes = [{ value: 1, type: "Buy & Get Free Item" }, { value: 2, type: "Spend & Save Money" }, { value: 4, type: "Discount" }];
   merchantList: any;
   isMerchantSet: boolean = false;
   isUpdate: boolean = false;
@@ -54,8 +54,6 @@ export class MerchantPromotionCreationComponent {
       name: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
       subType: new FormControl('', [Validators.required]),
-      spendAndSaveMoneyOption: new FormControl(1),
-      percentageOption: new FormControl(1),
       allShop: new FormControl(false),
       merchants: new FormControl(),
       imageUrl: new FormControl('', [Validators.required]),
@@ -121,8 +119,13 @@ export class MerchantPromotionCreationComponent {
       this.promotionForm.get('minFreeItemCount').clearValidators();
       this.promotionForm.get('minDiscountPercentage').clearValidators();
       this.promotionForm.get('maxDiscountPercentage').clearValidators();
+
       this.promotionForm.get('buyItemCount').clearValidators();
       this.promotionForm.get('freeItemCount').clearValidators();
+
+      this.promotionForm.get('minDiscountAmount').clearValidators();
+      this.promotionForm.get('maxDiscountAmount').clearValidators();
+
 
       this.promotionForm.get('minOrderAmount').reset();
       this.promotionForm.get('maxOrderAmount').reset();
@@ -132,22 +135,28 @@ export class MerchantPromotionCreationComponent {
       this.promotionForm.get('maxDiscountPercentage').reset();
       this.promotionForm.get('buyItemCount').reset();
       this.promotionForm.get('freeItemCount').reset();
+      this.promotionForm.get('minDiscountAmount').reset();
+      this.promotionForm.get('maxDiscountAmount').reset();
+
 
 
       if (value === 1) {
         this.promotionForm.get('buyItemCount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
         this.promotionForm.get('freeItemCount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
 
-
-
       } else if (value === 2) {
         this.promotionForm.get('minOrderAmount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
         this.promotionForm.get('maxOrderAmount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
-        this.promotionForm.get('maxFreeItemCount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
-        this.promotionForm.get('minFreeItemCount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
-
+        this.promotionForm.get('minDiscountAmount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
+        this.promotionForm.get('maxDiscountAmount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
 
       } else if (value === 3) {
+        this.promotionForm.get('minOrderAmount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
+        this.promotionForm.get('maxOrderAmount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
+        this.promotionForm.get('minFreeItemCount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
+        this.promotionForm.get('maxFreeItemCount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
+
+      } else if (value === 4) {
         this.promotionForm.get('minDiscountPercentage').setValidators([Validators.required, Validators.pattern("^[0-9]*(\.[0-9]{1,2})?$")]);
         this.promotionForm.get('maxDiscountPercentage').setValidators([Validators.required, Validators.pattern("^[0-9]*(\.[0-9]{1,2})?$")]);
       }
@@ -155,7 +164,6 @@ export class MerchantPromotionCreationComponent {
   }
 
   patchValues(promotion, isUpdate) {
-
     if (!isUpdate) {
       this.isNotView = false;
       this.promotionForm.disable();
@@ -167,19 +175,22 @@ export class MerchantPromotionCreationComponent {
       this.promotionForm.get('buyItemCount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
       this.promotionForm.get('freeItemCount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
 
-    } else if (promotion.subType === 2) {
+    } else if (promotion.type === 2) {
+      console.log("works great")
       this.promotionForm.get('minOrderAmount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
       this.promotionForm.get('maxOrderAmount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
-      this.promotionForm.get('maxFreeItemCount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
-      this.promotionForm.get('minFreeItemCount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
-      this.promotionForm.get('maxDiscountAmount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
       this.promotionForm.get('minDiscountAmount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
-      this.promotionForm.get('spendAndSaveMoneyOption').setValidators([Validators.required]);
+      this.promotionForm.get('maxDiscountAmount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
 
-    } else if (promotion.subType === 3) {
+    } else if (promotion.type === 3) {
+      this.promotionForm.get('minOrderAmount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
+      this.promotionForm.get('maxOrderAmount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
+      this.promotionForm.get('minFreeItemCount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
+      this.promotionForm.get('maxFreeItemCount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
+
+    } else if (promotion.type === 4) {
       this.promotionForm.get('minDiscountPercentage').setValidators([Validators.required, Validators.pattern("^[0-9]*(\.[0-9]{1,2})?$")]);
       this.promotionForm.get('maxDiscountPercentage').setValidators([Validators.required, Validators.pattern("^[0-9]*(\.[0-9]{1,2})?$")]);
-      this.promotionForm.get('percentageOption').setValidators([Validators.required]);
     }
 
 
@@ -194,15 +205,13 @@ export class MerchantPromotionCreationComponent {
       buyItemCount: promotion.buyItemCount,
       freeItemCount: promotion.freeItemCount,
 
-      spendAndSaveMoneyOption: promotion.spendAndSaveMoneyOption,
       minOrderAmount: promotion.minOrderAmount,
       maxOrderAmount: promotion.maxOrderAmount,
       minFreeItemCount: promotion.minFreeItemCount,
       maxFreeItemCount: promotion.maxFreeItemCount,
       minDiscountAmount: promotion.minDiscountAmount,
-      maxDiscountAmount: promotion.minDiscountAmount,
+      maxDiscountAmount: promotion.maxDiscountAmount,
 
-      percentageOption: promotion.percentageOption,
       minDiscountPercentage: promotion.minDiscountPercentage,
       maxDiscountPercentage: promotion.maxDiscountPercentage,
     });
@@ -255,9 +264,6 @@ export class MerchantPromotionCreationComponent {
       promotion.allShop = allShop;
       promotion.type = promotion.subType;
       delete promotion.subType;
-
-      promotion.spendAndSaveMoneyOption = promotion.minOrderAmount ? promotion.spendAndSaveMoneyOption : null;
-      promotion.percentageOption = promotion.minDiscountPercentage ? promotion.percentageOption : null;
 
       promotion.status = 1;
       promotion.imageUrl = this.imageSrc;
