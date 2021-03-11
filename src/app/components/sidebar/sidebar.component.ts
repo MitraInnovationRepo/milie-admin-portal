@@ -6,10 +6,11 @@ declare interface RouteInfo {
   title: string;
   icon: string;
   class: string;
+  subTitle?: any;
 }
 export const ROUTES: RouteInfo[] = [
   { path: '/dashboard', title: 'Dashboard', icon: 'dashboard', class: '' },
-  { path: '/promotion', title: 'Promotions', icon: 'local_parking', class: '' },
+  { path: '', title: 'Promotions', icon: 'local_parking', class: '', subTitle: [{ path: '/promotion/merchant', title: 'Merchant' }, { path: '/promotion/customer', title: 'Customer' }] },
   { path: '/shop', title: 'Shops', icon: 'storefront', class: '' },
   { path: '/bulk-upload', title: 'Bulk Upload', icon: 'upload', class: '' },
   { path: '/payment', title: 'Payments', icon: 'money', class: '' },
