@@ -38,7 +38,7 @@ export class MerchantPromotionCreationComponent {
   deliveryDiscountType: string[] = ['Free delivery', 'Discount'];
   discountTypes: string[] = ['Amount', 'Percentage'];
   promotionId: number;
-  promotionTypes = [{ value: 1, type: "Buy & Get Free Item" }, { value: 2, type: "Spend & Save Money" }, { value: 4, type: "Discount" }];
+  promotionTypes = [{ value: 1, type: "Buy & Get Free Item" }, { value: 2, type: "Spend & Save Money" }, { value: 3, type: "Spend & Save Money" }, { value: 4, type: "Discount" }, { value: 5, type: "Discount" }];
   merchantList: any;
   isMerchantSet: boolean = false;
   isUpdate: boolean = false;
@@ -176,7 +176,6 @@ export class MerchantPromotionCreationComponent {
       this.promotionForm.get('freeItemCount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
 
     } else if (promotion.type === 2) {
-      console.log("works great")
       this.promotionForm.get('minOrderAmount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
       this.promotionForm.get('maxOrderAmount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
       this.promotionForm.get('minDiscountAmount').setValidators([Validators.required, Validators.pattern("^([1-9][0-9]*)$")]);
