@@ -9,4 +9,5 @@ export class PendingPayment {
     totalPayable: number;
     startDate: string;
     endDate: string;
+    paymentStatus: number;
 }

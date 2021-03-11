@@ -52,7 +52,7 @@ export class PaymentsComponent {
             .subscribe(
                 result => {
                     this.pendingPaymentList = result;
-                    this.dataSource = new MatTableDataSource(result.filter(i => i.totalPayable > 0));
+                    this.dataSource = new MatTableDataSource(result.filter(i => i.paymentStatus == 0));
                     this.dataSource.paginator = this.paginator;
                     this.dataSource.sort = this.sort;
                     this.ngxService.stop();
@@ -103,8 +103,8 @@ export class PaymentsComponent {
         });
     }
 
-    openOrdersDialog(shopCode, totalPayable) {
-        let isPaid = totalPayable == 0 ? true : false;
+    openOrdersDialog(shopCode, paymentStatus) {
+        let isPaid = paymentStatus == 1 ? true : false;
         let dialogRef = this.dialog.open(PaymentPendingOrderComponent, {
             width: '1000px',
             data: { shopCode: shopCode, date: this.date.value, isPaid: isPaid }
@@ -121,10 +121,10 @@ export class PaymentsComponent {
     onPaymentStatusChange() {
         var paymentList;
         if (this.paymentStatus === "pending") {
-            paymentList = this.pendingPaymentList.filter(i => i.totalPayable > 0);
+            paymentList = this.pendingPaymentList.filter(i => i.paymentStatus == 0);
         }
         else if (this.paymentStatus === "paid") {
-            paymentList = this.pendingPaymentList.filter(i => i.totalPayable == 0);
+            paymentList = this.pendingPaymentList.filter(i => i.paymentStatus == 1);
         }
         if (this.paymentStatus === "all") {
             paymentList = this.pendingPaymentList;
@@ -135,7 +135,7 @@ export class PaymentsComponent {
     }
 
     download() {
-        let status = 2;
+        let status = -1;
         if (this.paymentStatus === "pending") {
             status = 0
         }
