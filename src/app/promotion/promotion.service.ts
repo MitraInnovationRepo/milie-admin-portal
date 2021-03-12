@@ -47,12 +47,12 @@ export class PromotionService{
     }
 
     addMerchantPromotion(promotion){
-        const url = API_URL + `/shop-promotion`;
+        const url = API_URL + `/shop-promotion/promotion-template`;
         return this.http.post(url, promotion);
     }
 
     updateMerchantPromotion(promotion){
-        const url = API_URL + `/shop-promotion`;
+        const url = API_URL + `/shop-promotion/promotion-template`;
         return this.http.put(url, promotion);
     }
 
@@ -62,7 +62,7 @@ export class PromotionService{
     }
 
     deleteMerchantPromotion(id){
-        const url = API_URL + `/shop-promotion/${id}`;
+        const url = API_URL + `/shop-promotion/promotion-template/${id}`;
         return this.http.delete(url);
     }
 
