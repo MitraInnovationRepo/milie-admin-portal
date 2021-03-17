@@ -52,7 +52,7 @@
               </div>
 
               <div class="d-flex align-items-center justify-content-md-between row">
-                <mat-form-field class="col-md-6" appearance="fill">
+                <mat-form-field class="col-md-4" appearance="fill">
                   <mat-label>Select a type</mat-label>
                   <mat-select formControlName="subType">
                     <mat-option *ngFor="let promotion of promotionTypes" [value]="promotion.value">{{promotion.type}}
@@ -256,10 +256,9 @@
               <mat-checkbox formControlName="allShop" class="col-md-2" (click)="ToggleIsMerchantSet()">All Merchants
               </mat-checkbox>
               <div *ngIf="promotionForm.controls['allShop'].value === false">
-                <div class="d-flex align-items-center justify-content-md-between row col-md-8" *ngIf="isNotView">
-                  <mat-form-field appearance="fill">
+                <div class="d-flex align-items-center justify-content-md-between row col-md-12" *ngIf="isNotView">
+                  <mat-form-field class="col-md-4" appearance="fill">
                     <mat-label>Add Merchant</mat-label>
-                    <!-- <mat-select [formControl]="merchants" multiple> -->
                     <mat-select multiple>
                       <mat-option (onSelectionChange)="getValues($event)" *ngFor="let merchant of merchantList"
                         [value]="merchant">{{merchant.name}}</mat-option>
