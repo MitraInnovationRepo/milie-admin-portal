@@ -167,7 +167,7 @@ export class PromotionCreationComponent {
                         this.messageService.snakBarSuccessMessage('Promotion Updated Successfully');
                     }
                     this.ngxService.stop();
-                    this.router.navigate(['/promotion']);
+                    this.router.navigate(['/promotion/customer']);
                 }
             );
         }

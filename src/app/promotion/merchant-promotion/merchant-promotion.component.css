@@ -34,3 +34,9 @@ table {
     color:white;
     background-color: rgb(2, 201, 22);
 }
+
+::ng-deep .mat-tooltip {
+    white-space: pre-line;
+    font-size: small;
+}
+
