@@ -127,8 +127,18 @@
 
                 <div class="row">
                     <div class="col-4">
-                        <button (click)="download()" [disabled]="pendingPaymentList.length > 0 ? false : true"  class="pull-left pay-button" mat-raised-button
-                            color="primary">Download</button>
+                        <button mat-button [matMenuTriggerFor]="menu" [disabled]="pendingPaymentList.length > 0 ? false : true"  class="pull-left pay-button" color="primary" >
+                            Download
+                            <mat-icon>keyboard_arrow_down</mat-icon>
+                          </button>
+                          <mat-menu #menu="matMenu">
+                            <button mat-menu-item (click)="downloadPDF()">
+                              <span>PDF</span>
+                            </button>
+                            <button mat-menu-item (click)="downloadExcel()">
+                              <span>Excel</span>
+                            </button>
+                          </mat-menu>
                     </div>
                     <div class="col-4">
 

@@ -134,7 +134,7 @@ export class PaymentsComponent {
         this.dataSource.sort = this.sort;
     }
 
-    download() {
+    downloadExcel(){
         let status = -1;
         if (this.paymentStatus === "pending") {
             status = 0
@@ -142,10 +142,33 @@ export class PaymentsComponent {
         else if (this.paymentStatus === "paid") {
             status = 1
         }
+        this.ngxService.start();
+
+        this.paymentService.downloadReport(FileType.excel, this.date.value, status)
+            .subscribe(
+                result => {
+                    this.ngxService.stop();
+                    var blob = FileUtility.Base64ToBlob(result.base64String, result.type);
+                    var url= window.URL.createObjectURL(blob);
+                    window.open(url);
+                }
+            );
+    }
+
+    downloadPDF() {
+        let status = -1;
+        if (this.paymentStatus === "pending") {
+            status = 0
+        }
+        else if (this.paymentStatus === "paid") {
+            status = 1
+        }
+        this.ngxService.start();
 
         this.paymentService.downloadReport(FileType.pdf, this.date.value, status)
             .subscribe(
                 result => {
+                    this.ngxService.stop();
                     var blob = FileUtility.Base64ToBlob(result.base64String, result.type);
                     var url= window.URL.createObjectURL(blob);
                     window.open(url);
