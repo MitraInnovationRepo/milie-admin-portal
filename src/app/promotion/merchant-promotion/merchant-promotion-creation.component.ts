@@ -271,7 +271,7 @@ export class MerchantPromotionCreationComponent {
       if (promotion.id) {
         this.promotionService.updateMerchantPromotion(promotion).subscribe(
           result => {
-            this.messageService.snakBarSuccessMessage('You have successfully updated the new promotion template');
+            this.messageService.snakBarSuccessMessage('You have successfully edited and saved the promotion');
             this.router.navigate(['/promotion/merchant']);
           }, error => {
             this.ngxService.stop();
