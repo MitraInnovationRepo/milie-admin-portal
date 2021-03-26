@@ -303,7 +303,8 @@ export class MerchantPromotionCreationComponent {
   }
 
   getValues(event) {
-    if (event.source._selected) {
+    debugger
+    if (event.source._selected && event.isUserInput) {
       this.merchants.push(event.source.value);
       this.dataSource = new MatTableDataSource(this.merchants);
       this.merchantList = this.merchantList.filter(element => element.id !== event.source.value.id);
@@ -324,8 +325,15 @@ export class MerchantPromotionCreationComponent {
   }
 
   handleFileInput(files: FileList) {
-    this.ngxService.start();
     var file = files.item(0);
+
+    if(!file.name.toLowerCase().endsWith('.jpg') && 
+    !file.name.toLowerCase().endsWith('.jpeg') &&
+    !file.name.toLowerCase().endsWith('.png')) {
+      this.messageService.snakBarErrorMessage('Invalid Image File');
+      return false;
+    }
+
     const formData = new FormData();
     formData.append('file', file, file.name)
     this.ngxService.start();

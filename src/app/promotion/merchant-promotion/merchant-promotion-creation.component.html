@@ -36,6 +36,7 @@
                   <!-- <input formControlName="imageUrl" type="file" id="file" -->
                   <input type="file" id="file" (change)="handleFileInput($event.target.files)"
                     [ngStyle]="{'color':(!fileUploaded)?'red':'black'}">
+                  <p>JPEG/PNG</p>
                 </div>
                 <div class="col-md-6" *ngIf="imageSrc">
                   <img id="blah" width="200" height="100" src="api/file/download/{{imageSrc}}" alt="Uploded image" />
