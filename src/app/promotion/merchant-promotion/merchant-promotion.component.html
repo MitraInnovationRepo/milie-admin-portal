@@ -30,7 +30,7 @@
           <ng-container matColumnDef="promotionType">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Promotion Type </th>
             <td mat-cell *matCellDef="let row">
-              {{row.type==1?'Buy & Get Free'
+              {{row.type==1? 'Buy '+row.buyItemCount+' & Get '+row.freeItemCount+' Free'
               :(row.type==2||row.type==3)?'Spend and Save money'
               :(row.type==4||row.type==5)?'Discount':
               ''}} </td>
