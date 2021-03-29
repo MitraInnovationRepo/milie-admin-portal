@@ -43,6 +43,7 @@ export class MerchantPromotionCreationComponent {
   isMerchantSet: boolean = false;
   isUpdate: boolean = false;
   isNotView: boolean = true;
+  selectedMerchant: number[];
 
   imageSrc: String;
   fileUploaded: boolean = false;
@@ -232,6 +233,8 @@ export class MerchantPromotionCreationComponent {
   removeCustomer(id) {
     var element = this.merchants.filter(i => i.id == id)[0];
     this.merchantList.unshift(element);
+    this.selectedMerchant = [];
+
     var index = this.merchants.indexOf(element);
     this.merchants.splice(index, 1);
     this.dataSource = new MatTableDataSource(this.merchants);
@@ -271,7 +274,7 @@ export class MerchantPromotionCreationComponent {
       if (promotion.id) {
         this.promotionService.updateMerchantPromotion(promotion).subscribe(
           result => {
-            this.messageService.snakBarSuccessMessage('You have successfully updated the new promotion template');
+            this.messageService.snakBarSuccessMessage('You have successfully edited and saved the promotion');
             this.router.navigate(['/promotion/merchant']);
           }, error => {
             this.ngxService.stop();
@@ -303,7 +306,7 @@ export class MerchantPromotionCreationComponent {
   }
 
   getValues(event) {
-    if (event.source._selected) {
+    if (event.source._selected && event.isUserInput) {
       this.merchants.push(event.source.value);
       this.dataSource = new MatTableDataSource(this.merchants);
       this.merchantList = this.merchantList.filter(element => element.id !== event.source.value.id);
@@ -324,8 +327,15 @@ export class MerchantPromotionCreationComponent {
   }
 
   handleFileInput(files: FileList) {
-    this.ngxService.start();
     var file = files.item(0);
+
+    if(!file.name.toLowerCase().endsWith('.jpg') && 
+    !file.name.toLowerCase().endsWith('.jpeg') &&
+    !file.name.toLowerCase().endsWith('.png')) {
+      this.messageService.snakBarErrorMessage('Invalid Image File');
+      return false;
+    }
+
     const formData = new FormData();
     formData.append('file', file, file.name)
     this.ngxService.start();
