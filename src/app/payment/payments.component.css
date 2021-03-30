@@ -1,13 +1,30 @@
 table {
     width: 100%;
+    display: block;
+    overflow-x: auto;
+    white-space: normal;
+} 
+
+.date-width{
+    min-width: 100px;
+}
+
+.shop-name-width{
+    min-width: 280px;
+}
+
+.amount-width{
+    min-width: 115px;
 }
 
 .mat-header-cell {
     text-align: center !important;
+    padding-left: 7px;
 }
 
 .mat-cell{
     text-align: center !important;
+    padding-left: 7px;
 }
 
 .action-button{
@@ -15,5 +32,14 @@ table {
 }
 
 .pay-button{
+    margin: 20px 20px 20px 0px;
+}
+
+.download-button{
+    margin: 20px 10px 20px 10px;
+}
+
+.btn-div{
     margin: 20px;
+    padding-left: 10%;
 }
