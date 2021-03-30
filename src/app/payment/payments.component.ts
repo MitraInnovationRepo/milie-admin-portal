@@ -42,8 +42,8 @@ export class PaymentsComponent {
     ngOnInit(): void {
         this.currencyCode = Currency.Code.concat(" ");
         this.paymentStatus = "pending";
-        this.ngxService.start();
-        this.getPayments();
+            this.ngxService.start();
+            this.getPayments();
     }
 
     getPayments() {
@@ -192,13 +192,6 @@ export class PaymentsComponent {
                     this.getPayments().add(() => {
                         this.messageService.snakBarSuccessMessage("Payment posted successfully");
                     });
-
-                    // this.messageService.snakBarSuccessMessage("Payment posted successfully")
-                    // this.router.routeReuseStrategy.shouldReuseRoute = function () {
-                    //     return false;
-                    // }
-                    // this.router.onSameUrlNavigation = 'reload';
-                    // this.router.navigate(['/payment']);
                 },
                 error => {
                     this.ngxService.stop();
