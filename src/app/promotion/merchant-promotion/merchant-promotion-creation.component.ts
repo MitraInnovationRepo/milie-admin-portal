@@ -7,7 +7,9 @@ import { UserService } from 'app/core/service/user.service';
 import { MessageService } from 'app/shared/services/message.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { MerchantPromotion } from './merchant-promotion';
+import { PromotionDuplicateDialogComponent } from './dialog/promotion-duplicate-dialog/promotion-duplicate-dialog.component';
 import { FileService } from 'app/shared/services/file.service';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -26,6 +28,7 @@ export class MerchantPromotionCreationComponent {
     private ngxService: NgxUiLoaderService,
     private router: Router,
     private fileService: FileService,
+    private dialog: MatDialog
   ) { }
   promotionForm: FormGroup;
 
@@ -243,6 +246,21 @@ export class MerchantPromotionCreationComponent {
     }
   }
 
+  duplicatePromotion(promotion) {
+    this.ngxService.start();
+    promotion.id = 0;
+    this.promotionService.addMerchantPromotion(promotion).subscribe(
+      result => {
+        this.ngxService.stop();
+        this.messageService.snakBarSuccessMessage('You have successfully saved the new promotion template');
+        this.router.navigate(['/promotion/merchant']);
+      }, error => {
+        this.ngxService.stop();
+        this.messageService.snakBarErrorMessage('Error in saving the new promotion template')
+      }
+    )
+  }
+
   submitPromotion(promotion) {
     this.ngxService.start();
     if (this.promotionForm.valid || this.promotionId != null) {
@@ -271,16 +289,45 @@ export class MerchantPromotionCreationComponent {
 
       promotion.status = 1;
       promotion.imageUrl = this.imageSrc;
+
+
+
       if (promotion.id) {
-        this.promotionService.updateMerchantPromotion(promotion).subscribe(
+        this.promotionService.verifyRunningPromotions(promotion.id).subscribe(
           result => {
-            this.messageService.snakBarSuccessMessage('You have successfully edited and saved the promotion');
-            this.router.navigate(['/promotion/merchant']);
+            debugger
+            let hasExistingShopPromotions = result;
+            if (hasExistingShopPromotions) {
+              this.ngxService.stop();
+              let dialogDeletePromotionRef = this.dialog.open(PromotionDuplicateDialogComponent, {
+                width: '400px',
+                data: {
+                  promotion: promotion,
+                  duplicatePromotion: (promotion: any) => {
+                    this.duplicatePromotion(promotion)
+                  }
+                }
+              });
+            }
+            else {
+              this.promotionService.updateMerchantPromotion(promotion).subscribe(
+                result => {
+                  this.messageService.snakBarSuccessMessage('You have successfully edited and saved the promotion');
+                  this.router.navigate(['/promotion/merchant']);
+                }, error => {
+                  this.ngxService.stop();
+                  this.messageService.snakBarErrorMessage('Error in updating the new promotion template')
+                }
+              )
+            }
           }, error => {
+            console.log('log verify: '+ error);
             this.ngxService.stop();
             this.messageService.snakBarErrorMessage('Error in updating the new promotion template')
           }
         )
+
+
       } else {
         this.promotionService.addMerchantPromotion(promotion).subscribe(
           result => {
@@ -293,9 +340,8 @@ export class MerchantPromotionCreationComponent {
           }
         )
       }
-
-
     }
+
   }
 
   ToggleIsMerchantSet() {
@@ -329,9 +375,9 @@ export class MerchantPromotionCreationComponent {
   handleFileInput(files: FileList) {
     var file = files.item(0);
 
-    if(!file.name.toLowerCase().endsWith('.jpg') && 
-    !file.name.toLowerCase().endsWith('.jpeg') &&
-    !file.name.toLowerCase().endsWith('.png')) {
+    if (!file.name.toLowerCase().endsWith('.jpg') &&
+      !file.name.toLowerCase().endsWith('.jpeg') &&
+      !file.name.toLowerCase().endsWith('.png')) {
       this.messageService.snakBarErrorMessage('Invalid Image File');
       return false;
     }
