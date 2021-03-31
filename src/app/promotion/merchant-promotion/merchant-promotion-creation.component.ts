@@ -295,7 +295,6 @@ export class MerchantPromotionCreationComponent {
       if (promotion.id) {
         this.promotionService.verifyRunningPromotions(promotion.id).subscribe(
           result => {
-            debugger
             let hasExistingShopPromotions = result;
             if (hasExistingShopPromotions) {
               this.ngxService.stop();
@@ -321,7 +320,6 @@ export class MerchantPromotionCreationComponent {
               )
             }
           }, error => {
-            console.log('log verify: '+ error);
             this.ngxService.stop();
             this.messageService.snakBarErrorMessage('Error in updating the new promotion template')
           }
