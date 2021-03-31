@@ -51,8 +51,8 @@ export class PromotionCreationComponent {
             minOrderAmount: new FormControl('', [Validators.required]),
             maxOrderAmount: new FormControl('', [Validators.required]),
             maxDiscountAmount: new FormControl('', [Validators.required]),
-            startTime: new FormControl('09:00', [Validators.required]),
-            endTime: new FormControl('09:00', [Validators.required])
+            startTime: new FormControl(''),
+            endTime: new FormControl('')
         });
 
         this.route.params.subscribe(params => {
@@ -148,6 +148,10 @@ export class PromotionCreationComponent {
             promotion.allCustomer = allCustomer;
             promotion.isMerchantPromo = 0;
 
+            if (promotion.startTime == '' || promotion.endTime == '') {
+                promotion.startTime = '00:00';
+                promotion.endTime = '23:59';
+            }
             var temStart = promotion.startTime.split(":");
             var temEnd = promotion.endTime.split(":");
             delete promotion.startTime;
@@ -167,7 +171,7 @@ export class PromotionCreationComponent {
                         this.messageService.snakBarSuccessMessage('Promotion Updated Successfully');
                     }
                     this.ngxService.stop();
-                    this.router.navigate(['/promotion']);
+                    this.router.navigate(['/promotion/customer']);
                 }
             );
         }

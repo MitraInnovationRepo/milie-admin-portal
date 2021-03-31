@@ -3,7 +3,7 @@
     Foodie Admin Portal
   </div>
 </div>
-<div class="sidebar-wrapper">
+<div class="sidebar-wrapper sidenav">
   <div *ngIf="isMobileMenu()">
     <form class="navbar-form">
       <span class="bmd-form-group">
@@ -24,17 +24,21 @@
         <p>{{menuItem.title}}</p>
       </a>
 
-      <a class="nav-link" *ngIf="menuItem.subTitle">
+      <a routerLinkActive="active" class="nav-link" *ngIf="menuItem.subTitle" data-toggle="collapse"
+        href="#collapseExample">
         <i class="material-icons">{{menuItem.icon}}</i>
         <p>{{menuItem.title}}</p>
       </a>
-      <ul class="nav">
-        <li routerLinkActive="active" *ngFor="let subtitle of menuItem.subTitle" class="subtitle nav-item">
-          <a class="nav-link" [routerLink]="[subtitle.path]">
-            <p>{{subtitle.title}}</p>
-          </a>
-        </li>
-      </ul>
+      <div class="collapse" id="collapseExample">
+        <ul class="nav">
+          <li routerLinkActive="active" *ngFor="let subtitle of menuItem.subTitle" class="subtitle nav-item">
+            <a class="nav-link" [routerLink]="[subtitle.path]">
+              <p>{{subtitle.title}}</p>
+            </a>
+          </li>
+        </ul>
+      </div>
     </li>
+
   </ul>
 </div>
