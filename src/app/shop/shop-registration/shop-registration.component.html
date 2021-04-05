@@ -1,0 +1,513 @@
+<ngx-ui-loader></ngx-ui-loader>
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">Shop</h4>
+                        <p class="card-category">Configure Merchants</p>
+                    </div>
+
+                    <div class="card-body">
+                        <br>
+                        <form [formGroup]="shopForm" style="display: grid;">
+
+                            <h3 style="padding: 10px;">Merchant Details</h3>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>Merchant Name</mat-label>
+                                        <input matInput formControlName="name" placeholder="Enter Merchant Name">
+                                        <mat-error>Please Enter Merchant Name</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>Merchant Code</mat-label>
+                                        <input matInput formControlName="shopCode">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>Buisness Registration Number</mat-label>
+                                        <input matInput formControlName="businessRegistrationNumber"
+                                            placeholder="Buisness Registration Number">
+
+                                    </mat-form-field>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>Buisness Address</mat-label>
+                                        <input matInput formControlName="address" placeholder="Enter Buisness Address">
+                                        <mat-error>Please Enter Merchant Address</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>District</mat-label>
+                                        <input type="text" placeholder="Enter District Name" matInput
+                                            formControlName="district" [matAutocomplete]="auto">
+                                        <mat-error>Please Select Merchant District</mat-error>
+                                        <mat-icon matSuffix style="font-size: 1.5em">search</mat-icon>
+                                        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                                            <mat-option (onSelectionChange)="setDistrict(option)"
+                                                *ngFor="let option of filteredOptions | async" [value]="option.name">
+                                                {{option.name}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>City</mat-label>
+                                        <input type="text" placeholder="Enter City Name" matInput formControlName="city"
+                                            [matAutocomplete]="auto1">
+                                        <mat-error>Please Select Merchant City</mat-error>
+                                        <mat-icon matSuffix style="font-size: 1.5em">search</mat-icon>
+                                        <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete">
+                                            <mat-option (onSelectionChange)="setCity(option)"
+                                                *ngFor="let option of filteredOptions2 | async" [value]="option.name">
+                                                {{option.name}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>Location</mat-label>
+                                        <!-- <input matInput #search formControlName="location" placeholder="Google Location" id="place" autocomplete="off" autocapitalize="off" spellcheck="off"> -->
+                                        <input matInput formControlName="location" matInput matGoogleMapsAutocomplete
+                                        type="text"
+                                            #search [country]="sl"
+                                            (onAutocompleteSelected)="onAutocompleteSelected($event)"
+                                            placeholder="Search Google Location"
+                                            (onLocationSelected)="onLocationSelected($event)">
+                                        <mat-error>Please Enter Location</mat-error>
+                                        <mat-icon matSuffix style="font-size: 1.5em">search</mat-icon>
+
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>Contact Number</mat-label>
+                                        <input matInput formControlName="secondaryPhoneNumber"
+                                            placeholder="Primary Contact Number  ex: 777123456">
+                                        <mat-error>Please Enter Contact Number</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>Mobile Number</mat-label>
+                                        <input matInput formControlName="primaryPhoneNumber"
+                                            placeholder="Secondery Contact Number  ex: 777123456">
+                                        <mat-error>Please Enter Mobile Number</mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>Buisness Email</mat-label>
+                                        <input type="email" matInput formControlName="email"
+                                            placeholder="Enter Buisness Email">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 imageinput1" id="image-uploader">
+                                    <mat-label>Shop Image</mat-label>
+                                    <br>
+                                    <input formControlName="imageName" type="file" id="file"
+                                        (change)="handleFileInput($event.target.files)"
+                                        [ngStyle]="{'color':(!fileUploaded)?'red':'black'}">
+                                </div>
+
+                                <div class="col-md-6">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Resturent Category</mat-label>
+                                        <mat-select disableOptionCentering formControlName="shopType" multiple>
+                                            <mat-option *ngFor="let shoptype of shopTypeList" [value]="shoptype">
+                                                {{shoptype.name}}</mat-option>
+                                        </mat-select>
+                                        <mat-error>Please Select ShopTypes</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 imageinput1">
+                                    <div *ngIf="imageSrc else elseBlock">
+                                        <img id="blah" width="200" height="150" src="api/file/download/{{imageSrc}}"
+                                            alt="Uploded image" />
+                                    </div>
+
+                                    <ng-template style="width: 200; height: 100;" #elseBlock>Input Image.</ng-template>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Price Range</mat-label>
+                                        <mat-select disableOptionCentering name="price" formControlName="priceRange">
+                                            <mat-option *ngFor="let price of prices" [value]="price">
+                                                {{price}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error>Please Select Price Range</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <mat-list>
+                                <mat-divider></mat-divider>
+                            </mat-list>
+
+                            <br>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>Commission Rate</mat-label>
+                                        <input matInput formControlName="commission"
+                                            placeholder="Enter commission rate percentage">
+                                        <span matSuffix>%</span>
+                                        <mat-error>Please Enter Commission Rate</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>Minimum order value</mat-label>
+                                        <input matInput formControlName="minimumOrderAmount"
+                                            placeholder="Enter Minimum Order Value">
+                                        <mat-error>Please Enter Minimum Order Value</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>Preparation Time</mat-label>
+                                        <input matInput formControlName="preparationTime"
+                                            placeholder="Enter Preparation Time in Minutes">
+                                        <span matSuffix>Minutes</span>
+                                        <mat-error>Please Enter Preparation Time in Minutes</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+
+                            <mat-list>
+                                <br>
+                                <mat-divider></mat-divider>
+                                <br>
+                            </mat-list>
+
+                            <h3>Contact Persons</h3>
+
+                            <div class="row table-topic">
+                                <p *ngIf="isNotApprow" class="addnew" (click)="onAddNewContact()">
+                                    <mat-icon class="add-circle">add_circle</mat-icon>
+                                   <u>Add Contact Person</u> 
+                                </p>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-10">
+                                    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+
+                                        <ng-container matColumnDef="type">
+                                            <th mat-header-cell *matHeaderCellDef> Primary / Secondery </th>
+                                            <td mat-cell *matCellDef="let element"> {{(element.primaryContact==1) ?
+                                                'Primary' : 'Secondery'}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="name">
+                                            <th mat-header-cell *matHeaderCellDef>Name </th>
+                                            <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="mobile">
+                                            <th mat-header-cell *matHeaderCellDef> Mobile </th>
+                                            <td mat-cell *matCellDef="let element"> {{element.phoneNumber}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="email">
+                                            <th mat-header-cell *matHeaderCellDef> Email </th>
+                                            <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="action">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                                            <td mat-cell *matCellDef="let element">
+                                                <mat-icon *ngIf="isNotApprow" class="delete-icon"
+                                                    (click)="deleteContact(element)">delete
+                                                </mat-icon>
+                                            </td>
+                                        </ng-container>
+
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                    </table>
+                                </div>
+
+                            </div>
+
+                            <mat-list>
+                                <br>
+                                <mat-divider></mat-divider><br>
+                            </mat-list>
+
+                            <h3>Bank Details</h3>
+
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>Bank</mat-label>
+                                        <input type="search" placeholder="Enter Bank Name" matInput
+                                            formControlName="bank" [matAutocomplete]="auto3">
+                                        <mat-icon matSuffix style="font-size: 1.5em">search</mat-icon>
+                                        <mat-autocomplete autoActiveFirstOption #auto3="matAutocomplete">
+                                            <mat-option (onSelectionChange)="setBank(option)"
+                                                *ngFor="let option of filteredOptions3 | async" [value]="option.name">
+                                                {{option.name}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>Branch</mat-label>
+                                        <input type="text" placeholder="Enter Bank Branch" matInput
+                                            formControlName="branch" [matAutocomplete]="auto4">
+                                        <mat-icon matSuffix style="font-size: 1.5em">search</mat-icon>
+                                        <mat-autocomplete autoActiveFirstOption #auto4="matAutocomplete">
+                                            <mat-option (onSelectionChange)="setBranch(option)"
+                                                *ngFor="let option of filteredOptions4 | async" [value]="option.name">
+                                                {{option.name}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>Account Name</mat-label>
+                                        <input matInput formControlName="accountName" placeholder="Enter Account Name">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>Account Number</mat-label>
+                                        <input matInput formControlName="accountNumber"
+                                            placeholder="Enter Account Number">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-6 imageinput1" id="image-uploader">
+                                    <mat-label>Account Image</mat-label>
+                                    <br>
+                                    <input formControlName="accountPassbookImage" type="file" id="file"
+                                        (change)="handleFileInput1($event.target.files)"
+                                        [ngStyle]="{'color':(!fileUploaded1)?'red':'black'}">
+                                </div>
+                                <div class="col-md-6">
+                                    <div *ngIf="imageSrc1 else elseBlock1">
+                                        <img id="blah" width="200" height="100" src="api/file/download/{{imageSrc1}}"
+                                            alt="Uploded image" />
+                                    </div>
+
+                                    <ng-template style="width: 200; height: 100;" #elseBlock1>Input Image.</ng-template>
+                                </div>
+
+                            </div>
+
+                            <br>
+
+                            <h3>Resturent Hours</h3>
+
+                            <div class="row table-topic">
+                                <p class="addnew" (click)="onAddWorkingHours()" *ngIf="isNotApprow">
+                                    <mat-icon class="add-circle">add_circle</mat-icon>
+                                    <u>Resturent Hours</u>
+                                </p>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <table mat-table [dataSource]="dataSource1" class="mat-elevation-z8">
+                                        <ng-container matColumnDef="day">
+                                            <th mat-header-cell *matHeaderCellDef> Day </th>
+                                            <td mat-cell *matCellDef="let element"> {{daylist[element.day]}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="closed">
+                                            <th mat-header-cell *matHeaderCellDef>Closed </th>
+                                            <td mat-cell *matCellDef="let element">
+                                                <mat-checkbox [checked]="element.closedAllDay" [disabled]="true">
+                                                </mat-checkbox>
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="opentime">
+                                            <th mat-header-cell *matHeaderCellDef> Open Time </th>
+                                            <td mat-cell *matCellDef="let element"> {{transform(element.startHour |
+                                                date:'HH:mm')}}</td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="closetime">
+                                            <th mat-header-cell *matHeaderCellDef> Close Time </th>
+                                            <td mat-cell *matCellDef="let element"> {{transform(element.endHour |
+                                                date:'HH:mm')}}
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="action">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                                            <td mat-cell *matCellDef="let element">
+                                                <mat-icon *ngIf="isNotApprow" class="delete-icon"
+                                                    (click)="deleteHours(element)">delete
+                                                </mat-icon>
+                                            </td>
+                                        </ng-container>
+
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
+                                    </table>
+                                </div>
+
+                            </div>
+
+                            <mat-list>
+                                <br>
+                                <mat-divider></mat-divider>
+                            </mat-list>
+
+                            <div class="row table-topic">
+                                <a>
+                                    Merchant Document
+                                </a>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <table mat-table [dataSource]="dataSource2" class="mat-elevation-z8">
+
+                                        <ng-container matColumnDef="docname">
+                                            <th mat-header-cell *matHeaderCellDef> Document Name </th>
+                                            <td mat-cell *matCellDef="let element">
+                                                 <input  *ngIf="datalist2.indexOf(element)==0; else elsedoc" matInput type="text" formControlName="document1"> 
+                                                 <ng-template #elsedoc><input matInput type="text" formControlName="document2"></ng-template>
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="upload">
+                                            <th mat-header-cell *matHeaderCellDef>Upload </th>
+                                            <td mat-cell *matCellDef="let element">
+                                                <input [disabled]="!isNotApprow" type="file" id="file"
+                                                    (change)="handleFileInput2($event.target.files , element)"
+                                                    #fileInput hidden>
+                                                <mat-icon [ngClass]="element.url != null ? 'uploaded': 'not-uploaded' "
+                                                    style="cursor: pointer;" (click)="fileInput.click()">upload
+                                                </mat-icon>
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="document">
+                                            <th mat-header-cell *matHeaderCellDef> Document </th>
+                                            <td mat-cell *matCellDef="let row">
+                                                <a *ngIf="row.url != null" href="api/file/download/{{row.url}}"
+                                                    target="_blank">
+                                                    <mat-icon>visibility</mat-icon>
+                                                </a>
+
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="action">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                                            <td mat-cell *matCellDef="let row">
+                                                <mat-icon *ngIf="isNotApprow" class="delete-icon"
+                                                    (click)="deleteDocument(row)">delete
+                                                </mat-icon>
+                                            </td>
+                                        </ng-container>
+
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+                                    </table>
+                                </div>
+
+                            </div>
+                            <mat-list>
+                                <br>
+                                <mat-divider></mat-divider>
+                            </mat-list>
+
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <mat-form-field class="col-md-10">
+                                        <mat-label>Account Manager</mat-label>
+                                        <input type="search" placeholder="Enter Account Manager" matInput
+                                            formControlName="accountManager" [matAutocomplete]="auto5">
+                                            <mat-error>Please Select Manager</mat-error>
+                                        <mat-icon matSuffix style="font-size: 1.5em">search</mat-icon>
+                                        <mat-autocomplete  #auto5="matAutocomplete">
+                                            <mat-option (onSelectionChange)="setManager(option)"
+                                                *ngFor="let option of filteredOptions6 | async" [value]="option.name">
+                                                {{option.name}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <div class="d-flex justify-content-end">
+
+                                        <button *ngIf="isUpdate && isNotApprow" class="submit btnapprove" type="submit"
+                                            mat-raised-button color="primary" (click)="onSave(shopForm.value)"
+                                            [disabled]="!shopForm.valid || !contactUploaded">Update</button>
+                                        <button *ngIf="!isUpdate && isNotApprow" class="submit btnapprove" type="submit"
+                                            mat-raised-button color="primary" (click)="onSave(shopForm.value)"
+                                            [disabled]="!shopForm.valid || !contactUploaded">Save</button>
+                                        <button *ngIf="isNotApprow" class="submit" type="submit" mat-raised-button
+                                            color="warn" (click)="onCancel()">Cancel</button>
+                                        <button class="btnapprove" *ngIf="!isUpdate && !isNotApprow" mat-raised-button
+                                            color="primary" (click)=confirmationAction(true)>Approve</button>
+                                        <button *ngIf="!isUpdate && !isNotApprow" mat-raised-button color="warn"
+                                            (click)=confirmationAction(false)>Reject</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

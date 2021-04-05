@@ -21,4 +21,14 @@ export class UserService{
         const url = API_URL + `/users/shop`;
         return this.http.post<ApiResponse>(url, user);
     }
+
+    getAllUsers(){
+        const url = API_URL + `/users/all`;
+        return this.http.get<User[]>(url);
+    }
+
+    getAllUsersByName(val){
+        const url = API_URL + `/users/all/${val}`;
+        return this.http.get<User[]>(url);
+    }
 }

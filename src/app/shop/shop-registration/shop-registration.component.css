@@ -1,0 +1,61 @@
+table th{
+  font-weight: 600;
+}
+
+.delete-icon {
+  color: red;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.add-circle{
+  color: green;
+}
+
+.addnew{
+  color: green;
+  display: flex;
+}
+
+.addnew:hover{
+  cursor: pointer;
+  color: rgb(73, 194, 73);
+}
+
+.table-topic{
+  padding: 10px 0px;
+  margin-left: 10px;
+}
+
+table{
+  width: 100%;
+}
+
+::ng-deep .mat-tooltip {
+  white-space: pre-line;
+  font-size: small;
+}
+
+/* ::ng-deep.mat-dialog-container {
+  z-index: 500 !important;
+} */
+
+.cdk-overlay-container{
+  z-index: 500 ;
+}
+
+.uploaded{
+  color:green;
+}
+
+.not-uploaded{
+  color: black;
+}
+
+.imageinput1{
+  padding-left: 30px;
+}
+
+.btnapprove{
+  margin-right: 10px;
+}

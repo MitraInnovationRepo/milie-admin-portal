@@ -1,0 +1,97 @@
+<mat-dialog-content class="mat-typography">
+    <div class="main-content">
+        <div class="container-fluid">
+            <mat-accordion>
+                <div class="row">
+                    <mat-toolbar>
+                        <div class="col-md-6">
+                            <span>Add New Contact</span>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex justify-content-end">
+                                <button class="btn-dialog-close" mat-stroked-button color="primary" tabIndex="-1" (click) = "closeAddContact()"><mat-icon>clear</mat-icon></button>
+                            </div>
+                        </div> 
+                    </mat-toolbar>    
+                </div>
+               
+                <form [formGroup]=newContactForm>
+                    <br>
+                    <mat-radio-group aria-label="Select an option" formControlName = "primaryContact">
+                        <mat-radio-button [value] = 1 [disabled] = "primaryUser">Primary</mat-radio-button>
+                        <mat-radio-button [value] = 0>Secondery</mat-radio-button>
+                    </mat-radio-group>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <mat-form-field>
+                                <mat-label>User Name</mat-label>
+                                <input matInput formControlName="firstName" placeholder="Enter User Name">
+                                <mat-error>Please Enter User name</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field>
+                                <mat-label>Mobile Number</mat-label>
+                                <input matInput formControlName="phoneNumber" placeholder="Enter Mobile Number Eg 777123123">
+                                <mat-error>Please Enter 9 digit Mobile Number</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <mat-form-field>
+                                <mat-label>Email</mat-label>
+                                <input type="email" matInput formControlName="email" placeholder="Enter User Email">
+                                <mat-error>Please Enter Email</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                            <button mat-raised-button color="accent"   [disabled]="!newContactForm.valid" (click)= "addContact(newContactForm.value)">Add Contact</button>
+                        </div>
+                    </div>
+                    <div class="mat-elevation-z8 col-md-10" >
+                        <table mat-table [dataSource]="dataSource" matSort>
+
+                            <ng-container matColumnDef="type">
+                                <th mat-header-cell *matHeaderCellDef> User Type</th>
+                                <td mat-cell *matCellDef="let element"> {{(element.primaryContact==1) ? 'Primary' : 'Secondery'}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="name">
+                                <th mat-header-cell *matHeaderCellDef>Name </th>
+                                <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="mobile">
+                                <th mat-header-cell *matHeaderCellDef> Mobile </th>
+                                <td mat-cell *matCellDef="let element"> {{element.phoneNumber}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="email">
+                                <th mat-header-cell *matHeaderCellDef> Email </th>
+                                <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="action">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                                <td mat-cell *matCellDef="let row">
+                                    <mat-icon class="delete-icon">delete</mat-icon>
+                                </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-end">
+                        <button mat-raised-button color="primary" [disabled]="!isUpdated" (click) = saveContactList()>Save</button>
+                    </div>
+                </form>
+            </mat-accordion>
+        </div>
+    </div>
+</mat-dialog-content>

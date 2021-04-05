@@ -70,7 +70,7 @@ export class ShopCreationComponent implements OnInit {
                         this.shopService.getShop(id)
                             .subscribe(
                                 result => {
-                                    this.patchValues(result);
+                                    // this.patchValues(result);
                                     this.ngxService.stop();
                                     this.fileUploaded = true;
                                 }
