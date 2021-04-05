@@ -56,7 +56,7 @@ export class AuthInterceptor implements HttpInterceptor {
                 );
         }
         else {
-
+            this.authenticationService.logout();
         }
     }
 }

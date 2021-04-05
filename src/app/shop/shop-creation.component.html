@@ -55,7 +55,7 @@
                             </div>
 
                             <div class="row">
-                                <mat-form-field class="col-md-12" appearance="fill">
+                                <mat-form-field class="col-md-4" appearance="fill">
                                     <mat-label>Select a type</mat-label>
                                     <mat-select formControlName="shopType" required>
                                         <mat-option *ngFor="let shopType of shopTypeList" [value]="shopType.id">
@@ -129,17 +129,20 @@
                             </div>
 
                             <div class="row">
-                                <mat-form-field class="col-md-6" appearance="fill">
-                                    <mat-label>Select a range</mat-label>
-                                    <mat-select formControlName="priceRange" required>
-                                        <mat-option value="Cheap">
-                                            Budget</mat-option>
-                                        <mat-option value="Average">
-                                            Average</mat-option>
-                                        <mat-option value="Expensive">
-                                            Expensive</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
+                                <div class="col-md-6">
+                                    <mat-form-field class="col-md-8" appearance="fill">
+                                        <mat-label>Select a range</mat-label>
+                                        <mat-select formControlName="priceRange" required>
+                                            <mat-option value="Cheap">
+                                                Budget</mat-option>
+                                            <mat-option value="Average">
+                                                Average</mat-option>
+                                            <mat-option value="Expensive">
+                                                Expensive</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+
                                 <div class="col-md-6">
                                     <mat-form-field class="col-md-10">
                                         <mat-label>Minimum Order Amount</mat-label>

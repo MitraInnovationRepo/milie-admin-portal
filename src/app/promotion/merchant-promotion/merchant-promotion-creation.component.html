@@ -13,13 +13,13 @@
 
               <mat-form-field>
                 <mat-label>Promotion name</mat-label>
-                <input matInput formControlName="name" placeholder="Enter promotion name">
+                <input matInput formControlName="name" placeholder="Enter promotion name" autocomplete="off">
                 <mat-error>Please enter promotion name</mat-error>
               </mat-form-field>
 
               <mat-form-field>
                 <mat-label>Description</mat-label>
-                <input matInput formControlName="description" placeholder="Enter description">
+                <input matInput formControlName="description" placeholder="Enter description" autocomplete="off">
                 <mat-error>Please enter description</mat-error>
               </mat-form-field>
 
@@ -36,6 +36,7 @@
                   <!-- <input formControlName="imageUrl" type="file" id="file" -->
                   <input type="file" id="file" (change)="handleFileInput($event.target.files)"
                     [ngStyle]="{'color':(!fileUploaded)?'red':'black'}">
+                  <p>JPEG, PNG</p>
                 </div>
                 <div class="col-md-6" *ngIf="imageSrc">
                   <img id="blah" width="200" height="100" src="api/file/download/{{imageSrc}}" alt="Uploded image" />
@@ -52,7 +53,7 @@
               </div>
 
               <div class="d-flex align-items-center justify-content-md-between row">
-                <mat-form-field class="col-md-6" appearance="fill">
+                <mat-form-field class="col-md-4" appearance="fill">
                   <mat-label>Select a type</mat-label>
                   <mat-select formControlName="subType">
                     <mat-option *ngFor="let promotion of promotionTypes" [value]="promotion.value">{{promotion.type}}
@@ -72,7 +73,7 @@
                     <div class="col-md-4">
                       <mat-form-field>
                         <mat-label>No. of Items</mat-label>
-                        <input formControlName="buyItemCount" matInput placeholder="No. of Items">
+                        <input formControlName="buyItemCount" matInput placeholder="No. of Items" autocomplete="off">
                         <mat-error>Please enter integer item count</mat-error>
                       </mat-form-field>
                     </div>
@@ -80,7 +81,7 @@
                     <div class="col-md-4">
                       <mat-form-field>
                         <mat-label>No. of Free Items</mat-label>
-                        <input formControlName="freeItemCount" matInput placeholder="No. of Free Items">
+                        <input formControlName="freeItemCount" matInput placeholder="No. of Free Items" autocomplete="off">
                         <mat-error>Please enter integer item count</mat-error>
                       </mat-form-field>
                     </div>
@@ -109,7 +110,7 @@
                       <div class="col-md-4">
                         <mat-form-field>
                           <mat-label>Order Min Amount</mat-label>
-                          <input formControlName="minOrderAmount" matInput placeholder="Order Min Amount">
+                          <input formControlName="minOrderAmount" matInput placeholder="Order Min Amount" autocomplete="off">
                           <mat-error>Please enter integer order amount</mat-error>
                         </mat-form-field>
                       </div>
@@ -117,7 +118,7 @@
                       <div class="col-md-4">
                         <mat-form-field>
                           <mat-label>Order Max Amount</mat-label>
-                          <input formControlName="maxOrderAmount" matInput placeholder="Order Max Amount">
+                          <input formControlName="maxOrderAmount" matInput placeholder="Order Max Amount" autocomplete="off">
                           <mat-error>Please enter integer order amount</mat-error>
                         </mat-form-field>
                       </div>
@@ -129,7 +130,7 @@
                       <div class="col-md-4">
                         <mat-form-field>
                           <mat-label>Discount Min Amount</mat-label>
-                          <input formControlName="minDiscountAmount" matInput placeholder="No. of Free Items(Min)">
+                          <input formControlName="minDiscountAmount" matInput placeholder="Discount Min Amount" autocomplete="off">
                           <mat-error>Please enter integer discount amount</mat-error>
                         </mat-form-field>
                       </div>
@@ -137,7 +138,7 @@
                       <div class="col-md-4">
                         <mat-form-field>
                           <mat-label>Discount Max Amount</mat-label>
-                          <input formControlName="maxDiscountAmount" matInput placeholder="No. of Free Items(Max)">
+                          <input formControlName="maxDiscountAmount" matInput placeholder="Discount Max Amount" autocomplete="off">
                           <mat-error>Please enter integer discount amount</mat-error>
                         </mat-form-field>
                       </div>
@@ -151,7 +152,7 @@
                       <div class="col-md-4">
                         <mat-form-field>
                           <mat-label>Order Min Amount</mat-label>
-                          <input formControlName="minOrderAmount" matInput placeholder="Order Min Amount">
+                          <input formControlName="minOrderAmount" matInput placeholder="Order Min Amount" autocomplete="off">
                           <mat-error>Please enter integer order amount</mat-error>
                         </mat-form-field>
                       </div>
@@ -159,7 +160,7 @@
                       <div class="col-md-4">
                         <mat-form-field>
                           <mat-label>Order Max Amount</mat-label>
-                          <input formControlName="maxOrderAmount" matInput placeholder="Order Max Amount">
+                          <input formControlName="maxOrderAmount" matInput placeholder="Order Max Amount" autocomplete="off">
                           <mat-error>Please enter integer order amount</mat-error>
                         </mat-form-field>
                       </div>
@@ -171,7 +172,7 @@
                       <div class="col-md-4">
                         <mat-form-field>
                           <mat-label>No. of Free Items(Min)</mat-label>
-                          <input formControlName="minFreeItemCount" matInput placeholder="No. of Free Items(Min)">
+                          <input formControlName="minFreeItemCount" matInput placeholder="No. of Free Items(Min)" autocomplete="off">
                           <mat-error>Please enter integer item count</mat-error>
                         </mat-form-field>
                       </div>
@@ -179,7 +180,7 @@
                       <div class="col-md-4">
                         <mat-form-field>
                           <mat-label>No. of Free Items(Max)</mat-label>
-                          <input formControlName="maxFreeItemCount" matInput placeholder="No. of Free Items(Max)">
+                          <input formControlName="maxFreeItemCount" matInput placeholder="No. of Free Items(Max)" autocomplete="off">
                           <mat-error>Please enter integer item count</mat-error>
                         </mat-form-field>
                       </div>
@@ -256,11 +257,10 @@
               <mat-checkbox formControlName="allShop" class="col-md-2" (click)="ToggleIsMerchantSet()">All Merchants
               </mat-checkbox>
               <div *ngIf="promotionForm.controls['allShop'].value === false">
-                <div class="d-flex align-items-center justify-content-md-between row col-md-8" *ngIf="isNotView">
-                  <mat-form-field appearance="fill">
+                <div class="d-flex align-items-center justify-content-md-between row col-md-12" *ngIf="isNotView">
+                  <mat-form-field class="col-md-4" appearance="fill">
                     <mat-label>Add Merchant</mat-label>
-                    <!-- <mat-select [formControl]="merchants" multiple> -->
-                    <mat-select multiple>
+                    <mat-select multiple [(value)]="selectedMerchant">
                       <mat-option (onSelectionChange)="getValues($event)" *ngFor="let merchant of merchantList"
                         [value]="merchant">{{merchant.name}}</mat-option>
                     </mat-select>
@@ -284,7 +284,7 @@
                       <td mat-cell *matCellDef="let element">
                         <button *ngIf="isNotView" (click)="removeCustomer(element.id)" type="button" mat-mini-fab
                           class="btn-remove-customer">
-                          <mat-icon>remove</mat-icon>
+                          <mat-icon>delete</mat-icon>
                         </button>
                       </td>
                     </ng-container>
@@ -295,13 +295,10 @@
                 </div>
               </div>
               <hr>
-              <div class="d-flex justify-content-center">
-                <button *ngIf="!isUpdate && isNotView" mat-raised-button color="primary"
+              <div class="d-flex justify-content-end">
+                <button *ngIf="isNotView" mat-raised-button color="primary"
                   [disabled]="!promotionForm.valid || !isMerchantSet"
                   (click)="submitPromotion(promotionForm.value)">Save</button>
-                <button *ngIf="isUpdate && isNotView" mat-raised-button color="primary"
-                  [disabled]="!promotionForm.valid || !isMerchantSet"
-                  (click)="submitPromotion(promotionForm.value)">Update</button>
                 <button *ngIf="isNotView" mat-raised-button color="warn" (click)="cancelUpdate()"
                   [ngStyle]="{'margin-left':'10px'}">Cancel</button>
               </div>

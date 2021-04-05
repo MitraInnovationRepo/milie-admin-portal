@@ -7,7 +7,9 @@ import { UserService } from 'app/core/service/user.service';
 import { MessageService } from 'app/shared/services/message.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { MerchantPromotion } from './merchant-promotion';
+import { PromotionDuplicateDialogComponent } from './dialog/promotion-duplicate-dialog/promotion-duplicate-dialog.component';
 import { FileService } from 'app/shared/services/file.service';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -26,6 +28,7 @@ export class MerchantPromotionCreationComponent {
     private ngxService: NgxUiLoaderService,
     private router: Router,
     private fileService: FileService,
+    private dialog: MatDialog
   ) { }
   promotionForm: FormGroup;
 
@@ -43,6 +46,7 @@ export class MerchantPromotionCreationComponent {
   isMerchantSet: boolean = false;
   isUpdate: boolean = false;
   isNotView: boolean = true;
+  selectedMerchant: number[];
 
   imageSrc: String;
   fileUploaded: boolean = false;
@@ -232,12 +236,29 @@ export class MerchantPromotionCreationComponent {
   removeCustomer(id) {
     var element = this.merchants.filter(i => i.id == id)[0];
     this.merchantList.unshift(element);
+    this.selectedMerchant = [];
+
     var index = this.merchants.indexOf(element);
     this.merchants.splice(index, 1);
     this.dataSource = new MatTableDataSource(this.merchants);
     if (this.merchants.length === 0) {
       this.isMerchantSet = false;
     }
+  }
+
+  duplicatePromotion(promotion) {
+    this.ngxService.start();
+    promotion.id = 0;
+    this.promotionService.addMerchantPromotion(promotion).subscribe(
+      result => {
+        this.ngxService.stop();
+        this.messageService.snakBarSuccessMessage('You have successfully saved the new promotion template');
+        this.router.navigate(['/promotion/merchant']);
+      }, error => {
+        this.ngxService.stop();
+        this.messageService.snakBarErrorMessage('Error in saving the new promotion template')
+      }
+    )
   }
 
   submitPromotion(promotion) {
@@ -268,16 +289,43 @@ export class MerchantPromotionCreationComponent {
 
       promotion.status = 1;
       promotion.imageUrl = this.imageSrc;
+
+
+
       if (promotion.id) {
-        this.promotionService.updateMerchantPromotion(promotion).subscribe(
+        this.promotionService.verifyRunningPromotions(promotion.id).subscribe(
           result => {
-            this.messageService.snakBarSuccessMessage('You have successfully updated the new promotion template');
-            this.router.navigate(['/promotion/merchant']);
+            let hasExistingShopPromotions = result;
+            if (hasExistingShopPromotions) {
+              this.ngxService.stop();
+              let dialogDeletePromotionRef = this.dialog.open(PromotionDuplicateDialogComponent, {
+                width: '400px',
+                data: {
+                  promotion: promotion,
+                  duplicatePromotion: (promotion: any) => {
+                    this.duplicatePromotion(promotion)
+                  }
+                }
+              });
+            }
+            else {
+              this.promotionService.updateMerchantPromotion(promotion).subscribe(
+                result => {
+                  this.messageService.snakBarSuccessMessage('You have successfully edited and saved the promotion');
+                  this.router.navigate(['/promotion/merchant']);
+                }, error => {
+                  this.ngxService.stop();
+                  this.messageService.snakBarErrorMessage('Error in updating the new promotion template')
+                }
+              )
+            }
           }, error => {
             this.ngxService.stop();
             this.messageService.snakBarErrorMessage('Error in updating the new promotion template')
           }
         )
+
+
       } else {
         this.promotionService.addMerchantPromotion(promotion).subscribe(
           result => {
@@ -290,9 +338,8 @@ export class MerchantPromotionCreationComponent {
           }
         )
       }
-
-
     }
+
   }
 
   ToggleIsMerchantSet() {
@@ -303,7 +350,7 @@ export class MerchantPromotionCreationComponent {
   }
 
   getValues(event) {
-    if (event.source._selected) {
+    if (event.source._selected && event.isUserInput) {
       this.merchants.push(event.source.value);
       this.dataSource = new MatTableDataSource(this.merchants);
       this.merchantList = this.merchantList.filter(element => element.id !== event.source.value.id);
@@ -324,8 +371,15 @@ export class MerchantPromotionCreationComponent {
   }
 
   handleFileInput(files: FileList) {
-    this.ngxService.start();
     var file = files.item(0);
+
+    if (!file.name.toLowerCase().endsWith('.jpg') &&
+      !file.name.toLowerCase().endsWith('.jpeg') &&
+      !file.name.toLowerCase().endsWith('.png')) {
+      this.messageService.snakBarErrorMessage('Invalid Image File');
+      return false;
+    }
+
     const formData = new FormData();
     formData.append('file', file, file.name)
     this.ngxService.start();

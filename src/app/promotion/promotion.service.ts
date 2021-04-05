@@ -66,5 +66,11 @@ export class PromotionService{
         return this.http.delete(url);
     }
 
+    verifyRunningPromotions(id){
+        const url = API_URL + `/shop-promotion/promotion-template/verify-usage/${id}`;
+        return this.http.get(url);
+    }
+
+
 }
 

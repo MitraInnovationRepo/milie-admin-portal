@@ -11,8 +11,7 @@
           <div class="card-body">
             <form [formGroup]="promotionForm" style="display: grid;">
               <div class="row">
-                <h4 class="col-md-6">Promotion Type</h4>
-                <mat-form-field class="col-md-6" appearance="fill">
+                <mat-form-field class="col-md-4" appearance="fill">
                   <mat-label>Select a type</mat-label>
                   <mat-select formControlName="type" required>
                     <mat-option *ngFor="let promotionApplicationType of promotionApplicationTypes" [value]="1">
@@ -81,7 +80,7 @@
               </div>
 
               <div class="d-flex align-items-center justify-content-md-between row">
-                <mat-form-field class="col-md-6" appearance="fill">
+                <mat-form-field class="col-md-4" appearance="fill">
                   <mat-label>Select a type</mat-label>
                   <mat-select formControlName="subType">
                     <mat-option [value]="1">Delivery</mat-option>
