@@ -91,7 +91,7 @@
                                         <!-- <input matInput #search formControlName="location" placeholder="Google Location" id="place" autocomplete="off" autocapitalize="off" spellcheck="off"> -->
                                         <input matInput formControlName="location" matInput matGoogleMapsAutocomplete
                                         type="text"
-                                            #search [country]="sl"
+                                            #search [country]=""
                                             (onAutocompleteSelected)="onAutocompleteSelected($event)"
                                             placeholder="Search Google Location"
                                             (onLocationSelected)="onLocationSelected($event)">
