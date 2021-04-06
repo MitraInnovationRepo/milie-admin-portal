@@ -14,6 +14,7 @@ export interface Merchant{
     id:number,
     name : string;
     shopCode:string;
+    status:number;
     businessRegistrationNumber:String;
     address : Address;
     city : City;

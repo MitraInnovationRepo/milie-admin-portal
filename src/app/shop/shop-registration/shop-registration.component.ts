@@ -110,6 +110,7 @@ export class ShopRegistrationComponent implements OnInit {
   documnet1: String;
   documnet2: String;
   isExisting: boolean;
+  status: number;
   shopTypeList: ShopType[];
   selectedTypes: ShopType[] = [];
   selectedManager: User;
@@ -335,6 +336,7 @@ export class ShopRegistrationComponent implements OnInit {
       this.shopForm.disable();
     }
     this.id = merchant.id;
+    this.status = merchant.status;
     this.imageSrc = merchant.imageName;
     this.shopForm.get('imageName').clearValidators();
     this.shopForm.get('imageName').reset();
