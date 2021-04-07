@@ -5,7 +5,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-danger">
-                        <h4 class="card-title">Shop</h4>
+                        <h4 class="card-title">{{title}}</h4>
                         <p class="card-category">Configure Merchants</p>
                     </div>
 
@@ -18,15 +18,16 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <mat-form-field class="col-md-10">
-                                        <mat-label>Merchant Name</mat-label>
-                                        <input matInput formControlName="name" placeholder="Enter Merchant Name">
+                                        <mat-label>Merchant Name*</mat-label>
+                                        <input matInput formControlName="name" placeholder="Enter Merchant Name"
+                                            autocomplete="off">
                                         <mat-error>Please Enter Merchant Name</mat-error>
                                     </mat-form-field>
                                 </div>
                                 <div class="col-md-6">
                                     <mat-form-field class="col-md-10">
                                         <mat-label>Merchant Code</mat-label>
-                                        <input matInput formControlName="shopCode">
+                                        <input matInput formControlName="shopCode" autocomplete="off">
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -36,15 +37,16 @@
                                     <mat-form-field class="col-md-10">
                                         <mat-label>Buisness Registration Number</mat-label>
                                         <input matInput formControlName="businessRegistrationNumber"
-                                            placeholder="Buisness Registration Number">
+                                            placeholder="Buisness Registration Number" autocomplete="off">
 
                                     </mat-form-field>
 
                                 </div>
                                 <div class="col-md-6">
                                     <mat-form-field class="col-md-10">
-                                        <mat-label>Buisness Address</mat-label>
-                                        <input matInput formControlName="address" placeholder="Enter Buisness Address">
+                                        <mat-label>Buisness Address*</mat-label>
+                                        <input matInput formControlName="address" placeholder="Enter Buisness Address"
+                                            autocomplete="off">
                                         <mat-error>Please Enter Merchant Address</mat-error>
                                     </mat-form-field>
                                 </div>
@@ -54,9 +56,9 @@
 
                                 <div class="col-md-6">
                                     <mat-form-field class="col-md-10">
-                                        <mat-label>District</mat-label>
+                                        <mat-label>District*</mat-label>
                                         <input type="text" placeholder="Enter District Name" matInput
-                                            formControlName="district" [matAutocomplete]="auto">
+                                            formControlName="district" [matAutocomplete]="auto" autocomplete="off">
                                         <mat-error>Please Select Merchant District</mat-error>
                                         <mat-icon matSuffix style="font-size: 1.5em">search</mat-icon>
                                         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
@@ -69,9 +71,9 @@
                                 </div>
                                 <div class="col-md-6">
                                     <mat-form-field class="col-md-10">
-                                        <mat-label>City</mat-label>
+                                        <mat-label>City*</mat-label>
                                         <input type="text" placeholder="Enter City Name" matInput formControlName="city"
-                                            [matAutocomplete]="auto1">
+                                            [matAutocomplete]="auto1" autocomplete="off">
                                         <mat-error>Please Select Merchant City</mat-error>
                                         <mat-icon matSuffix style="font-size: 1.5em">search</mat-icon>
                                         <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete">
@@ -87,7 +89,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <mat-form-field class="col-md-10">
-                                        <mat-label>Location</mat-label>
+                                        <mat-label>Location*</mat-label>
                                         <!-- <input matInput #search formControlName="location" placeholder="Google Location" id="place" autocomplete="off" autocapitalize="off" spellcheck="off"> -->
                                         <input matInput formControlName="location" matInput matGoogleMapsAutocomplete
                                             type="text" #search [country]=""
@@ -102,9 +104,9 @@
 
                                 <div class="col-md-6">
                                     <mat-form-field class="col-md-10">
-                                        <mat-label>Contact Number</mat-label>
+                                        <mat-label>Contact Number*</mat-label>
                                         <input matInput formControlName="secondaryPhoneNumber"
-                                            placeholder="Primary Contact Number  ex: 777123456">
+                                            placeholder="Primary Contact Number  ex: 777123456" autocomplete="off">
                                         <mat-error>Please Enter Contact Number</mat-error>
                                     </mat-form-field>
                                 </div>
@@ -113,9 +115,9 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <mat-form-field class="col-md-10">
-                                        <mat-label>Mobile Number</mat-label>
+                                        <mat-label>Mobile Number*</mat-label>
                                         <input matInput formControlName="primaryPhoneNumber"
-                                            placeholder="Secondery Contact Number  ex: 777123456">
+                                            placeholder="Secondery Contact Number  ex: 777123456" autocomplete="off">
                                         <mat-error>Please Enter Mobile Number</mat-error>
                                     </mat-form-field>
                                 </div>
@@ -124,23 +126,24 @@
                                     <mat-form-field class="col-md-10">
                                         <mat-label>Buisness Email</mat-label>
                                         <input type="email" matInput formControlName="email"
-                                            placeholder="Enter Buisness Email">
+                                            placeholder="Enter Buisness Email" autocomplete="off">
                                     </mat-form-field>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-6 imageinput1" id="image-uploader">
-                                    <mat-label>Shop Image</mat-label>
+                                    <mat-label>Restaurant Logo*</mat-label>
                                     <br>
                                     <input formControlName="imageName" type="file" id="file"
                                         (change)="handleFileInput($event.target.files)"
                                         [ngStyle]="{'color':(!fileUploaded)?'red':'black'}">
+                                    <p>JPEG, PNG</p>
                                 </div>
 
                                 <div class="col-md-6">
                                     <mat-form-field appearance="fill">
-                                        <mat-label>Resturent Category</mat-label>
+                                        <mat-label>Restaurent Catergory*</mat-label>
                                         <mat-select disableOptionCentering formControlName="shopType" multiple>
                                             <mat-option *ngFor="let shoptype of shopTypeList" [value]="shoptype">
                                                 {{shoptype.name}}</mat-option>
@@ -162,7 +165,7 @@
 
                                 <div class="col-md-6">
                                     <mat-form-field appearance="fill">
-                                        <mat-label>Price Range</mat-label>
+                                        <mat-label>Price Range*</mat-label>
                                         <mat-select disableOptionCentering name="price" formControlName="priceRange">
                                             <mat-option *ngFor="let price of prices" [value]="price">
                                                 {{price}}
@@ -184,33 +187,40 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <mat-form-field class="col-md-10">
-                                        <mat-label>Commission Rate</mat-label>
+                                        <mat-label>Commission Rate*</mat-label>
                                         <input matInput formControlName="commission"
-                                            placeholder="Enter commission rate percentage">
+                                            placeholder="Enter commission rate percentage" autocomplete="off">
                                         <span matSuffix>%</span>
                                         <mat-error>Please Enter Commission Rate</mat-error>
                                     </mat-form-field>
                                 </div>
                                 <div class="col-md-6">
                                     <mat-form-field class="col-md-10">
-                                        <mat-label>Minimum order value</mat-label>
+                                        <mat-label>Minimum order value*</mat-label>
                                         <input matInput formControlName="minimumOrderAmount"
-                                            placeholder="Enter Minimum Order Value">
+                                            placeholder="Enter Minimum Order Value" autocomplete="off">
                                         <mat-error>Please Enter Minimum Order Value</mat-error>
                                     </mat-form-field>
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <mat-form-field class="col-md-10">
-                                        <mat-label>Preparation Time</mat-label>
-                                        <input matInput formControlName="preparationTime"
-                                            placeholder="Enter Preparation Time in Minutes">
-                                        <span matSuffix>Minutes</span>
-                                        <mat-error>Please Enter Preparation Time in Minutes</mat-error>
-                                    </mat-form-field>
-                                </div>
+                            <p style="margin-left: 14px;">Preparation Time*</p>
+                            <div class="row" style="margin-left: 0px;">
+                                <mat-form-field class="col-md-2">
+                                    <mat-label>Hours*</mat-label>
+                                    <input type="number" matInput formControlName="hour" placeholder=""
+                                        autocomplete="off">
+                                    <span style="font-size: 12px;" matSuffix>Hours</span>
+                                    <mat-error>Please Enter Preparation Time in Hours</mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field class="col-md-2">
+                                    <mat-label>Minutes*</mat-label>
+                                    <input type="number" matInput formControlName="minute" placeholder=""
+                                        autocomplete="off">
+                                    <span style="font-size: 12px;" matSuffix>Minutes</span>
+                                    <mat-error>Please Enter Preparation Time in Minutes</mat-error>
+                                </mat-form-field>
                             </div>
 
 
@@ -239,9 +249,14 @@
                                                 'Primary' : 'Secondery'}} </td>
                                         </ng-container>
 
-                                        <ng-container matColumnDef="name">
-                                            <th mat-header-cell *matHeaderCellDef>Name </th>
+                                        <ng-container matColumnDef="firstname">
+                                            <th mat-header-cell *matHeaderCellDef>First Name</th>
                                             <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="lastname">
+                                            <th mat-header-cell *matHeaderCellDef>Last Name</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
                                         </ng-container>
 
                                         <ng-container matColumnDef="mobile">
@@ -312,14 +327,15 @@
                                 <div class="col-md-6">
                                     <mat-form-field class="col-md-10">
                                         <mat-label>Account Name</mat-label>
-                                        <input matInput formControlName="accountName" placeholder="Enter Account Name">
+                                        <input matInput formControlName="accountName" placeholder="Enter Account Name"
+                                            autocomplete="off">
                                     </mat-form-field>
                                 </div>
                                 <div class="col-md-6">
                                     <mat-form-field class="col-md-10">
                                         <mat-label>Account Number</mat-label>
                                         <input matInput formControlName="accountNumber"
-                                            placeholder="Enter Account Number">
+                                            placeholder="Enter Account Number" autocomplete="off">
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -332,6 +348,7 @@
                                     <input formControlName="accountPassbookImage" type="file" id="file"
                                         (change)="handleFileInput1($event.target.files)"
                                         [ngStyle]="{'color':(!fileUploaded1)?'red':'black'}">
+                                    <p>JPEG, PNG</p>
                                 </div>
                                 <div class="col-md-6">
                                     <div *ngIf="imageSrc1 else elseBlock1">
@@ -346,12 +363,12 @@
 
                             <br>
 
-                            <h3>Resturent Hours</h3>
+                            <h3>Restaurent Hours</h3>
 
                             <div class="row table-topic">
                                 <p class="addnew" (click)="onAddWorkingHours()" *ngIf="isNotApprow">
                                     <mat-icon class="add-circle">add_circle</mat-icon>
-                                    <u>Resturent Hours</u>
+                                    <u>Restaurent Hours</u>
                                 </p>
                             </div>
                             <div class="row">
@@ -417,7 +434,7 @@
                                             <th mat-header-cell *matHeaderCellDef> Document Name </th>
                                             <td mat-cell *matCellDef="let element">
                                                 <input *ngIf="datalist2.indexOf(element)==0; else elsedoc" matInput
-                                                    type="text" formControlName="document1">
+                                                    type="text" formControlName="document1" autocomplete="off">
                                                 <ng-template #elsedoc><input matInput type="text"
                                                         formControlName="document2"></ng-template>
                                             </td>
@@ -471,7 +488,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <mat-form-field class="col-md-10">
-                                        <mat-label>Account Manager</mat-label>
+                                        <mat-label>Account Manager*</mat-label>
                                         <input type="search" placeholder="Enter Account Manager" matInput
                                             formControlName="accountManager" [matAutocomplete]="auto5">
                                         <mat-error>Please Select Manager</mat-error>
@@ -491,10 +508,10 @@
 
                                         <button *ngIf="isUpdate && isNotApprow" class="submit btnapprove" type="submit"
                                             mat-raised-button color="primary" (click)="onSave(shopForm.value)"
-                                            [disabled]="!shopForm.valid || !contactUploaded">Update</button>
+                                            [disabled]="!shopForm.valid || !contactUploaded">Submit</button>
                                         <button *ngIf="!isUpdate && isNotApprow" class="submit btnapprove" type="submit"
                                             mat-raised-button color="primary" (click)="onSave(shopForm.value)"
-                                            [disabled]="!shopForm.valid || !contactUploaded">Save</button>
+                                            [disabled]="!shopForm.valid || !contactUploaded">Submit</button>
                                         <button *ngIf="isNotApprow" class="submit" type="submit" mat-raised-button
                                             color="warn" (click)="onCancel()">Cancel</button>
                                         <button class="btnapprove"

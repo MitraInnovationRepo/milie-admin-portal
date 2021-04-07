@@ -35,8 +35,8 @@ import { of } from 'rxjs';
 declare var google: any;
 
 const DOCUMENTS: DocumentDetails[] = [
-  { id: null, documentType: 'Business Registration Document', url: null },
-  { id: null, documentType: 'other', url: null }
+  { id: null, documentType: 'Document1', url: null },
+  { id: null, documentType: 'Document2', url: null }
 ];
 
 @Component({
@@ -90,7 +90,7 @@ export class ShopRegistrationComponent implements OnInit {
 
   dataSource = new MatTableDataSource(this.datalist);
   dataSource2 = new MatTableDataSource(this.datalist2);
-  displayedColumns: string[] = ['type', 'name', 'mobile', 'email', 'action'];
+  displayedColumns: string[] = ['type', 'firstname', 'lastname', 'mobile', 'email', 'action'];
   displayedColumns1: string[] = ['day', 'closed', 'opentime', 'closetime', 'action'];
   displayedColumns2: string[] = ['docname', 'upload', 'document', 'action'];
   daylist: string[] = ["", 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Mon - Fri', 'Sat - Sun']
@@ -124,8 +124,9 @@ export class ShopRegistrationComponent implements OnInit {
   isUpdate: boolean = true;
   isNotApprow: boolean = true;
   shopCuisineList: MerchantCuisine[] = [];
+  title : string = "Add Merchant";
 
-  prices: string[] = ['budget', 'Average', 'Expensive'];
+  prices: string[] = ['Budget', 'Average', 'Expensive'];
 
   ngOnInit(): void {
     this.ngxService.start();
@@ -144,7 +145,9 @@ export class ShopRegistrationComponent implements OnInit {
       priceRange: new FormControl('', [Validators.required]),
       commission: new FormControl('', [Validators.required, Validators.pattern("^([1-9][0-9]*)$"), Validators.min(0), Validators.max(100)]),
       minimumOrderAmount: new FormControl('', [Validators.required, Validators.pattern("^([1-9][0-9]*)$")]),
-      preparationTime: new FormControl('', [Validators.required, Validators.pattern("^([1-9][0-9]*)$")]),
+      // preparationTime: new FormControl('', [Validators.required, Validators.pattern("^([1-9][0-9]*)$")]),
+      minute: new FormControl(0, [Validators.required, Validators.pattern("^([0-9][0-9]*)$"), Validators.min(0), Validators.max(59)]),
+      hour: new FormControl(0, [Validators.required, Validators.pattern("^([0-9][0-9]*)$")]),
       accountName: new FormControl('', []),
       accountNumber: new FormControl('', []),
       accountPassbookImage: new FormControl('', []),
@@ -191,6 +194,7 @@ export class ShopRegistrationComponent implements OnInit {
       });
     this.districtService.getDistricts().subscribe(result => {
       this.districtList = result;
+      this.districtList.sort((a,b) => Number(a.id)-Number(b.id));
       this.filteredOptions = this.shopForm.get('district').valueChanges.pipe(
         startWith(''),
         map(value => this._filter(value))
@@ -242,10 +246,10 @@ export class ShopRegistrationComponent implements OnInit {
   }
 
   onAutocompleteSelected(result: PlaceResult) {
-    console.log('onAutocompleteSelected: ', result);
+    // console.log('onAutocompleteSelected: ', result);
   }
   onLocationSelected(location: Location) {
-    console.log('onLocationSelected: ', location);
+    // console.log('onLocationSelected: ', location);
     this.latitude = location.latitude;
     this.longitude = location.longitude;
   }
@@ -280,7 +284,6 @@ export class ShopRegistrationComponent implements OnInit {
   }
 
   setManager(value) {
-    console.log(value);
     this.selectedManager = value;
   }
   setBranch(value) {
@@ -329,9 +332,10 @@ export class ShopRegistrationComponent implements OnInit {
 
 
   patchValues(merchant: Merchant) {
-    console.log(merchant)
     this.ngxService.start();
+    this.title = "Update Merchant"
     if (!this.isUpdate) {
+      this.title = "Merchants - Activation"
       this.isNotApprow = false;
       this.shopForm.disable();
     }
@@ -400,7 +404,6 @@ export class ShopRegistrationComponent implements OnInit {
     if (merchant.address != null) {
       this.shopForm.get('address').setValue(merchant.address.billingAddress);
     }
-    console.log(merchant.shopType);
     this.shopForm.patchValue({
       name: merchant.name,
       displayCity: merchant.city,
@@ -413,7 +416,9 @@ export class ShopRegistrationComponent implements OnInit {
       shopCode: merchant.shopCode,
       secondaryPhoneNumber: merchant.secondaryPhoneNumber,
       email: merchant.email,
-      preparationTime: merchant.preparationTime,
+      // preparationTime: merchant.preparationTime,
+      hour: Math.floor(merchant.preparationTime / 60),
+      minute: merchant.preparationTime % 60,
       accountName: merchant.accountName,
     });
     this.ngxService.stop();
@@ -469,13 +474,14 @@ export class ShopRegistrationComponent implements OnInit {
         }
       });
     }
+    shop.preparationTime = shop.hour * 60 + shop.minute;
     shop.shopCuisine = this.shopCuisineList;
     shop.longitude = this.longitude;
     shop.latitude = this.latitude;
     shop.contactList = this.datalist;
     shop.workingHourList = this.datalist1;
-    this.datalist2[0].documentType = shop.document1;
-    this.datalist2[1].documentType = shop.document2;
+    this.datalist2[1].documentType = shop.document2 !="" ? shop.document2 : "Document2";
+    this.datalist2[0].documentType = shop.document1 !="" ? shop.document1 : "Document1";
     shop.documentList = this.datalist2;
     shop.commission = shop.commission / 100;
     var addresstemp = new Address();
@@ -484,8 +490,6 @@ export class ShopRegistrationComponent implements OnInit {
     shop.imageName = this.imageSrc;
     shop.accountPassbookImage = this.imageSrc1;
 
-
-    console.log(shop);
     this.ngxService.start();
     if (shop.id) {
       this.shopService.updateShop(shop).subscribe(
@@ -562,8 +566,16 @@ export class ShopRegistrationComponent implements OnInit {
   }
 
   handleFileInput(files: FileList) {
-    this.fileUploaded = !this.fileUploaded;
+    // this.fileUploaded = !this.fileUploaded;
     var file = files.item(0);
+
+    if (!file.name.toLowerCase().endsWith('.jpg') &&
+      !file.name.toLowerCase().endsWith('.jpeg') &&
+      !file.name.toLowerCase().endsWith('.png')) {
+      this.messageService.snakBarErrorMessage('Invalid Image File');
+      return false;
+    }
+
     const formData = new FormData();
     formData.append('file', file, file.name)
     this.fileService.uploadFile(formData)
@@ -583,8 +595,16 @@ export class ShopRegistrationComponent implements OnInit {
   }
 
   handleFileInput1(files: FileList) {
-    this.fileUploaded1 = !this.fileUploaded1;
+    // this.fileUploaded1 = !this.fileUploaded1;
     var file = files.item(0);
+
+    if (!file.name.toLowerCase().endsWith('.jpg') &&
+      !file.name.toLowerCase().endsWith('.jpeg') &&
+      !file.name.toLowerCase().endsWith('.png')) {
+      this.messageService.snakBarErrorMessage('Invalid Image File');
+      return false;
+    }
+
     const formData = new FormData();
     formData.append('file', file, file.name)
     this.fileService.uploadFile(formData)
@@ -613,11 +633,9 @@ export class ShopRegistrationComponent implements OnInit {
           this.ngxService.start();
           if (element.documentType == this.datalist2[0].documentType) {
             element.url = res;
-            console.log(element.url);
             this.documnet1 = res;
           } else {
             element.url = res;
-            console.log(element.url);
             this.documnet2 = res;
           }
           this.ngxService.stop();
@@ -628,7 +646,6 @@ export class ShopRegistrationComponent implements OnInit {
           this.messageService.snakBarErrorMessage('File Upload Fail.')
         }
       );
-    console.log(this.datalist2);
     this.dataSource2 = new MatTableDataSource(this.datalist2);
   }
 
@@ -643,7 +660,6 @@ export class ShopRegistrationComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log(this.datalist);
       console.log('The dialog was closed');
     });
   }
@@ -690,18 +706,17 @@ export class ShopRegistrationComponent implements OnInit {
     this.dialog.open(MerchantDeleteDialogComponent, {
       data: {
         list: this.datalist,
+        target: 1,
         delete: () => {
           this.deleteSelectedContact(contact);
         }
       }
     });
-    console.log(contact);
   }
 
   deleteSelectedContact(contact: ContactactPerson) {
     this.datalist.forEach((item, index) => {
       if (item === contact) this.datalist.splice(index, 1);
-      console.log(this.datalist.length);
       this.dataSource = new MatTableDataSource(this.datalist);
       this.contactUploaded = this.datalist.length > 0
     });
@@ -711,12 +726,12 @@ export class ShopRegistrationComponent implements OnInit {
     this.dialog.open(MerchantDeleteDialogComponent, {
       data: {
         list: this.displayDays,
+        target: 2,
         delete: () => {
           this.deleteSelectedHours(hourDetails);
         }
       }
     });
-    console.log(hourDetails);
   }
 
   deleteSelectedHours(hours) {
@@ -736,17 +751,24 @@ export class ShopRegistrationComponent implements OnInit {
     this.dialog.open(MerchantDeleteDialogComponent, {
       data: {
         list: this.datalist2,
+        target: 3,
         delete: () => {
           this.deleteSelectedDocument(documentDetails);
         }
       }
     });
-    console.log(documentDetails);
   }
   deleteSelectedDocument(document: DocumentDetails) {
-
     if (document.url != null) {
       document.url = null;
+      if (document.documentType === this.shopForm.get('document1').value) {
+        this.datalist2[0] = DOCUMENTS[0];
+        this.shopForm.get('document1').setValue("Document1");
+      } else {
+        this.datalist2[1] = DOCUMENTS[1];
+        this.shopForm.get('document2').setValue("Document2");
+      }
+      this.dataSource2 = new MatTableDataSource(this.datalist2);
       this.messageService.snakBarSuccessMessage('File removed');
     } else {
       this.messageService.snakBarErrorMessage('No added file');
@@ -801,5 +823,4 @@ export class ShopRegistrationComponent implements OnInit {
     }
   }
 }
-
 

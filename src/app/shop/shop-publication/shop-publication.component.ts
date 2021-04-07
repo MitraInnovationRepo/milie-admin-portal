@@ -140,7 +140,6 @@ export class ShopPublicationComponent implements OnInit {
       this.shopService.getMerchantsByCity(id)
         .subscribe(
           result => {
-            console.log(result);
             this.setTableData(result);
             this.dataSource.paginator = this.paginator;
             this.dataSource.paginator.pageSize = 10;

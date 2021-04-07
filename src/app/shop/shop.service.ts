@@ -37,7 +37,6 @@ export class ShopService{
     }
 
     getShop(id){
-        console.log(id);
         const url = API_URL + `/shops/all/${id}`;
         return this.http.get<Merchant>(url);
     }

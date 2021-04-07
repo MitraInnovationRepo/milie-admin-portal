@@ -10,4 +10,5 @@ export interface MerchantSummary{
     online : boolean,
     displayCity : string,
     displayStatus : string,
+    displayOnline : string,
 }

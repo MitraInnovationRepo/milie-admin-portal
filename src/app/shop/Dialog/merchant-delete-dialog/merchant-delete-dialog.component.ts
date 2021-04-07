@@ -9,6 +9,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class MerchantDeleteDialogComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data:{
+    target: number
     delete:()=>void
   }) { }
 
@@ -17,6 +18,16 @@ export class MerchantDeleteDialogComponent implements OnInit {
 
   delete(){
     this.data.delete();
+  }
+
+  getMassege(){
+    if (this.data.target && this.data.target ===1 ) {
+      return "Are you sure you want to delete this contact person ?"
+    }else if(this.data.target && this.data.target ===2 ){
+      return "Are you sure you want to delete this working hour ?"
+    }else{
+      return "Are you sure you want to delete this document ?"
+    }
   }
 
 }

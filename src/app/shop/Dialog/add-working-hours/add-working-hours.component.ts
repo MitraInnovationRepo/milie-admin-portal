@@ -84,7 +84,6 @@ export class AddWorkingHoursComponent implements OnInit {
     if (hour.startHour != null && hour.endHour != null) {
       var today = new Date();
 
-      console.log(hour);
       var startHourSplit = hour.startHour.split(":");
       var startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), startHourSplit[0], startHourSplit[1], 0);
       var startTime = this.datePipe.transform(startDate, 'yyyy-MM-ddTHH:mm:ss');

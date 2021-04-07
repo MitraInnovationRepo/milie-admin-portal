@@ -31,6 +31,7 @@ export class AddNewContactComponent implements OnInit {
     this.newContactForm = this.formBuilder.group({
       primaryContact : new FormControl('' , [Validators.required]),
       firstName:new FormControl('', [Validators.required]),
+      lastName:new FormControl('', [Validators.required]),
       phoneNumber:new FormControl('', [Validators.required , Validators.pattern("^[0-9]{9}")]),
       email:new FormControl('', []),
     });
@@ -50,7 +51,8 @@ export class AddNewContactComponent implements OnInit {
     }
   }
 
-  saveContactList(){
+  saveContactList(contact : ContactactPerson){
+    this.contactSet.push(contact);
     this.data.addContact(this.contactSet);
     this.dialogRef.close();
   }
@@ -60,14 +62,14 @@ export class AddNewContactComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  addContact(contact : ContactactPerson){
-    this.contactSet.push(contact);
-    this.dataSource = new MatTableDataSource(this.contactSet);
-    this.isExistingPrimary();
-    this.newContactForm.reset();
-    if (this.contactSet.length>2) {
-      this.newContactForm.disable();
-    }
-    this.isUpdated = true;
-  }
+  // addContact(contact : ContactactPerson){
+  //   this.contactSet.push(contact);
+  //   this.dataSource = new MatTableDataSource(this.contactSet);
+  //   this.isExistingPrimary();
+  //   this.newContactForm.reset();
+  //   if (this.contactSet.length>2) {
+  //     this.newContactForm.disable();
+  //   }
+  //   this.isUpdated = true;
+  // }
 }

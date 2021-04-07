@@ -13,7 +13,7 @@
         <div class="container-fluid">
             <mat-accordion>
                 <div>
-                    <p>Are you sure you want to delete this?</p>
+                    <p>{{getMassege()}}</p>
                     <div class="d-flex justify-content-center">
                         <button mat-raised-button mat-dialog-close color="primary"
                             [ngStyle]="{'margin-right':'10px'}" (click) = "delete()">Yes</button>

@@ -58,7 +58,8 @@ export class MerchantComponent implements OnInit {
     result.forEach(element => {
       if (element.status == 1 || element.status == 3 || element.status == 5 || element.status == 2) {
         element.displayCity = element.city != null ? element.city.name :""
-        element.displayStatus = this.getStatus(element.status);
+        element.displayStatus =this.getStatus(element.status);
+        element.displayOnline = element.status==1 ? "Online" : "Offline"
         this.summaryList.push(element);
       }
     });
@@ -97,7 +98,6 @@ export class MerchantComponent implements OnInit {
       this.shopService.getMerchantsByCity(id)
         .subscribe(
           result => {
-            console.log(result);
             this.setTableData(result);
             this.dataSource.paginator = this.paginator;
             this.dataSource.paginator.pageSize = 10;
