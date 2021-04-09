@@ -59,7 +59,7 @@ export class ShopPublicationComponent implements OnInit {
   setTableData(result: MerchantSummary[]) {
     this.summaryList = [];
     result.forEach(element => {
-      if (element.status == 1 || element.status == 5 || element.status == 0 || element.status == 2) {
+      if (element.status == 1 || element.status == 5 || element.status == 0) {
         element.displayCity = element.city != null ? element.city.name : ""
         element.displayStatus = this.getStatus(element.status);
         this.summaryList.push(element);
@@ -71,8 +71,6 @@ export class ShopPublicationComponent implements OnInit {
   getStatus(status) {
     switch (status) {
       case 1:
-        return 'Published'
-      case 2:
         return 'Published'
       case 5:
         return 'Approved'
