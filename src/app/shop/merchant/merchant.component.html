@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-md-4">
                 <mat-form-field appearance="fill">
-                  <mat-label>Enter city</mat-label>
+                  <mat-label>Enter District</mat-label>
                   <mat-select disableOptionCentering  (selectionChange)="filterCity($event.value)" [(value)]="selectedTown">
                     <mat-option value="">All</mat-option>
                     <mat-option value="1">Colombo</mat-option>
@@ -22,7 +22,7 @@
         <mat-accordion>
             <mat-form-field>
                 <mat-label>Filter</mat-label>
-                <input matInput (keyup)="applyFilter($event)" placeholder="Merchant Code , Merchant Name , Mobile Number , City And Status" #input>
+                <input autocomplete="off" matInput (keyup)="applyFilter($event)" placeholder="Merchant Code , Merchant Name , Mobile Number , City And Status" #input>
               </mat-form-field>
               
               <div class="mat-elevation-z8">

@@ -31,6 +31,11 @@ export class ShopService{
         return this.http.get<MerchantSummary[]>(url);
     }
 
+    getMerchantsByDistrict(id){
+        const url = API_URL + `/shops/all/district/${id}`;
+        return this.http.get<MerchantSummary[]>(url);
+    }
+
     getShopType(){
         const url = API_URL + '/shop-types';
         return this.http.get<ShopType[]>(url);

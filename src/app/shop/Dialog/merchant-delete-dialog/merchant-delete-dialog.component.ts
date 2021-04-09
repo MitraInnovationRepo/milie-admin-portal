@@ -22,11 +22,11 @@ export class MerchantDeleteDialogComponent implements OnInit {
 
   getMassege(){
     if (this.data.target && this.data.target ===1 ) {
-      return "Are you sure you want to delete this contact person ?"
+      return "Are you sure you want to delete this contact person?"
     }else if(this.data.target && this.data.target ===2 ){
-      return "Are you sure you want to delete this working hour ?"
+      return "Are you sure you want to delete this working hours?"
     }else{
-      return "Are you sure you want to delete this document ?"
+      return "Are you sure you want to delete this document?"
     }
   }
 

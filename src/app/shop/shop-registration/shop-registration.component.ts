@@ -35,8 +35,8 @@ import { of } from 'rxjs';
 declare var google: any;
 
 const DOCUMENTS: DocumentDetails[] = [
-  { id: null, documentType: 'Document1', url: null },
-  { id: null, documentType: 'Document2', url: null }
+  { id: null, documentType: 'Business Registration Doc', url: null },
+  { id: null, documentType: 'Other', url: null }
 ];
 
 @Component({
@@ -124,7 +124,7 @@ export class ShopRegistrationComponent implements OnInit {
   isUpdate: boolean = true;
   isNotApprow: boolean = true;
   shopCuisineList: MerchantCuisine[] = [];
-  title : string = "Add Merchant";
+  title: string = "Add Merchant";
 
   prices: string[] = ['Budget', 'Average', 'Expensive'];
 
@@ -191,27 +191,28 @@ export class ShopRegistrationComponent implements OnInit {
               );
           }
         });
+      }).add(() => {
+        this.districtService.getDistricts().subscribe(result => {
+          this.districtList = result;
+          this.districtList.sort((a, b) => Number(a.id) - Number(b.id));
+          this.filteredOptions = this.shopForm.get('district').valueChanges.pipe(
+            startWith(''),
+            map(value => this._filter(value))
+          );
+        })
+      }).add(() => {
+        this.bankService.getBanks().subscribe(result => {
+          this.bankList = result;
+          this.filteredOptions3 = this.shopForm.get('bank').valueChanges.pipe(
+            startWith(''),
+            map(value => this._filter3(value))
+          );
+        });
+      }).add(() => {
+        if (history.state.data == null) {
+          this.ngxService.stop();
+        }
       });
-    this.districtService.getDistricts().subscribe(result => {
-      this.districtList = result;
-      this.districtList.sort((a,b) => Number(a.id)-Number(b.id));
-      this.filteredOptions = this.shopForm.get('district').valueChanges.pipe(
-        startWith(''),
-        map(value => this._filter(value))
-      );
-    }).add(() => {
-      this.bankService.getBanks().subscribe(result => {
-        this.bankList = result;
-        this.filteredOptions3 = this.shopForm.get('bank').valueChanges.pipe(
-          startWith(''),
-          map(value => this._filter3(value))
-        );
-      });
-      this.filteredOptions2 = this.shopForm.get('city').valueChanges.pipe(
-        startWith(''),
-        map(value => this._filter2(value))
-      );
-    })
 
     this.filteredOptions6 = this.shopForm.get('accountManager').valueChanges
       .pipe(
@@ -222,11 +223,6 @@ export class ShopRegistrationComponent implements OnInit {
           return this._filter6(val || '')
         })
       );
-
-    if (history.state.data == null) {
-      this.ngxService.stop();
-    }
-
   }
 
   findAddressByCoordinates() {
@@ -246,7 +242,7 @@ export class ShopRegistrationComponent implements OnInit {
   }
 
   onAutocompleteSelected(result: PlaceResult) {
-    // console.log('onAutocompleteSelected: ', result);
+    console.log('onAutocompleteSelected: ', result);
   }
   onLocationSelected(location: Location) {
     // console.log('onLocationSelected: ', location);
@@ -306,6 +302,7 @@ export class ShopRegistrationComponent implements OnInit {
     this.districtService.getCityByDistrict(this.selectedDistrict.id).subscribe(
       result => {
         this.cityList = result;
+        this.cityList.sort((a,b) => Number(a.id) - Number(b.id))
         this.filteredOptions2 = this.shopForm.get('city').valueChanges.pipe(
           startWith(''),
           map(value => this._filter2(value))
@@ -365,6 +362,7 @@ export class ShopRegistrationComponent implements OnInit {
 
     if (merchant.documentList.length != 0) {
       this.datalist2 = merchant.documentList;
+      this.datalist2.sort((a, b) => Number(a.id) - Number(b.id));
       this.shopForm.get('document1').setValue(this.datalist2[0].documentType);
       this.shopForm.get('document2').setValue(this.datalist2[1].documentType);
       this.dataSource2 = new MatTableDataSource(this.datalist2);
@@ -480,9 +478,12 @@ export class ShopRegistrationComponent implements OnInit {
     shop.latitude = this.latitude;
     shop.contactList = this.datalist;
     shop.workingHourList = this.datalist1;
-    this.datalist2[1].documentType = shop.document2 !="" ? shop.document2 : "Document2";
-    this.datalist2[0].documentType = shop.document1 !="" ? shop.document1 : "Document1";
+
+    this.datalist2.sort((a, b) => Number(a.id) - Number(b.id));
+    this.datalist2[0].documentType = this.shopForm.get('document1').value;
+    this.datalist2[1].documentType = this.shopForm.get('document2').value ;
     shop.documentList = this.datalist2;
+
     shop.commission = shop.commission / 100;
     var addresstemp = new Address();
     addresstemp.billingAddress = shop.address;
@@ -566,9 +567,9 @@ export class ShopRegistrationComponent implements OnInit {
   }
 
   handleFileInput(files: FileList) {
+    console.log("Called");
     // this.fileUploaded = !this.fileUploaded;
     var file = files.item(0);
-
     if (!file.name.toLowerCase().endsWith('.jpg') &&
       !file.name.toLowerCase().endsWith('.jpeg') &&
       !file.name.toLowerCase().endsWith('.png')) {
@@ -578,10 +579,10 @@ export class ShopRegistrationComponent implements OnInit {
 
     const formData = new FormData();
     formData.append('file', file, file.name)
+    this.ngxService.start();
     this.fileService.uploadFile(formData)
       .subscribe(
         res => {
-          this.ngxService.start();
           this.imageSrc = res;
           this.fileUploaded = true;
           this.ngxService.stop();
@@ -607,10 +608,10 @@ export class ShopRegistrationComponent implements OnInit {
 
     const formData = new FormData();
     formData.append('file', file, file.name)
+    this.ngxService.start();
     this.fileService.uploadFile(formData)
       .subscribe(
         res => {
-          this.ngxService.start();
           this.imageSrc1 = res;
           this.fileUploaded1 = true;
           this.ngxService.stop();
@@ -627,10 +628,10 @@ export class ShopRegistrationComponent implements OnInit {
     var file = files.item(0);
     const formData = new FormData();
     formData.append('file', file, file.name)
+    this.ngxService.start();
     this.fileService.uploadFile(formData)
       .subscribe(
         res => {
-          this.ngxService.start();
           if (element.documentType == this.datalist2[0].documentType) {
             element.url = res;
             this.documnet1 = res;
@@ -748,6 +749,8 @@ export class ShopRegistrationComponent implements OnInit {
   }
 
   deleteDocument(documentDetails) {
+    this.datalist2[0].documentType = this.shopForm.get('document1').value;
+    this.datalist2[1].documentType = this.shopForm.get('document2').value;
     this.dialog.open(MerchantDeleteDialogComponent, {
       data: {
         list: this.datalist2,
@@ -761,16 +764,24 @@ export class ShopRegistrationComponent implements OnInit {
   deleteSelectedDocument(document: DocumentDetails) {
     if (document.url != null) {
       document.url = null;
-      if (document.documentType === this.shopForm.get('document1').value) {
-        this.datalist2[0] = DOCUMENTS[0];
-        this.shopForm.get('document1').setValue("Document1");
+      if (document.documentType === this.datalist2[0].documentType) {
+        this.datalist2[0].documentType = "Business Registration Doc";
+        this.shopForm.get('document1').setValue("Business Registration Doc");
       } else {
-        this.datalist2[1] = DOCUMENTS[1];
-        this.shopForm.get('document2').setValue("Document2");
+        this.datalist2[1].documentType = "Other";
+        this.shopForm.get('document2').setValue("Other");
       }
       this.dataSource2 = new MatTableDataSource(this.datalist2);
       this.messageService.snakBarSuccessMessage('File removed');
     } else {
+      if (this.datalist2[0].url == null && document.documentType == this.shopForm.get('document1').value) {
+        this.datalist2[0].documentType = "Business Registration Doc";
+        this.shopForm.get('document1').setValue("Business Registration Doc");
+      }
+      if (this.datalist2[1].url == null && document.documentType == this.shopForm.get('document2').value) {
+        this.datalist2[1].documentType = "Other";
+        this.shopForm.get('document2').setValue("Other");
+      }
       this.messageService.snakBarErrorMessage('No added file');
     }
   }

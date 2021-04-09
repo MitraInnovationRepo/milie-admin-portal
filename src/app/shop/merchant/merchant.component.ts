@@ -95,7 +95,7 @@ export class MerchantComponent implements OnInit {
   filterCity(id) {
     if (id != "") {
       this.ngxService.start();
-      this.shopService.getMerchantsByCity(id)
+      this.shopService.getMerchantsByDistrict(id)
         .subscribe(
           result => {
             this.setTableData(result);

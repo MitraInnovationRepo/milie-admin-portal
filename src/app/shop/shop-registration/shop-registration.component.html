@@ -6,7 +6,7 @@
                 <div class="card">
                     <div class="card-header card-header-danger">
                         <h4 class="card-title">{{title}}</h4>
-                        <p class="card-category">Configure Merchants</p>
+                        <p class="card-category"></p>
                     </div>
 
                     <div class="card-body">
@@ -35,17 +35,17 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <mat-form-field class="col-md-10">
-                                        <mat-label>Buisness Registration Number</mat-label>
+                                        <mat-label>Business Registration Number</mat-label>
                                         <input matInput formControlName="businessRegistrationNumber"
-                                            placeholder="Buisness Registration Number" autocomplete="off">
+                                            placeholder="Business Registration Number" autocomplete="off">
 
                                     </mat-form-field>
 
                                 </div>
                                 <div class="col-md-6">
                                     <mat-form-field class="col-md-10">
-                                        <mat-label>Buisness Address*</mat-label>
-                                        <input matInput formControlName="address" placeholder="Enter Buisness Address"
+                                        <mat-label>Business Address*</mat-label>
+                                        <input matInput formControlName="address" placeholder="Enter Business Address"
                                             autocomplete="off">
                                         <mat-error>Please Enter Merchant Address</mat-error>
                                     </mat-form-field>
@@ -124,9 +124,9 @@
 
                                 <div class="col-md-6">
                                     <mat-form-field class="col-md-10">
-                                        <mat-label>Buisness Email</mat-label>
+                                        <mat-label>Business Email</mat-label>
                                         <input type="email" matInput formControlName="email"
-                                            placeholder="Enter Buisness Email" autocomplete="off">
+                                            placeholder="Enter Business Email" autocomplete="off">
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -135,15 +135,30 @@
                                 <div class="col-md-6 imageinput1" id="image-uploader">
                                     <mat-label>Restaurant Logo*</mat-label>
                                     <br>
-                                    <input formControlName="imageName" type="file" id="file"
-                                        (change)="handleFileInput($event.target.files)"
-                                        [ngStyle]="{'color':(!fileUploaded)?'red':'black'}">
-                                    <p>JPEG, PNG</p>
+                                    <input formControlName="imageName" type="file" id="imageName"
+                                        [ngStyle]="{'color':(!fileUploaded)?'red':'green' , 'display':(!fileUploaded)?null:'none'}"
+                                        (change)="handleFileInput($event.target.files)">
+                                    <!-- <label
+                                        [ngStyle]="{'color':(!fileUploaded)?'red':'green', 'display':(!fileUploaded)?'none':null}"
+                                        for="imageName">{{!fileUploaded ? 'Click here to upload image' : 'Image
+                                        Uploaded. Click here To change'}}</label> -->
+                                    <div class="row" style="margin-left: 2px;">
+                                        <label class="file-upload"
+                                            [ngStyle]="{'color':(!fileUploaded)?'red':'black', 'display':(!fileUploaded)?'none':null}"
+                                            for="imageName">{{!fileUploaded ? '' :
+                                            ' Change File'}}
+                                        </label>
+                                        <span
+                                            [ngStyle]="{'color':(!fileUploaded)?'red':'black', 'display':(!fileUploaded)?'none':null}"
+                                            class="file-name">{{fileUploaded ? imageSrc : null}}
+                                        </span>
+                                    </div>
+                                    <p>JPEG, PNG | Size - 400 x 200</p>
                                 </div>
 
                                 <div class="col-md-6">
                                     <mat-form-field appearance="fill">
-                                        <mat-label>Restaurent Catergory*</mat-label>
+                                        <mat-label>Restaurant Category*</mat-label>
                                         <mat-select disableOptionCentering formControlName="shopType" multiple>
                                             <mat-option *ngFor="let shoptype of shopTypeList" [value]="shoptype">
                                                 {{shoptype.name}}</mat-option>
@@ -196,7 +211,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <mat-form-field class="col-md-10">
-                                        <mat-label>Minimum order value*</mat-label>
+                                        <mat-label>Minimum Order Value*</mat-label>
                                         <input matInput formControlName="minimumOrderAmount"
                                             placeholder="Enter Minimum Order Value" autocomplete="off">
                                         <mat-error>Please Enter Minimum Order Value</mat-error>
@@ -345,9 +360,20 @@
                                 <div class="col-md-6 imageinput1" id="image-uploader">
                                     <mat-label>Account Image</mat-label>
                                     <br>
-                                    <input formControlName="accountPassbookImage" type="file" id="file"
+                                    <input formControlName="accountPassbookImage" type="file" id="accounImage"
                                         (change)="handleFileInput1($event.target.files)"
-                                        [ngStyle]="{'color':(!fileUploaded1)?'red':'black'}">
+                                        [ngStyle]="{'color':(!fileUploaded1)?'red':'black' ,  'display':(!fileUploaded1)?null:'none'}">
+
+                                    <div class="row" style="margin-left: 2px;">
+                                        <label class="file-upload"
+                                            [ngStyle]="{'color':(!fileUploaded1)?'red':'black', 'display':(!fileUploaded1)?'none':null}"
+                                            for="accounImage">{{!fileUploaded1 ? '' :
+                                            ' Change File'}}</label>
+                                        <span
+                                            [ngStyle]="{'color':(!fileUploaded1)?'red':'black', 'display':(!fileUploaded1)?'none':null}"
+                                            class="file-name">{{fileUploaded1 ? imageSrc1 : null}}
+                                        </span>
+                                    </div>
                                     <p>JPEG, PNG</p>
                                 </div>
                                 <div class="col-md-6">
@@ -363,12 +389,12 @@
 
                             <br>
 
-                            <h3>Restaurent Hours</h3>
+                            <h3>Restaurant Hours</h3>
 
                             <div class="row table-topic">
                                 <p class="addnew" (click)="onAddWorkingHours()" *ngIf="isNotApprow">
                                     <mat-icon class="add-circle">add_circle</mat-icon>
-                                    <u>Restaurent Hours</u>
+                                    <u>Restaurant Hours</u>
                                 </p>
                             </div>
                             <div class="row">
@@ -423,7 +449,7 @@
 
                             <div class="row table-topic">
                                 <a>
-                                    Merchant Document
+                                    Merchant Documents  
                                 </a>
                             </div>
                             <div class="row">
@@ -436,7 +462,7 @@
                                                 <input *ngIf="datalist2.indexOf(element)==0; else elsedoc" matInput
                                                     type="text" formControlName="document1" autocomplete="off">
                                                 <ng-template #elsedoc><input matInput type="text"
-                                                        formControlName="document2"></ng-template>
+                                                        formControlName="document2" autocomplete="off"></ng-template>
                                             </td>
                                         </ng-container>
 
@@ -447,7 +473,7 @@
                                                     (change)="handleFileInput2($event.target.files , element)"
                                                     #fileInput hidden>
                                                 <mat-icon [ngClass]="element.url != null ? 'uploaded': 'not-uploaded' "
-                                                    style="cursor: pointer;" (click)="fileInput.click()">upload
+                                                    style="cursor: pointer; vertical-align: middle;" (click)="fileInput.click()">upload
                                                 </mat-icon>
                                             </td>
                                         </ng-container>
