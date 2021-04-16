@@ -42,7 +42,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <p>
-                                                <mat-checkbox [checked]="closedAllDay" (change)="setFullDay()"
+                                                <mat-checkbox [disabled]="!selectedDay" [checked]="closedAllDay" (change)="setFullDay()"
                                                     formControlName="closedAllDay">Closed All Day</mat-checkbox>
                                             </p>
                                         </div>

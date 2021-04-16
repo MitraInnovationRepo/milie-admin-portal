@@ -242,7 +242,7 @@ export class ShopRegistrationComponent implements OnInit {
   }
 
   onAutocompleteSelected(result: PlaceResult) {
-    console.log('onAutocompleteSelected: ', result);
+    // console.log('onAutocompleteSelected: ', result);
   }
   onLocationSelected(location: Location) {
     // console.log('onLocationSelected: ', location);
@@ -817,6 +817,7 @@ export class ShopRegistrationComponent implements OnInit {
         })
       }
     }
+    this.displayDays.sort((a,b) => Number(a.day)-Number(b.day));
     this.dataSource1 = new MatTableDataSource(this.displayDays);
   }
 

@@ -1,0 +1,25 @@
+<div class="row">
+    <div class="col-md-6">
+        <h1 mat-dialog-title>Error</h1>
+    </div>
+    <div class="col-md-6">
+        <button class="pull-right" mat-icon-button mat-dialog-close>
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+</div>
+<div mat-dialog-content>
+    <div class="main-content">
+        <div class="container-fluid">
+            <mat-accordion>
+                <div>
+                    <p>{{getStatement()}}</p>
+                    <div class="d-flex justify-content-center">
+                        <button mat-raised-button mat-dialog-close color="warn"
+                            [ngStyle]="{'margin-right':'10px'}">Okay</button>
+                    </div>
+                </div>
+            </mat-accordion>
+        </div>
+    </div>
+</div>

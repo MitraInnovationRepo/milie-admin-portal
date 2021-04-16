@@ -28,6 +28,7 @@ import { MerchantDeleteDialogComponent } from './Dialog/merchant-delete-dialog/m
 import { ApproveConfirmationDialogComponent } from './Dialog/approve-confirmation-dialog/approve-confirmation-dialog.component';
 import { PublishConfirmationDialogComponent } from './Dialog/publish-confirmation-dialog/publish-confirmation-dialog.component';
 import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
+import { InformationDialogComponent } from './Dialog/information-dialog/information-dialog.component';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     fgsColor: "#ef5350",
@@ -57,7 +58,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
         MatGoogleMapsAutocompleteModule
     ],
     declarations: [
-        ShopComponent, ShopCreationComponent, ShopRegistrationComponent, AddNewContactComponent, AddWorkingHoursComponent, ShopActivationComponent, ShopPublicationComponent, MerchantComponent, MerchantDeleteDialogComponent, ApproveConfirmationDialogComponent, PublishConfirmationDialogComponent
+        ShopComponent, ShopCreationComponent, ShopRegistrationComponent, AddNewContactComponent, AddWorkingHoursComponent, ShopActivationComponent, ShopPublicationComponent, MerchantComponent, MerchantDeleteDialogComponent, ApproveConfirmationDialogComponent, PublishConfirmationDialogComponent, InformationDialogComponent
     ],
     providers: [ShopService]
 })

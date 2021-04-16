@@ -1,9 +1,10 @@
 import { DatePipe } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ResturantHours } from 'app/shared/data/resturent-hours';
+import { InformationDialogComponent } from '../information-dialog/information-dialog.component';
 
 @Component({
   selector: 'app-add-working-hours',
@@ -21,6 +22,8 @@ export class AddWorkingHoursComponent implements OnInit {
   closedAllDay: boolean = false;
   selectedDay: number;
   isUpdated: boolean = false;
+  closedWeekDay: boolean = false;
+  closedWeekendDay: boolean = false;
   daylist: string[] = ["", 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Mon - Fri', 'Sat - Sun'];
 
   disabledAllWeekend: boolean = false;
@@ -33,7 +36,8 @@ export class AddWorkingHoursComponent implements OnInit {
       addHour: (hourlist: ResturantHours[]) => void
     },
     private formBuilder: FormBuilder,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -91,18 +95,17 @@ export class AddWorkingHoursComponent implements OnInit {
       var endHourSplit = hour.endHour.split(":");
       var endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), endHourSplit[0], endHourSplit[1], 0);
       var endTime = this.datePipe.transform(endDate, 'yyyy-MM-ddTHH:mm:ss');
-      this.setDays(hour, startTime, endTime);
-    } else {
-      this.setDays(hour, startTime, endTime);
-    }
+      if (this.checkValidity(startTime, endTime, hour.day)) this.setDays(hour, startTime, endTime);
 
+    } else {
+      if (this.checkValidity(startTime, endTime, hour.day)) this.setDays(hour, startTime, endTime);
+    }
     this.isUpdated = true;
     this.newHourForm.reset();
     this.newHourForm.reset();
     this.newHourForm.get('startHour').setValue("08:00");
     this.newHourForm.get('endHour').setValue("22:00");
     this.closedAllDay = false;
-
   }
 
 
@@ -119,13 +122,6 @@ export class AddWorkingHoursComponent implements OnInit {
           status: 1,
         });
       }
-      for (let index = 0; index < this.hoursSet.length; index++) {
-        const element = this.hoursSet[index];
-        if (element.dayGroup == 0 && element.day < 6) {
-          this.hoursSet.splice(index, 1)
-          index--;
-        }
-      }
     } else if (hour.day == 9) {
       for (let index = 0; index < 2; index++) {
         this.hoursSet.push({
@@ -138,17 +134,10 @@ export class AddWorkingHoursComponent implements OnInit {
           status: 1,
         });
       }
-      for (let index = 0; index < this.hoursSet.length; index++) {
-        const element = this.hoursSet[index];
-        if (element.dayGroup == 0 && element.day > 5) {
-          this.hoursSet.splice(index, 1)
-          index--;
-        }
-      }
     } else {
       this.hoursSet.push({
         id: null,
-        day: hour.day,
+        day: parseInt(hour.day),
         closedAllDay: this.closedAllDay,
         startHour: this.closedAllDay ? null : startTime,
         endHour: this.closedAllDay ? null : endTime,
@@ -156,7 +145,6 @@ export class AddWorkingHoursComponent implements OnInit {
         status: 1,
       });
     }
-
     this.setDiaplayDays();
   }
 
@@ -168,7 +156,7 @@ export class AddWorkingHoursComponent implements OnInit {
       if (element.dayGroup == 1 && element.day < 6) {
         var dateRange = this.displayDays.splice(this.displayDays.indexOf(element), 1).slice();
         index -= 1;
-        this.disabledAllWeek = dateRange[0].status === 1;
+        this.disabledAllWeek = dateRange[0].closedAllDay;
         if (dateRange[0].day == 5)
           this.displayDays.push({
             id: null,
@@ -182,7 +170,7 @@ export class AddWorkingHoursComponent implements OnInit {
       } else if (element.dayGroup == 2 && element.day < 9) {
         var dateRange = this.displayDays.splice(this.displayDays.indexOf(element), 1).slice();
         index -= 1;
-        this.disabledAllWeekend = dateRange[0].status === 1;
+        this.disabledAllWeekend = dateRange[0].closedAllDay;
         if (dateRange[0].day == 6) this.displayDays.push({
           id: null,
           day: 9,
@@ -191,9 +179,10 @@ export class AddWorkingHoursComponent implements OnInit {
           endHour: dateRange[0].endHour,
           dayGroup: 1,
           status: dateRange[0].status
-        })
+        });
       }
     }
+    this.displayDays.sort((a, b) => Number(a.day) - Number(b.day));
     this.dataSource1 = new MatTableDataSource(this.displayDays);
   }
 
@@ -210,6 +199,64 @@ export class AddWorkingHoursComponent implements OnInit {
       return null;
     }
   }
+
+  checkValidity(starttime, endtime, day2) {
+    console.log(new Date(0,0,0));
+    var openTime2 = starttime != null ? new Date(new Date(new Date(new Date(Date.parse(starttime)).setFullYear(2020)).setMonth(1)).setDate(1)).getTime() : null;
+    var endTime2 = endtime != null ? new Date(new Date(new Date(new Date(Date.parse(endtime)).setFullYear(2020)).setMonth(1)).setDate(1)).getTime() : null;
+
+    if (openTime2 >= endTime2 && openTime2 != null) {
+      this.dialog.open(InformationDialogComponent, {
+        data: {
+          day: this.daylist[day2],
+          openTime: null,
+          closeTime: null,
+          invalid: true
+        }
+      });
+      return false;
+    }
+
+    for (let index = 0; index < this.hoursSet.length; index++) {
+      var day1 = this.hoursSet[index].day
+      if (day2 != day1) if (day2 < 8 || day2 == 8 && day1 > 5 || day2 == 9 && day1 < 6) continue;
+      
+      var openTime1 = this.hoursSet[index].startHour != null ? new Date(new Date(new Date(new Date(Date.parse(this.hoursSet[index].startHour)).setFullYear(2020)).setMonth(1)).setDate(1)).getTime() : null;
+      var endTime1 = this.hoursSet[index].endHour != null ? new Date(new Date(new Date(new Date(Date.parse(this.hoursSet[index].endHour)).setFullYear(2020)).setMonth(1)).setDate(1)).getTime() : null;
+      if (openTime1 == null && endTime1 == null || openTime2 == null && endTime2 == null || openTime2 >= openTime1 && openTime2 <= endTime1 ||
+        openTime1 >= openTime2 && openTime1 <= endTime2) {
+
+        var dayName;
+        switch (this.hoursSet[index].dayGroup) {
+          case 0:
+            dayName = this.daylist[day1];
+            break;
+          case 1:
+            dayName = this.daylist[8];
+            break;
+          case 2:
+            dayName = this.daylist[9];
+            break;
+          default:
+            break;
+        }
+
+        var openTime = this.hoursSet[index].startHour;
+        var closeTime = this.hoursSet[index].endHour;
+        this.dialog.open(InformationDialogComponent, {
+          data: {
+            day: dayName,
+            openTime: openTime != null ? this.transform(openTime.split("T")[1]) : null,
+            closeTime: closeTime != null ? this.transform(closeTime.split("T")[1]) : null,
+            invalid: false
+          }
+        });
+        return false;
+      }
+    };
+    return true;
+  }
+
 }
 
 
