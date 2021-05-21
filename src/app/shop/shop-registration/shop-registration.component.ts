@@ -467,9 +467,12 @@ export class ShopRegistrationComponent implements OnInit {
       shop.shopType = [];
     } else {
       shop.shopType.forEach(element => {
-        if (!this.include(this.shopCuisineList, element)) {
+        let index =  this.shopCuisineList.findIndex(cuisine => cuisine.shopType.id === element.id);
+        if (index !== -1) {
+          this.shopCuisineList[index].status = 1;
+        }else{
           this.shopCuisineList.push({ id: null, shopType: element, status: 1 });
-        }
+        }    
       });
     }
     shop.preparationTime = shop.hour * 60 + shop.minute;
