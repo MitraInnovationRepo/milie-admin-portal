@@ -34,7 +34,8 @@ export class AuthenitcationService {
     }
 
     fetchUserInfo() {
-        return this.http.get<IdentityUser>(`/auth/realms/${REALM}/protocol/openid-connect/userinfo`);
+        const url = AUTH_URL + `/realms/${REALM}/protocol/openid-connect/userinfo`;
+        return this.http.get<IdentityUser>(url);
     }
 
     refreshToken(){

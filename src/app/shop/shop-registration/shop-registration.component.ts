@@ -143,7 +143,7 @@ export class ShopRegistrationComponent implements OnInit {
       imageName: new FormControl('', [Validators.required]),
       shopType: new FormControl('', [Validators.required]),
       priceRange: new FormControl('', [Validators.required]),
-      commission: new FormControl('', [Validators.required, Validators.pattern("^([1-9][0-9]*)$"), Validators.min(0), Validators.max(100)]),
+      commission: new FormControl('', [Validators.required, Validators.pattern("[0-9]?[0-9]?(\.[0-9][0-9]?)?"), Validators.min(0), Validators.max(100)]),
       minimumOrderAmount: new FormControl('', [Validators.required, Validators.pattern("^([1-9][0-9]*)$")]),
       // preparationTime: new FormControl('', [Validators.required, Validators.pattern("^([1-9][0-9]*)$")]),
       minute: new FormControl(0, [Validators.required, Validators.pattern("^([0-9][0-9]*)$"), Validators.min(0), Validators.max(59)]),
