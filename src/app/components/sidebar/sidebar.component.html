@@ -25,11 +25,12 @@
       </a>
 
       <a routerLinkActive="active" class="nav-link" *ngIf="menuItem.subTitle" data-toggle="collapse"
-        href="#collapseExample">
+        href="{{menuItem.subTitle.length == 2 ? '#collapseExample1' : '#collapseExample2'}}">
         <i class="material-icons">{{menuItem.icon}}</i>
         <p>{{menuItem.title}}</p>
       </a>
-      <div class="collapse" id="collapseExample">
+
+      <div class="collapse" id="{{menuItem.subTitle.length == 2 ? 'collapseExample1' : 'collapseExample2'}}" *ngIf="menuItem.subTitle">
         <ul class="nav">
           <li routerLinkActive="active" *ngFor="let subtitle of menuItem.subTitle" class="subtitle nav-item">
             <a class="nav-link" [routerLink]="[subtitle.path]">

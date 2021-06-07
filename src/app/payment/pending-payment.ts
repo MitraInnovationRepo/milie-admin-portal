@@ -1,4 +1,5 @@
 export class PendingPayment {
+    shopId: string;
     shopCode: string;
     shopName: string;
     mobileNumber: string;

@@ -12,8 +12,11 @@ import { NgxUiLoaderConfig, NgxUiLoaderModule, PB_DIRECTION, POSITION, SPINNER }
 import { AuthInterceptor } from './core/interceptor/auth.interceptor';
 import { MaterialModule } from './material';
 import { CoreModule } from './core/core.module';
-import { MAT_DATE_LOCALE,  } from '@angular/material/core';
+import { MAT_DATE_LOCALE, } from '@angular/material/core';
 import { DatePipe } from '@angular/common';
+import { AgmCoreModule } from '@agm/core';
+import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
+
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   fgsColor: "#ef5350",
@@ -33,7 +36,12 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     NgSelectModule,
     MaterialModule,
     CoreModule,
-    NgxUiLoaderModule.forRoot(ngxUiLoaderConfig)
+    NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyAnWVWgHM2lLBJ2TJI1eiLEn3Kh0EG2xdM',
+      libraries: ['places']
+    }),
+    // MatGoogleMapsAutocompleteModule.forRoot(),
   ],
   declarations: [
     AppComponent,
@@ -45,7 +53,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
       useClass: AuthInterceptor,
       multi: true,
     },
-    {provide: MAT_DATE_LOCALE, useValue: 'en-GB'}
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
   ],
   bootstrap: [AppComponent]
 })

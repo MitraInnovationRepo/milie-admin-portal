@@ -1,0 +1,88 @@
+table th{
+  font-weight: 600;
+}
+
+.delete-icon {
+  color: red;
+  cursor: pointer;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+.add-circle{
+  color: green;
+}
+
+.addnew{
+  color: green;
+  display: flex;
+}
+
+.addnew:hover{
+  cursor: pointer;
+  color: rgb(73, 194, 73);
+}
+
+.table-topic{
+  padding: 10px 0px;
+  margin-left: 10px;
+}
+
+table{
+  width: 100%;
+}
+
+::ng-deep .mat-tooltip {
+  white-space: pre-line;
+  font-size: small;
+}
+
+/* ::ng-deep.mat-dialog-container {
+  z-index: 500 !important;
+} */
+
+.cdk-overlay-container{
+  z-index: 500 ;
+}
+
+.uploaded{
+  color:green;
+}
+
+.not-uploaded{
+  color: black;
+}
+
+.imageinput1{
+  padding-left: 30px;
+}
+
+.btnapprove{
+  margin-right: 10px;
+}
+
+.file-upload{
+  border: 1px solid black;
+  padding: 5px 7px 5px 7px ;
+  background-color: rgb(231, 229, 229);
+  border-radius: 2.5px;
+  margin-right: 5px;
+}
+
+.file-upload:hover{
+  background-color: rgb(218, 214, 214);
+}
+.file-upload::after{
+  background-color: rgb(218, 214, 214);
+}
+.file-upload:active {
+  background-color: rgb(238, 238, 238);
+}
+
+.file-name{
+  font-weight: 400;
+  line-height: 35px;
+  width: 60%;
+  height: 30px;
+  overflow: hidden;
+}

@@ -1,0 +1,80 @@
+<mat-dialog-content class="mat-typography">
+    <div class="main-content">
+        <div class="container-fluid">
+            <mat-accordion>
+                <div class="row">
+                    <mat-toolbar>
+                        <div class="col-md-6">
+                            <span>Add New Contact</span>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex justify-content-end">
+                                <button class="btn-dialog-close" mat-stroked-button color="primary" tabIndex="-1"
+                                    (click)="closeAddContact()">
+                                    <mat-icon>clear</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </mat-toolbar>
+                </div>
+
+                <form [formGroup]=newContactForm>
+                    <br>
+                    <mat-radio-group aria-label="Select an option" formControlName="primaryContact">
+                        <mat-radio-button [value]=1 [disabled]="primaryUser">Primary</mat-radio-button>
+                        <mat-radio-button [value]=0>Secondary</mat-radio-button>
+                    </mat-radio-group>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <mat-form-field>
+                                <mat-label>First Name*</mat-label>
+                                <input matInput formControlName="firstName" placeholder="Enter First Name"
+                                    autocomplete="off">
+                                <mat-error>Please Enter First Name name</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field>
+                                <mat-label>Last Name*</mat-label>
+                                <input matInput formControlName="lastName" placeholder="Enter Last Name"
+                                    autocomplete="off">
+                                <mat-error>Please Enter Last Name name</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <mat-form-field>
+                                <mat-label>Mobile Number*</mat-label>
+                                <input matInput formControlName="phoneNumber"
+                                    placeholder="Enter Mobile Number Eg 777123123" autocomplete="off">
+                                <mat-error>Please Enter 9 digit Mobile Number</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field>
+                                <mat-label>Email</mat-label>
+                                <input type="email" matInput formControlName="email" placeholder="Enter User Email"
+                                    autocomplete="off">
+                                <mat-error>Please Enter Email</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <!-- <div class="col-md-6">
+                            <button mat-raised-button color="accent"   [disabled]="!newContactForm.valid" (click)= "addContact(newContactForm.value)">Add Contact</button>
+                        </div> -->
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-end">
+                        <button mat-raised-button color="primary" [disabled]="!isUpdated"
+                            [disabled]="!newContactForm.valid"
+                            (click)="saveContactList(newContactForm.value)">Save</button>
+                    </div>
+                </form>
+            </mat-accordion>
+        </div>
+    </div>
+</mat-dialog-content>

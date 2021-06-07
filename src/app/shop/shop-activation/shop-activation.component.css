@@ -1,0 +1,11 @@
+table{
+    width: 100%;
+    overflow: scroll;
+}
+
+.visible-icon{
+    color: rgb(242, 200, 31);
+    cursor: pointer;
+    margin-left: 10px;
+}
+

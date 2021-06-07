@@ -180,7 +180,7 @@ export class PaymentsComponent {
         this.ngxService.start();
         var shopIdList = [];
         this.selection.selected.forEach(row => {
-            shopIdList.push(row.shopCode);
+            shopIdList.push(row.shopId);
         });
         var paymentRequest = new PaymentsRequest();
         paymentRequest.requestingDate = this.date.value;

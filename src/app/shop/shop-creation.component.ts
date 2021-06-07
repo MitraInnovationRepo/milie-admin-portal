@@ -70,7 +70,7 @@ export class ShopCreationComponent implements OnInit {
                         this.shopService.getShop(id)
                             .subscribe(
                                 result => {
-                                    this.patchValues(result);
+                                    // this.patchValues(result);
                                     this.ngxService.stop();
                                     this.fileUploaded = true;
                                 }
@@ -81,7 +81,6 @@ export class ShopCreationComponent implements OnInit {
     }
 
     patchValues(shop: Shop) {
-        console.log("shop", shop)
         this.imageSrc = shop.imageName;
         this.shopForm.patchValue({
             phoneNumber: shop.user.phoneNumber,
