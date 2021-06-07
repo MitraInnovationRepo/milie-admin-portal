@@ -169,7 +169,7 @@
                       placeholder="Enter customer mobile number">
                   </mat-form-field>
                   <button type="button" mat-mini-fab color="primary"
-                    (click)="addCustomer(promotionForm.controls['phoneNumber'].value)">
+                    (click)="addCustomer(promotionForm.controls['phoneNumber'].value)" [disabled] = "!promotionForm.controls['phoneNumber'].value">
                     <mat-icon>add</mat-icon>
                   </button>
                 </div>
