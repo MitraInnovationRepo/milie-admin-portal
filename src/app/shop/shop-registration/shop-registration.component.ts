@@ -369,18 +369,18 @@ export class ShopRegistrationComponent implements OnInit {
     }
 
     this.shopCuisineList = merchant.shopCuisine;
-    var x = [];
+    var shopTypes = [];
     merchant.shopCuisine.forEach(element => {
       this.selectedTypes.push(element.shopType);
     });
     this.selectedTypes.forEach(index => {
       this.shopTypeList.forEach(element => {
         if (index.id == element.id) {
-          x.push(element);
+          shopTypes.push(element);
         }
       });
     });
-    this.shopForm.get('shopType').setValue(x);
+    this.shopForm.get('shopType').setValue(shopTypes);
     if (merchant.district != null && merchant.city != null) {
       this.shopForm.get('district').setValue(merchant.district.name);
       this.selectedDistrict = merchant.district;
@@ -388,12 +388,14 @@ export class ShopRegistrationComponent implements OnInit {
       this.selectedCity = merchant.city;
       this.shopForm.get('city').setValue(merchant.city.name);
     }
-    if (merchant.bank != null && merchant.branch != null) {
+    if (merchant.bank != null) {
       this.shopForm.get('bank').setValue(merchant.bank.name);
       this.selectedBank = merchant.bank;
       this.loadBranch();
-      this.selectedBranch = merchant.branch;
-      this.shopForm.get('branch').setValue(merchant.branch.name);
+      if(merchant.branch != null){
+        this.selectedBranch = merchant.branch;
+        this.shopForm.get('branch').setValue(merchant.branch.name);
+      }
     }
     if (merchant.accountManager != null) {
       this.shopForm.get('accountManager').setValue(merchant.accountManager.name);
