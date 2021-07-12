@@ -60,6 +60,26 @@ export class NavbarComponent implements OnInit {
         return;
     }
 
+    getIcon() {
+        var titlee = this.location.prepareExternalUrl(this.location.path());
+        if (titlee.charAt(0) === '#') {
+            titlee = titlee.slice(1);
+        }
+
+        for (var item = 0; item < this.listTitles.length; item++) {
+            if (this.listTitles[item].path === titlee) {
+                return this.listTitles[item].icon;
+            }else if(this.listTitles[item].subTitle){
+                for (let subItem = 0; subItem < this.listTitles[item].subTitle.length; subItem++) {
+                    if (this.listTitles[item].subTitle[subItem].path === titlee) {
+                        return this.listTitles[item].icon;
+                    }
+                }
+            }
+        }
+        return;
+    }
+
     logout() {
         this.loginService.logout();
     }

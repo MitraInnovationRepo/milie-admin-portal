@@ -1,12 +1,12 @@
 {
     "/auth/**": {
-      "target": "http://ec2-65-0-173-201.ap-south-1.compute.amazonaws.com:8080",
+      "target": "http://ec2-52-66-151-124.ap-south-1.compute.amazonaws.com:8080",
       "secure": true,
       "loglevel": "debug",
       "changeOrigin":"true"
     },
     "/api/**": {
-        "target": "http://localhost:8083/",
+        "target": "http://ec2-52-66-151-124.ap-south-1.compute.amazonaws.com:8081",
         "secure": false,
         "loglevel": "debug",
         "changeOrigin":"true"

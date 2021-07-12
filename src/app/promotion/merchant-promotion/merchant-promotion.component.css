@@ -25,14 +25,16 @@ table {
 }
 
 .check-circle-outline {
-    color: rgb(2, 201, 22);
+    /* color: rgb(2, 201, 22); */
+    color: #0059bf;
     margin-left: 20px;
     cursor: pointer;
 }
 
 .promotion-create-btn{
     color:white;
-    background-color: rgb(2, 201, 22);
+    /* background-color: rgb(2, 201, 22); */
+    background-color: #0059bf;
 }
 
 ::ng-deep .mat-tooltip {

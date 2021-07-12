@@ -154,7 +154,7 @@ export class ShopRegistrationComponent implements OnInit {
       bank: new FormControl('', []),
       branch: new FormControl('', []),
       district: new FormControl('', [Validators.required]),
-      accountManager: new FormControl('', [Validators.required]),
+      accountManager: new FormControl('', []),
       document1: new FormControl(this.datalist2[0].documentType),
       document2: new FormControl(this.datalist2[1].documentType),
     },
