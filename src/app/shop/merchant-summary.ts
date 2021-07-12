@@ -11,4 +11,5 @@ export interface MerchantSummary{
     displayCity : string,
     displayStatus : string,
     displayOnline : string,
+    shopHistoryId : number
 }

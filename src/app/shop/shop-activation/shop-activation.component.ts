@@ -36,7 +36,8 @@ export class ShopActivationComponent implements OnInit {
 
   getShops() {
     this.ngxService.start();
-    this.shopService.getMerchants()
+    // this.shopService.getMerchants()
+    this.shopService.getActivationMerchants()
       .subscribe(
         result => {
           this.setTableData(result);
@@ -76,8 +77,8 @@ export class ShopActivationComponent implements OnInit {
     }
   }
 
-  approwShop(id) {
-    this.router.navigate(['/shop/activation/view'], { state: { data: id, update: false } });
+  approwShop(id, shopHistoryId) {
+    this.router.navigate(['/shop/activation/view'], { state: { data: id, update: false, shopHistoryId: shopHistoryId } });
   }
 
   applyFilter(event: Event) {

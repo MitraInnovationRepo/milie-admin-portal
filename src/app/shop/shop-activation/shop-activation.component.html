@@ -51,7 +51,7 @@
             
                   <ng-container matColumnDef="action">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
-                    <td mat-cell *matCellDef="let row" style="cursor: pointer;"> <mat-icon (click)="approwShop(row.id)" class="visible-icon">visibility</mat-icon>
+                    <td mat-cell *matCellDef="let row" style="cursor: pointer;"> <mat-icon (click)="approwShop(row.id, row.shopHistoryId)" class="visible-icon">visibility</mat-icon>
                     </td>
                   </ng-container>
               

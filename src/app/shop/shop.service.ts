@@ -25,7 +25,11 @@ export class ShopService{
         return this.http.get<MerchantSummary[]>(url);
     }
 
-    
+    getActivationMerchants(){
+        const url = API_URL + '/shops/activation';
+        return this.http.get<MerchantSummary[]>(url);
+    }
+
     getMerchantsByCity(id){
         const url = API_URL + `/shops/all/city/${id}`;
         return this.http.get<MerchantSummary[]>(url);
@@ -46,6 +50,11 @@ export class ShopService{
         return this.http.get<Merchant>(url);
     }
 
+    getShopHistoryData(id){
+        const url = API_URL + `/shops/history/pending/${id}`;
+        return this.http.get<Merchant>(url);
+    }
+
     createShop(shop){
         const url = API_URL + `/shops`;
         return this.http.post(url, shop);
@@ -61,8 +70,18 @@ export class ShopService{
         return this.http.put(url,id);
     }
 
+    approveShopEdit(id){
+        const url = API_URL + `/shops/approve/edit/${id}`;
+        return this.http.put(url,id);
+    }
+
     rejectShop(id){
         const url = API_URL + `/shops/reject/${id}`;
+        return this.http.put(url,id);
+    }
+
+    rejectShopEdit(id){
+        const url = API_URL + `/shops/reject/edit/${id}`;
         return this.http.put(url,id);
     }
 
