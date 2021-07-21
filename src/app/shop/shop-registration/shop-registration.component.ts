@@ -125,6 +125,7 @@ export class ShopRegistrationComponent implements OnInit {
   isNotApprow: boolean = true;
   shopCuisineList: MerchantCuisine[] = [];
   title: string = "Add Merchant";
+  shopHistoryId: number;
 
   prices: string[] = ['Budget', 'Average', 'Expensive'];
 
@@ -179,16 +180,28 @@ export class ShopRegistrationComponent implements OnInit {
       ).add(() => {
         this.route.params.subscribe(params => {
           var id = history.state.data;
+          this.shopHistoryId = history.state.shopHistoryId;
           // var id = params['id'];
           if (id != null) {
-            this.shopId = id;
-            this.shopService.getShop(id)
-              .subscribe(
-                result => {
-                  this.patchValues(result);
-                  this.fileUploaded = true;
+            if (this.shopHistoryId == null || this.shopHistoryId == undefined) {
+              this.shopId = id;
+              this.shopService.getShop(id)
+                .subscribe(
+                  result => {
+                    this.patchValues(result);
+                    this.fileUploaded = true;
                 }
               );
+            } else {
+              this.shopId = id;
+              this.shopService.getShopHistoryData(this.shopHistoryId)
+                .subscribe(
+                  result => {
+                    this.patchValues(result);
+                    this.fileUploaded = true;
+                  }
+                );
+            }
           }
         });
       }).add(() => {
@@ -371,7 +384,9 @@ export class ShopRegistrationComponent implements OnInit {
     this.shopCuisineList = merchant.shopCuisine;
     var shopTypes = [];
     merchant.shopCuisine.forEach(element => {
-      this.selectedTypes.push(element.shopType);
+      if(element.status !== 0){
+        this.selectedTypes.push(element.shopType);
+      }
     });
     this.selectedTypes.forEach(index => {
       this.shopTypeList.forEach(element => {
@@ -543,31 +558,61 @@ export class ShopRegistrationComponent implements OnInit {
   onRejectOrApprove(isApprove: boolean) {
     this.ngxService.start();
     if (isApprove) {
-      this.shopService.approveShop(this.id).subscribe(
-        result => {
-          this.ngxService.stop();
-          this.messageService.snakBarSuccessMessage('You have successfully approved the merchant');
-          this.router.navigate(['/shop/activation']);
-        }, error => {
-          this.ngxService.stop();
-          error.status === 400 ?
-            this.messageService.snakBarErrorMessage("Error in approving the merchant") :
-            this.messageService.snakBarErrorMessage(error.error.message)
-        }
-      )
+      if ( this.shopHistoryId != null || this.shopHistoryId != undefined ) {
+        this.shopService.approveShopEdit(this.shopHistoryId).subscribe(
+          result => {
+            this.ngxService.stop();
+            this.messageService.snakBarSuccessMessage('You have successfully approved the merchant edit details');
+            this.router.navigate(['/shop/activation']);
+          }, error => {
+            this.ngxService.stop();
+            error.status === 400 ?
+              this.messageService.snakBarErrorMessage("Error in approving merchant edit details") :
+              this.messageService.snakBarErrorMessage(error.error.message)
+          }
+        )
+      }else{
+        this.shopService.approveShop(this.id).subscribe(
+          result => {
+            this.ngxService.stop();
+            this.messageService.snakBarSuccessMessage('You have successfully approved the merchant');
+            this.router.navigate(['/shop/activation']);
+          }, error => {
+            this.ngxService.stop();
+            error.status === 400 ?
+              this.messageService.snakBarErrorMessage("Error in approving the merchant") :
+              this.messageService.snakBarErrorMessage(error.error.message)
+          }
+        )
+      }
     } else {
-      this.shopService.rejectShop(this.id).subscribe(
-        result => {
-          this.ngxService.stop();
-          this.messageService.snakBarSuccessMessage('You have successfully rejected the merchant');
-          this.router.navigate(['/shop/activation']);
-        }, error => {
-          this.ngxService.stop();
-          error.status === 400 ?
-            this.messageService.snakBarErrorMessage("Error in rejecting the merchant") :
-            this.messageService.snakBarErrorMessage(error.error.message)
-        }
-      )
+      if ( this.shopHistoryId != null || this.shopHistoryId != undefined ) {
+        this.shopService.rejectShopEdit(this.shopHistoryId).subscribe(
+          result => {
+            this.ngxService.stop();
+            this.messageService.snakBarSuccessMessage('You have successfully rejected the merchant edit details');
+            this.router.navigate(['/shop/activation']);
+          }, error => {
+            this.ngxService.stop();
+            error.status === 400 ?
+              this.messageService.snakBarErrorMessage("Error in rejecting the merchant edit details") :
+              this.messageService.snakBarErrorMessage(error.error.message)
+          }
+        )
+      } else {
+        this.shopService.rejectShop(this.id).subscribe(
+          result => {
+            this.ngxService.stop();
+            this.messageService.snakBarSuccessMessage('You have successfully rejected the merchant');
+            this.router.navigate(['/shop/activation']);
+          }, error => {
+            this.ngxService.stop();
+            error.status === 400 ?
+              this.messageService.snakBarErrorMessage("Error in rejecting the merchant") :
+              this.messageService.snakBarErrorMessage(error.error.message)
+          }
+        )
+      }
     }
   }
 
@@ -830,7 +875,7 @@ export class ShopRegistrationComponent implements OnInit {
     if (time != null) {
       let hour = (time.split(':'))[0]
       let min = (time.split(':'))[1]
-      let part = hour > 12 ? 'PM' : 'AM';
+      let part = hour >= 12 ? 'PM' : 'AM';
       min = (min + '').length == 1 ? `0${min}` : min;
       hour = hour > 12 ? hour - 12 : hour;
       hour = (hour + '').length == 1 ? `0${hour}` : hour;

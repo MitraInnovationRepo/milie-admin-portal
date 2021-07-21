@@ -190,7 +190,7 @@ export class AddWorkingHoursComponent implements OnInit {
     if (time != null) {
       let hour = (time.split(':'))[0]
       let min = (time.split(':'))[1]
-      let part = hour > 12 ? 'PM' : 'AM';
+      let part = hour >= 12 ? 'PM' : 'AM';
       min = (min + '').length == 1 ? `0${min}` : min;
       hour = hour > 12 ? hour - 12 : hour;
       hour = (hour + '').length == 1 ? `0${hour}` : hour;
