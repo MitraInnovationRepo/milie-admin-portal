@@ -384,7 +384,9 @@ export class ShopRegistrationComponent implements OnInit {
     this.shopCuisineList = merchant.shopCuisine;
     var shopTypes = [];
     merchant.shopCuisine.forEach(element => {
-      this.selectedTypes.push(element.shopType);
+      if(element.status !== 0){
+        this.selectedTypes.push(element.shopType);
+      }
     });
     this.selectedTypes.forEach(index => {
       this.shopTypeList.forEach(element => {
