@@ -277,7 +277,7 @@ export class ShopRegistrationComponent implements OnInit {
   }
   private _filter4(value: string): Branch[] {
     const filterValue = value != undefined ? value.toLowerCase() : '';
-    return this.branchList.filter(option => option.name.toLowerCase().indexOf(filterValue) === 0);
+    return this.branchList.filter(option => (option.name.toLowerCase() + option.code.toLowerCase()).includes(filterValue.toLowerCase()));
   }
   private _filter6(val: string): Observable<User[]> {
     if (!val) {
@@ -409,7 +409,7 @@ export class ShopRegistrationComponent implements OnInit {
       this.loadBranch();
       if(merchant.branch != null){
         this.selectedBranch = merchant.branch;
-        this.shopForm.get('branch').setValue(merchant.branch.name);
+        this.shopForm.get('branch').setValue(merchant.branch.name + " - " + merchant.branch.code);
       }
     }
     if (merchant.accountManager != null) {

@@ -331,8 +331,8 @@
                                         <mat-icon matSuffix style="font-size: 1.5em">search</mat-icon>
                                         <mat-autocomplete autoActiveFirstOption #auto4="matAutocomplete">
                                             <mat-option (onSelectionChange)="setBranch(option)"
-                                                *ngFor="let option of filteredOptions4 | async" [value]="option.name">
-                                                {{option.name}}
+                                                *ngFor="let option of filteredOptions4 | async" [value]="option.name + ' - ' + option.code">
+                                                {{option.name + " - " + option.code}}
                                             </mat-option>
                                         </mat-autocomplete>
                                     </mat-form-field>
