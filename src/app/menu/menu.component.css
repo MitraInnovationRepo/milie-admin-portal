@@ -1,0 +1,17 @@
+a {
+  /* font-size: large; */
+  font-weight: bold;
+  color: #fff;
+}
+
+.nav-icon {
+  margin: 0px 5px;
+}
+
+.isDisabled {
+  color: currentColor;
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.5;
+  text-decoration: none;
+}

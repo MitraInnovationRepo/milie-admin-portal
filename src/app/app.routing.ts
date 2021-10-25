@@ -58,6 +58,14 @@ const routes: Routes = [
       path: '',
       loadChildren: './payment/payment.module#PaymentModule',
     }]
+  },
+  {
+    path: 'menu',
+    component: AdminLayoutComponent,
+    children: [{
+      path: '',
+      loadChildren: './menu/menu.module#MenuModule',
+    }]
   }
 ];
 

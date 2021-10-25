@@ -1,0 +1,16 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header card-header-danger">
+                <nav mat-tab-nav-bar>
+                    <a [ngClass]="{'isDisabled':tabItem.disabled}" mat-tab-link *ngFor="let tabItem of tabs"
+                        [routerLink]="tabItem.route" routerLinkActive #rla="routerLinkActive" [active]="rla.isActive">
+                        <!-- <mat-icon class="nav-icon">{{tabItem.icon}}</mat-icon> -->
+                        {{tabItem.label}}
+                    </a>
+                </nav>
+            </div>
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

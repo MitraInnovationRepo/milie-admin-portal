@@ -1,0 +1,70 @@
+<div class="sub-main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <mat-icon class="edit-icon">keyboard_backspace</mat-icon>
+            </div>
+            <div class="col-4">
+            </div>
+            <div class="col-4">
+                <button class="pull-right" mat-raised-button color="primary" (click)="updateWorkingHours()"
+                    disabled={{!isEdited}}>
+                    Save
+                </button>
+            </div>
+        </div>
+        <br>
+        <div class="row" style="margin-bottom: 50px;">
+            <div class="col-md-4">
+                <h4> Menu </h4>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="menu-hours-container" *ngFor="let displayHour of displayHourList; let i = index"
+                        [attr.data-index]="i">
+                        <mat-icon class=" close-icon" (click)="removeWorkingHours(i)">cancel</mat-icon>
+                        <div class="row day-chip-list">
+                            <div class="col-md-12">
+                                <mat-chip-list selectable="true" multiple="true">
+                                    <mat-chip *ngFor="let day of dayList" [selected]="checkDaySelected(day.id , i)"
+                                        (click)="onClickDay(i, day.id)">
+                                        {{day.name}}&nbsp;
+                                    </mat-chip>
+                                </mat-chip-list>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <mat-form-field>
+                                    <mat-label>Opening Time</mat-label>
+                                    <input type="time" matInput placeholder="" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="displayHour.startTime">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <mat-form-field>
+                                    <mat-label>Closing Time</mat-label>
+                                    <input type="time" matInput placeholder="" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="displayHour.endTime">
+                                </mat-form-field>
+                            </div>
+                            <!-- <div class="col-md-4">
+                                    <button mat-raised-button color="accent" [disabled]="!newHourForm.valid"
+                                        (click)="add(newHourForm.value)">Add</button>
+                                </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row table-topic">
+                <p class="addnew" (click)="addNewMenuHours()">
+                    <mat-icon class="add-circle">add_circle</mat-icon>
+                    <u>Add More Menu Hours</u>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
