@@ -15,6 +15,10 @@ export const MenuRoutes: Routes = [
         path: "hours",
         loadChildren: "./menu-hours/menu-hours.module",
       },
+      {
+        path: "category",
+        loadChildren: "./menu-category/menu-category.module",
+      },
     ],
   },
 ];

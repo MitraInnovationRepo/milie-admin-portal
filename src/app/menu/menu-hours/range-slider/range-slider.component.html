@@ -1,0 +1,12 @@
+<div class="track">
+    <div class="label" [style.left.px]="form.get('firstThumb').value - 55">
+        {{getTime(formControl.value[0])}}
+    </div>
+
+    <div class="filled-line" [style.left.px]="form.get('firstThumb').value"
+        [style.right.px]="cachedBoundingClientRectWidth - form.get('secondThumb').value"></div>
+
+    <div class="label" [style.right.px]="cachedBoundingClientRectWidth - form.get('secondThumb').value - 55">
+        {{getTime(formControl.value[1])}}
+    </div>
+</div>

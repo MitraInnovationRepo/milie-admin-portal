@@ -28,18 +28,18 @@ export class MenuComponent implements OnInit {
   shop: Merchant;
 
   ngOnInit(): void {
-    this.ngxService.start();
-    this.shopId = Number(this.route.snapshot.paramMap.get("id"));
-    this.menuService.getShop(this.shopId).subscribe(
-      (result) => {
-        this.shop = result;
-        console.log(this.shop);
-      },
-      (error) => {
-        this.messageService.snakBarErrorMessage(error.error.message);
-      }
-    );
-    this.ngxService.stop();
+    // this.ngxService.start();
+    // this.shopId = Number(this.route.snapshot.paramMap.get("id"));
+    // this.menuService.getShop(this.shopId).subscribe(
+    //   (result) => {
+    //     this.shop = result;
+    //     console.log(this.shop);
+    //   },
+    //   (error) => {
+    //     this.messageService.snakBarErrorMessage(error.error.message);
+    //   }
+    // );
+    // this.ngxService.stop();
   }
 
   tabs: TabItem[] = [

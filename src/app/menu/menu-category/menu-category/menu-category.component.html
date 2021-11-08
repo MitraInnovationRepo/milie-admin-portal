@@ -1,0 +1,79 @@
+<ngx-ui-loader></ngx-ui-loader>
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <h4 class="title"> Menu Category </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4"></div>
+            <div class="col-4">
+                <button class="pull-right" mat-raised-button color="primary" (click)="addCategory()" type='button'>Add
+                    Category</button>
+            </div>
+        </div>
+        <mat-accordion>
+            <mat-form-field>
+                <mat-label>Filter</mat-label>
+                <input autocomplete="off" matInput (keyup)="applyFilter($event)"
+                    placeholder="Merchant Code , Merchant Name , Mobile Number , City And Status" #input>
+            </mat-form-field>
+
+            <div class="mat-elevation-z8">
+                <table mat-table [dataSource]="dataSource" matSort>
+
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Category ID </th>
+                        <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Category Name </th>
+                        <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="image">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Image </th>
+                        <td mat-cell *matCellDef="let row">
+                            <img width="90" height="100" id="blah"
+                                [src]="row.image || 'https://i.imgur.com/yQqPfHK.png'" alt="Category Image" />
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="menus">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Menus </th>
+                        <td mat-cell *matCellDef="let row"> {{row.menus}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="itemCount">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Item Count </th>
+                        <td mat-cell *matCellDef="let row">{{row.itemCount}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="lastModifiedDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Updated Date </th>
+                        <td mat-cell *matCellDef="let row">{{row.lastModifiedDate}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="history">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                        <td mat-cell *matCellDef="let row" style="cursor: pointer;">
+                            <mat-icon class="edit-icon">history</mat-icon>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                    </tr>
+                </table>
+
+                <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+            </div>
+        </mat-accordion>
+    </div>
+</div>

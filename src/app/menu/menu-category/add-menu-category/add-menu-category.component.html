@@ -1,0 +1,86 @@
+<ngx-ui-loader></ngx-ui-loader>
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4 class="title"> Add Menu Category </h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form [formGroup]="categoryForm">
+                            <!-- <div class="row">
+                <div class="col-md-6">
+                  <ng-select [items]="mainCategory" formControlName="productMainType" placeholder="Main Product Type"
+                    bindLabel="name" autofocus bindValue="id" [ngModel]="selectedProductMainType" >
+                  </ng-select>
+                </div>
+              </div> -->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput formControlName="name" placeholder="Menu Type" type="text"
+                                            required>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput formControlName="sortingId" placeholder="Order #" type="number"
+                                            required>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <mat-form-field class="example-full-width">
+                                        <textarea matInput formControlName="description"
+                                            placeholder="Description"></textarea>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)"
+                                        multiple="false">
+                                        <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                                            <button class="btn" type="button" (click)="openFileSelector()">Browse
+                                                Files</button>
+                                        </ng-template>
+                                    </ngx-file-drop>
+                                    <input type="hidden" formControlName="image" />
+                                    <div *ngIf="imageSrc?!image.valid:false">{{image.errors}}</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <img width="180" height="200" id="blah"
+                                        [src]="imageSrc || 'https://i.imgur.com/yQqPfHK.png'" alt="Uploded image" />
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-description>
+                                            <app-menu-hours></app-menu-hours>
+                                        </mat-panel-description>
+                                    </mat-expansion-panel-header>
+                                    <p>I'm visible because I am open</p>
+                                </mat-expansion-panel>
+                            </div>
+
+                            <button mat-raised-button (click)="onFormSubmit(categoryForm.value)"
+                                [disabled]="categoryForm.invalid && !isUploadedImage" type='button'
+                                class="btn btn-success pull-right">{{buttonText}}</button>
+
+                            <button *ngIf="productTypeId > 0" mat-raised-button
+                                (click)="deleteCategoryData(productTypeId)" type='button'
+                                class="btn btn-danger pull-right">Delete</button>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -82,9 +82,9 @@ export class MerchantListComponent implements OnInit {
   }
 
   updateShopMenu(id) {
-    // this.router.navigate(["/menu/edit/" + id + "/hours"], {
-    //   state: { data: id, update: true },
-    // });
+    this.router.navigate(["/menu/edit/" + id + "/hours"], {
+      state: { data: id, update: true },
+    });
   }
 
   applyFilter(event: Event) {

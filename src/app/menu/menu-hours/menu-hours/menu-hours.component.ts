@@ -1,5 +1,6 @@
 import { DatePipe } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
+import { FormControl } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { MenuService } from "app/menu/menu.service";
 import { ResturantHours } from "app/shared/data/resturent-hours";
@@ -11,6 +12,7 @@ export interface DisplayHours {
   startTime: string;
   endTime: string;
   days: Array<ResturantHours>;
+  range: FormControl;
 }
 
 @Component({
@@ -19,17 +21,18 @@ export interface DisplayHours {
   styleUrls: ["./menu-hours.component.css"],
 })
 export class MenuHoursComponent implements OnInit {
-  dayList: { id; name }[] = [
-    { id: 1, name: "Monday" },
-    { id: 2, name: "Tuesday" },
-    { id: 3, name: "Wednesday" },
-    { id: 4, name: "Thursday" },
-    { id: 5, name: "Friday" },
-    { id: 6, name: "Saturday" },
-    { id: 7, name: "Sunday" },
+  dayList: { id; name; disabled }[] = [
+    { id: 1, name: "Monday", disabled: false },
+    { id: 2, name: "Tuesday", disabled: false },
+    { id: 3, name: "Wednesday", disabled: false },
+    { id: 4, name: "Thursday", disabled: false },
+    { id: 5, name: "Friday", disabled: false },
+    { id: 6, name: "Saturday", disabled: false },
+    { id: 7, name: "Sunday", disabled: false },
   ];
   workingHoursList: ResturantHours[];
   displayHourList: DisplayHours[] = [];
+  updatedWorkingHours: ResturantHours[] = [];
   isEdited: boolean = false;
   shopId: Number;
 
@@ -38,87 +41,87 @@ export class MenuHoursComponent implements OnInit {
     private messageService: MessageService,
     private ngxService: NgxUiLoaderService,
     private menuService: MenuService,
-    private route: ActivatedRoute,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-
     this.ngxService.start();
     this.shopId = Number(this.route.parent.parent.snapshot.paramMap.get("id"));
     this.menuService.getShop(this.shopId).subscribe(
       (result) => {
         this.workingHoursList = result.workingHourList;
-        console.log(result);
+        for (var i = 0; i < this.workingHoursList.length; i++) {
+          if (this.workingHoursList[i].closedAllDay) {
+            this.updatedWorkingHours.push(this.workingHoursList[i]);
+            this.dayList[this.workingHoursList[i].day - 1].disabled = true;
+          }
+        }
+
+        this.workingHoursList = this.workingHoursList.filter(
+          (workingHour) => !workingHour.closedAllDay
+        );
 
         var helper = {};
         var tempHelper = {};
         this.displayHourList = this.workingHoursList.reduce(function (r, o) {
-          var key = o.startHour + "-" + o.endHour;
-    
-          if (!helper[key]) {
-            tempHelper[key] = Object.assign({}, o);
-            helper[key] = Object.assign(
-              {},
-              {
-                startTime: o.startHour.split('T')[1],
-                endTime: o.endHour.split('T')[1],
-                days: [o],
-              }
-            ); // create a copy of o
-            r.push(helper[key]);
-          } else {
-            helper[key].days.push(o);
+          if (!o.closedAllDay) {
+            var key = o.startHour + "-" + o.endHour;
+
+            if (!helper[key]) {
+              let splitStartHour = o.startHour.split("T")[1];
+              let splitEndHour = o.endHour.split("T")[1];
+
+              let deepSplitStartHour = splitStartHour.split(":");
+              let deepSplitEndHour = splitEndHour.split(":");
+
+              let startHourSeconds =
+                +deepSplitStartHour[0] * 60 * 60 + +deepSplitStartHour[1] * 60;
+
+              let endHourSeconds =
+                +deepSplitEndHour[0] * 60 * 60 + +deepSplitEndHour[1] * 60;
+
+              tempHelper[key] = Object.assign({}, o);
+              helper[key] = Object.assign(
+                {},
+                {
+                  startTime: splitStartHour,
+                  endTime: splitEndHour,
+                  days: [o],
+                  range: new FormControl([startHourSeconds, endHourSeconds]),
+                }
+              ); // create a copy of o
+              r.push(helper[key]);
+            } else {
+              helper[key].days.push(o);
+            }
+
+            return r;
           }
-    
-          return r;
         }, []);
+
+        if (this.displayHourList == undefined) {
+          this.displayHourList = [];
+        }
+        this.ngxService.stop();
       },
       (error) => {
+        this.ngxService.stop();
         this.messageService.snakBarErrorMessage(error.error.message);
       }
     );
-    this.ngxService.stop();
-
-    // data = [
-    //   {
-    //     id: 1,
-    //     startHour: "08:00",
-    //     endHour: "22:00",
-    //     day: 2,
-    //     closedAllDay: false,
-    //     status: 1,
-    //     dayGroup: 0,
-    //   },
-    //   {
-    //     id: 1,
-    //     startHour: "08:00",
-    //     endHour: "22:00",
-    //     day: 1,
-    //     closedAllDay: false,
-    //     status: 1,
-    //     dayGroup: 0,
-    //   },
-    //   {
-    //     id: 1,
-    //     startHour: "09:00",
-    //     endHour: "22:00",
-    //     day: 3,
-    //     closedAllDay: false,
-    //     status: 1,
-    //     dayGroup: 0,
-    //   },
-    // ];
   }
 
   onClickDay(index, day) {
-    if (this.checkOverlap(index, day)) {
-      this.messageService.snakBarErrorMessage(
-        `Not allowed to overlap ${this.dayList[day - 1].name} ${
-          this.displayHourList[index].startTime
-        } - ${this.displayHourList[index].endTime} working hours!`
-      );
-    } else {
-      this.isEdited = true;
+    if (!this.dayList[index].disabled) {
+      if (this.checkOverlap(index, day)) {
+        this.messageService.snakBarErrorMessage(
+          `Not allowed to overlap ${this.dayList[day - 1].name} ${
+            this.displayHourList[index].startTime
+          } - ${this.displayHourList[index].endTime} working hours!`
+        );
+      } else {
+        this.isEdited = true;
+      }
     }
   }
 
@@ -127,6 +130,7 @@ export class MenuHoursComponent implements OnInit {
       startTime: "08:00",
       endTime: "22:00",
       days: [],
+      range: new FormControl([28800, 79200]),
     });
   }
 
@@ -136,26 +140,56 @@ export class MenuHoursComponent implements OnInit {
   }
 
   updateWorkingHours() {
-    if (this.validateMenuHours()) {
-      let updatedWorkingHours: ResturantHours[] = [];
-
+    if (!this.validateMenuHours(this.displayHourList)) {
       this.displayHourList.forEach((el) => {
         el.days.forEach((workingHour) => {
           workingHour.startHour = this.getDateTime(el.startTime);
           workingHour.endHour = this.getDateTime(el.endTime);
-          updatedWorkingHours.push(workingHour);
+          this.updatedWorkingHours.push(workingHour);
         });
       });
 
-      console.log(updatedWorkingHours);
+      this.ngxService.start();
+      this.menuService
+        .updateMenuHours(this.shopId, this.updatedWorkingHours)
+        .subscribe(
+          (result) => {
+            this.ngxService.stop();
+            this.messageService.snakBarSuccessMessage(
+              "You have successfully updated the menu hours"
+            );
+            this.isEdited = false;
+          },
+          (error) => {
+            this.ngxService.stop();
+            error.status === 400
+              ? this.messageService.snakBarErrorMessage(
+                  "Error in updating the menu hours"
+                )
+              : this.messageService.snakBarErrorMessage(error.error.message);
+          }
+        );
+    } else {
+      this.messageService.snakBarErrorMessage("Invalid Time Slots!");
     }
   }
 
-  changeInputValue(event, index, fieldName) {
-    if (fieldName == "start") {
-      this.displayHourList[index].startTime = event.target.value;
-    } else {
-      this.displayHourList[index].endTime = event.target.value;
+  changeInputValue(index) {
+    let deepSplitStartHour = this.displayHourList[index].startTime.split(":");
+    let deepSplitEndHour = this.displayHourList[index].endTime.split(":");
+
+    let startHourSeconds =
+      +deepSplitStartHour[0] * 60 * 60 + +deepSplitStartHour[1] * 60;
+
+    let endHourSeconds =
+      +deepSplitEndHour[0] * 60 * 60 + +deepSplitEndHour[1] * 60;
+    this.displayHourList[index].range = new FormControl([
+      startHourSeconds,
+      endHourSeconds,
+    ]);
+
+    if (this.displayHourList[index].days.length > 0) {
+      this.isEdited = true;
     }
   }
 
@@ -163,8 +197,41 @@ export class MenuHoursComponent implements OnInit {
     return this.displayHourList[index].days.some((i) => i.day == day);
   }
 
-  validateMenuHours() {
-    return true;
+  validateMenuHours(menuHoursArray) {
+    let menuHours = _.cloneDeep(menuHoursArray);
+
+    menuHours.sort((timeSegment1, timeSegment2) =>
+      timeSegment1.startTime.localeCompare(timeSegment2.startTime)
+    );
+
+    for (let i = 0; i < menuHours.length - 1; i++) {
+      const currentMenuHour = menuHours[i];
+      const nextMenuHour = menuHours[i + 1];
+
+      let currentMenuHourDays = currentMenuHour.days.map(function (day) {
+        return day["day"];
+      });
+      let nextMenuHourDays = nextMenuHour.days.map(function (day) {
+        return day["day"];
+      });
+
+      if (
+        currentMenuHour.startTime >= currentMenuHour.endTime ||
+        (currentMenuHourDays.some((d) => nextMenuHourDays.includes(d)) &&
+          currentMenuHour.endTime >= nextMenuHour.startTime)
+      ) {
+        return true;
+      }
+    }
+
+    if (menuHours.length == 1) {
+      return menuHours[0].startTime >= menuHours[0].endTime;
+    } else {
+      return (
+        menuHours[menuHours.length - 1].startTime >=
+        menuHours[menuHours.length - 1].endTime
+      );
+    }
   }
 
   getDateTime(hour) {
@@ -184,9 +251,7 @@ export class MenuHoursComponent implements OnInit {
   checkOverlap(index, day) {
     if (this.displayHourList.length === 0) return false;
 
-    // let menuHours = [...this.displayHourList];
     let menuHours = _.cloneDeep(this.displayHourList);
-
     let dayIndex = menuHours[index].days.findIndex((i) => i.day == day);
     if (dayIndex > -1) {
       menuHours[index].days.splice(dayIndex, 1);
@@ -201,30 +266,10 @@ export class MenuHoursComponent implements OnInit {
         status: 1,
       });
 
-      menuHours.sort((timeSegment1, timeSegment2) =>
-        timeSegment1.startTime.localeCompare(timeSegment2.startTime)
-      );
-
-      for (let i = 0; i < menuHours.length - 1; i++) {
-        const currentMenuHour = menuHours[i];
-        const nextMenuHour = menuHours[i + 1];
-
-        let currentMenuHourDays = currentMenuHour.days.map(function (day) {
-          return day["day"];
-        });
-        let nextMenuHourDays = nextMenuHour.days.map(function (day) {
-          return day["day"];
-        });
-
-        if (
-          currentMenuHourDays.some((d) => nextMenuHourDays.includes(d)) &&
-          currentMenuHour.endTime >= nextMenuHour.startTime
-        ) {
-          return true;
-        }
+      if (this.validateMenuHours(menuHours)) {
+        return true;
       }
     }
-
     this.displayHourList = menuHours;
     return false;
   }

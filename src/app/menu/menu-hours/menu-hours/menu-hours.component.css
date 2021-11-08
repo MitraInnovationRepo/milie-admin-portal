@@ -33,8 +33,6 @@ mat-chip {
   position: absolute;
   right: 20px;
   top: 5px;
-  width: 10px;
-  height: 10px;
 }
 
 .add-circle {
@@ -55,4 +53,25 @@ mat-chip {
 .table-topic {
   padding: 10px 0px;
   margin-left: 5px;
+}
+
+.title{
+  padding: 20px;
+  font-weight: 800;
+}
+
+.time-slots {
+  position: absolute;
+  height: 50px;
+  width: 12.5%;
+  top : 25px;
+  z-index: 2;
+  border: 1px solid grey;
+}
+
+.time-label{
+  position: relative;
+  font-size: small;
+  top: 50px;
+  left: -20%;
 }

@@ -4,16 +4,29 @@ import { MenuHoursComponent } from "./menu-hours/menu-hours.component";
 import { RouterModule } from "@angular/router";
 import { MaterialModule } from "app/material";
 import { MatChipsModule } from "@angular/material/chips";
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { RangeSliderComponent } from "./range-slider/range-slider.component";
+import { NgxUiLoaderModule, NgxUiLoaderConfig, SPINNER } from 'ngx-ui-loader';
+
+const ngxUiLoaderConfig: NgxUiLoaderConfig = {
+  fgsColor: "#ef5350",
+  fgsType: SPINNER.ballScaleMultiple, // foreground spinner type
+  hasProgressBar:false,
+};
 
 @NgModule({
-  declarations: [MenuHoursComponent],
+  declarations: [
+    MenuHoursComponent,
+    RangeSliderComponent,
+  ],
   imports: [
     CommonModule,
     RouterModule.forChild([{ path: "", component: MenuHoursComponent }]),
     MaterialModule,
     MatChipsModule,
-    FormsModule
+    ReactiveFormsModule,
+    FormsModule,
+    NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
   ],
 })
 export default class MenuHoursModule {}

@@ -1,0 +1,14 @@
+table{
+    width: 100%;
+}
+
+.edit-icon {
+    color: rgb(11, 11, 106);
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.title{
+    padding: 20px;
+    font-weight: 800;
+  }
