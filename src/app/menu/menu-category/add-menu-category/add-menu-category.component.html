@@ -57,18 +57,6 @@
                                         [src]="imageSrc || 'https://i.imgur.com/yQqPfHK.png'" alt="Uploded image" />
                                 </div>
                             </div>
-
-                            <div class="row">
-                                <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-                                    <mat-expansion-panel-header>
-                                        <mat-panel-description>
-                                            <app-menu-hours></app-menu-hours>
-                                        </mat-panel-description>
-                                    </mat-expansion-panel-header>
-                                    <p>I'm visible because I am open</p>
-                                </mat-expansion-panel>
-                            </div>
-
                             <button mat-raised-button (click)="onFormSubmit(categoryForm.value)"
                                 [disabled]="categoryForm.invalid && !isUploadedImage" type='button'
                                 class="btn btn-success pull-right">{{buttonText}}</button>
