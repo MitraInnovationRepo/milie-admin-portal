@@ -42,7 +42,7 @@ export class RangeSliderComponent implements OnInit, ControlValueAccessor {
   });
 
   /** Calculating this every cd will cause layout trashing, future improvement could be updating on window resize  */
-  private cachedBoundingClientRectWidth = null;
+  public cachedBoundingClientRectWidth = null;
 
   private onTouchedCallback;
 
