@@ -4,7 +4,7 @@ import { Routes, RouterModule } from "@angular/router";
 import { MenuComponent } from "./menu.component";
 import { MerchantListComponent } from "./merchant-list/merchant-list.component";
 
-const menuRoutes: Routes = [
+export const menuRoutes: Routes = [
   {
     path: "",
     component: MerchantListComponent,
@@ -15,23 +15,13 @@ const menuRoutes: Routes = [
     children: [
       {
         path: "hours",
-        loadChildren: "./menu-hours/menu-hours.module",
+        loadChildren: "./menu-hours/menu-hours.module#MenuHoursModule",
       },
       {
         path: "category",
-        loadChildren: "./menu-category/menu-category.module",
+        loadChildren: "./menu-category/menu-category.module#MenuCategoryModule",
       },
     ],
   },
 ];
 
-@NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(menuRoutes)
-  ],
-  exports: [
-  ],
-})
-
-export class MenuRoutingModule { }

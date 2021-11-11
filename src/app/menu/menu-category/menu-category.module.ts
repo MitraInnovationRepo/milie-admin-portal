@@ -9,6 +9,7 @@ import { NgxUiLoaderConfig, NgxUiLoaderModule, SPINNER } from "ngx-ui-loader";
 import { AddMenuCategoryComponent } from "./add-menu-category/add-menu-category.component";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { NgxFileDropModule } from "ngx-file-drop";
+import { menuCategoryRoutes } from "./menu-category.routing";
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   fgsColor: "#ef5350",
@@ -20,11 +21,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   declarations: [MenuCategoryComponent, AddMenuCategoryComponent],
   imports: [
     CommonModule,
-    RouterModule.forChild([
-      { path: "", component: MenuCategoryComponent },
-      { path: "add", component: AddMenuCategoryComponent },
-      { path: "edit/:productTypeId", component: AddMenuCategoryComponent },
-    ]),
+    RouterModule.forChild(menuCategoryRoutes),
     MaterialModule,
     MatChipsModule,
     FormsModule,
@@ -34,4 +31,4 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
   ],
 })
-export default class MenuCategoryModule {}
+export class MenuCategoryModule {}
