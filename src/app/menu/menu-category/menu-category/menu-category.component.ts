@@ -18,12 +18,13 @@ import { MenuService } from "../../menu.service";
 export class MenuCategoryComponent implements OnInit {
   displayedColumns: string[] = [
     "id",
-    "image",
+    // "image",
     "name",
-    "menus",
+    // "menus",
     "itemCount",
     "lastModifiedDate",
-    "history",
+    // "history",
+    "action"
   ];
   dataSource: MatTableDataSource<ProductType>;
   productTypeList: ProductType[] = [];
@@ -75,7 +76,7 @@ export class MenuCategoryComponent implements OnInit {
   }
 
   updateShopMenu(id) {
-    this.router.navigate(["/menu/edit/" + id + "/hours"], {
+    this.router.navigate(["/menu/edit/" + this.shopId + "/category/edit/" + id], {
       state: { data: id, update: true },
     });
   }

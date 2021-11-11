@@ -56,7 +56,7 @@ export class MenuComponent implements OnInit {
     {
       label: "Category",
       route: "category",
-      disabled: true,
+      disabled: false,
     },
     {
       label: "New Item",

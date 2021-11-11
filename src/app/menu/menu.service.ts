@@ -37,18 +37,18 @@ export class MenuService {
     return this.http.get<ProductType>(url);
   }
 
-  saveCategory(productType) {
-    const url = API_URL + '/product-type';
+  saveCategory(shopId, productType) {
+    const url = API_URL + `/product-type/${shopId}`;
     return this.http.post<ProductType>(url, productType)
   }
 
-  updateCategory(productType) {
-    const url = API_URL + '/product-type';
+  updateCategory(shopId, productType) {
+    const url = API_URL + `/product-type/${shopId}`;
     return this.http.put<ProductType>(url, productType)
   }
 
   deleteCategory(id: number) {
-    const url = API_URL + '/product-type/' + id;
+    const url = API_URL + '/product-type/admin/' + id;
     return this.http.delete<any>(url)
   }
 

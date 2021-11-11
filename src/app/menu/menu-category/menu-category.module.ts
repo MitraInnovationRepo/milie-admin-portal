@@ -23,6 +23,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     RouterModule.forChild([
       { path: "", component: MenuCategoryComponent },
       { path: "add", component: AddMenuCategoryComponent },
+      { path: "edit/:productTypeId", component: AddMenuCategoryComponent },
     ]),
     MaterialModule,
     MatChipsModule,

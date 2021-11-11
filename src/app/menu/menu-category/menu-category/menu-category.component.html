@@ -1,5 +1,5 @@
 <ngx-ui-loader></ngx-ui-loader>
-<div class="main-content">
+<div class="sub-main-content">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-4">
@@ -7,9 +7,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-4"></div>
-            <div class="col-4"></div>
-            <div class="col-4">
+            <div class="col-12">
                 <button class="pull-right" mat-raised-button color="primary" (click)="addCategory()" type='button'>Add
                     Category</button>
             </div>
@@ -18,7 +16,7 @@
             <mat-form-field>
                 <mat-label>Filter</mat-label>
                 <input autocomplete="off" matInput (keyup)="applyFilter($event)"
-                    placeholder="Merchant Code , Merchant Name , Mobile Number , City And Status" #input>
+                    placeholder="Category ID , Category Name , Item Count And Last Updated Date" #input>
             </mat-form-field>
 
             <div class="mat-elevation-z8">
@@ -34,7 +32,7 @@
                         <td mat-cell *matCellDef="let row"> {{row.name}} </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="image">
+                    <!-- <ng-container matColumnDef="image">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Image </th>
                         <td mat-cell *matCellDef="let row">
                             <img width="90" height="100" id="blah"
@@ -45,22 +43,30 @@
                     <ng-container matColumnDef="menus">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Menus </th>
                         <td mat-cell *matCellDef="let row"> {{row.menus}} </td>
-                    </ng-container>
+                    </ng-container> -->
 
                     <ng-container matColumnDef="itemCount">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Item Count </th>
-                        <td mat-cell *matCellDef="let row">{{row.itemCount}}</td>
+                        <td mat-cell *matCellDef="let row">{{row.productCount}}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="lastModifiedDate">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Updated Date </th>
-                        <td mat-cell *matCellDef="let row">{{row.lastModifiedDate}}</td>
+                        <td mat-cell *matCellDef="let row">{{row.lastModifiedDate.split("T")[0] +" - " +
+                            row.lastModifiedDate.split("T")[1]}}</td>
                     </ng-container>
-
+                    <!-- 
                     <ng-container matColumnDef="history">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
                         <td mat-cell *matCellDef="let row" style="cursor: pointer;">
                             <mat-icon class="edit-icon">history</mat-icon>
+                        </td>
+                    </ng-container> -->
+
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                        <td mat-cell *matCellDef="let row" style="cursor: pointer;">
+                            <mat-icon (click)="updateShopMenu(row.id)" class="edit-icon">edit</mat-icon>
                         </td>
                     </ng-container>
 

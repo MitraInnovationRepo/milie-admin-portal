@@ -3,11 +3,11 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-4">
-                <mat-icon class="edit-icon">keyboard_backspace</mat-icon>
+                <h4 class="title"> Menu Hours</h4>
             </div>
-            <div class="col-4">
-            </div>
-            <div class="col-4">
+        </div>
+        <div class="row">
+            <div class="col-12">
                 <button class="pull-right" mat-raised-button color="primary" (click)="updateWorkingHours()"
                     disabled={{!isEdited}}>
                     Save
@@ -16,11 +16,6 @@
         </div>
         <br>
         <div class="card">
-            <div class="row">
-                <div class="col-md-4">
-                    <h4 class="title"> Menu Hours</h4>
-                </div>
-            </div>
             <div class="row">
                 <div class="col-md-8">
                     <div class="menu-hours-container" *ngFor="let displayHour of displayHourList; let i = index"

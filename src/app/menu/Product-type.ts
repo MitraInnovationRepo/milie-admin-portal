@@ -1,3 +1,5 @@
+import { ResturantHours } from "app/shared/data/resturent-hours";
+
 export interface ProductType {
   id: string;
   name: string;
@@ -5,6 +7,8 @@ export interface ProductType {
   description: string;
   sortingId: number;
   menus: string;
-  itemCount: number;
+  productCount: number;
+  availability: boolean;
   lastModifiedDate : string;
+  productTypeHourList : ResturantHours[];
 }
