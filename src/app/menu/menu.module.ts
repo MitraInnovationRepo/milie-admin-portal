@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { CommonModule } from "@angular/common";
 
-import { MenuRoutingModule } from "./menu-routing.module";
+import { MenuRoutingModule } from "./menu.routing";
 import { MerchantListComponent } from "./merchant-list/merchant-list.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MaterialModule } from "app/material";
