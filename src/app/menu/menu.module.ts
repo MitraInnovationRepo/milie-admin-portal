@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { CommonModule } from "@angular/common";
 
-import { MenuRoutes } from "./menu-routing.module";
+import { MenuRoutingModule } from "./menu-routing.module";
 import { MerchantListComponent } from "./merchant-list/merchant-list.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MaterialModule } from "app/material";
@@ -32,7 +32,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild(MenuRoutes),
+    RouterModule,
+    MenuRoutingModule,
     FormsModule,
     MaterialModule,
     ReactiveFormsModule,

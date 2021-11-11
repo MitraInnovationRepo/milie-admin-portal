@@ -1,8 +1,10 @@
+import { CommonModule } from "@angular/common";
+import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { MenuComponent } from "./menu.component";
 import { MerchantListComponent } from "./merchant-list/merchant-list.component";
 
-export const MenuRoutes: Routes = [
+const menuRoutes: Routes = [
   {
     path: "",
     component: MerchantListComponent,
@@ -22,3 +24,14 @@ export const MenuRoutes: Routes = [
     ],
   },
 ];
+
+@NgModule({
+  imports: [
+    CommonModule,
+    RouterModule.forChild(menuRoutes)
+  ],
+  exports: [
+  ],
+})
+
+export class MenuRoutingModule { }
