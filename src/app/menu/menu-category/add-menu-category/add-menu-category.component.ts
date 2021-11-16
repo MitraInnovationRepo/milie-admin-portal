@@ -229,7 +229,7 @@ export class AddMenuCategoryComponent implements OnInit {
           this.ngxService.stop();
         } else {
           data.id = null;
-          data.productTypeHourList.forEach(workingHour => {
+          data.productTypeHourList.forEach((workingHour) => {
             workingHour.id = null;
           });
           this.saveCategoryData(data);
@@ -249,7 +249,9 @@ export class AddMenuCategoryComponent implements OnInit {
         this.messageService.snakBarSuccessMessage(
           "Category successfully saved."
         );
-        this.router.navigate([`/menu/edit/${this.shopId}/category/edit/${res}`]);
+        this.router.navigate([
+          `/menu/edit/${this.shopId}/category/edit/${res}`,
+        ]);
       },
       (err) => {
         this.ngxService.stopAll();
@@ -422,10 +424,13 @@ export class AddMenuCategoryComponent implements OnInit {
 
     let menuHours = _.cloneDeep(this.displayHourList);
     let dayIndex = menuHours[index].days.findIndex((i) => i.day == day);
+    let newCategoryHour;
+
     if (dayIndex > -1) {
-      menuHours[index].days.splice(dayIndex, 1);
+      this.displayHourList[index].days.splice(dayIndex, 1);
+      return false;
     } else {
-      menuHours[index].days.push({
+      newCategoryHour = {
         id: null,
         startHour: menuHours[index].startTime,
         endHour: menuHours[index].startTime,
@@ -433,13 +438,14 @@ export class AddMenuCategoryComponent implements OnInit {
         closedAllDay: false,
         dayGroup: 0,
         status: 1,
-      });
+      };
+      menuHours[index].days.push(newCategoryHour);
 
       if (this.validateMenuHours(menuHours)) {
         return true;
       }
     }
-    this.displayHourList = menuHours;
+    this.displayHourList[index].days.push(newCategoryHour);
     return false;
   }
 }
