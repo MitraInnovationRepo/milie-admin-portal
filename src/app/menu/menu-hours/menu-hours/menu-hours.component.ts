@@ -253,10 +253,13 @@ export class MenuHoursComponent implements OnInit {
 
     let menuHours = _.cloneDeep(this.displayHourList);
     let dayIndex = menuHours[index].days.findIndex((i) => i.day == day);
+    let newMenuHour;
+
     if (dayIndex > -1) {
-      menuHours[index].days.splice(dayIndex, 1);
+      this.displayHourList[index].days.splice(dayIndex, 1);
+      return false;
     } else {
-      menuHours[index].days.push({
+      newMenuHour = {
         id: null,
         startHour: menuHours[index].startTime,
         endHour: menuHours[index].startTime,
@@ -264,13 +267,14 @@ export class MenuHoursComponent implements OnInit {
         closedAllDay: false,
         dayGroup: 0,
         status: 1,
-      });
+      };
+      menuHours[index].days.push(newMenuHour);
 
       if (this.validateMenuHours(menuHours)) {
         return true;
       }
     }
-    this.displayHourList = menuHours;
+    this.displayHourList[index].days.push(newMenuHour);
     return false;
   }
 }

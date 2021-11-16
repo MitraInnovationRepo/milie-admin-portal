@@ -30,9 +30,7 @@ mat-chip {
 .close-icon {
   color: rgb(11, 11, 106);
   cursor: pointer;
-  position: absolute;
-  right: 20px;
-  top: 5px;
+  float: right;
 }
 
 .add-circle {
@@ -55,7 +53,7 @@ mat-chip {
   margin-left: 5px;
 }
 
-.title{
+.title {
   padding: 20px;
   font-weight: 800;
 }
@@ -64,14 +62,18 @@ mat-chip {
   position: absolute;
   height: 50px;
   width: 12.5%;
-  top : 25px;
+  top: 25px;
   z-index: 2;
   border: 1px solid grey;
 }
 
-.time-label{
+.time-label {
   position: relative;
   font-size: small;
   top: 50px;
   left: -20%;
+}
+
+.mat-chip.mat-standard-chip.mat-chip-selected.mat-primary {
+  background-color: #009966;
 }
