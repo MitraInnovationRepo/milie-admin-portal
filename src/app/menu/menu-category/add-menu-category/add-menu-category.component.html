@@ -14,10 +14,10 @@
 
                             <button mat-raised-button (click)="onFormSubmit(categoryForm.value, false)"
                                 [disabled]="categoryForm.invalid && !isUploadedImage" type='button'
-                                class="btn btn-success pull-right">{{buttonText}}</button>
+                                class="btn pull-right" style="background-color: #3F51B5;" color="primary">{{buttonText}}</button>
 
                             <button *ngIf="productTypeId > 0" mat-raised-button
-                                (click)="deleteCategoryData(productTypeId)" type='button'
+                                (click)="deleteCategory(productTypeId)" type='button'
                                 class="btn btn-danger pull-right">Delete</button>
 
                             <button *ngIf="productTypeId > 0" mat-raised-button

@@ -10,6 +10,7 @@ import { AddMenuCategoryComponent } from "./add-menu-category/add-menu-category.
 import { NgSelectModule } from "@ng-select/ng-select";
 import { NgxFileDropModule } from "ngx-file-drop";
 import { menuCategoryRoutes } from "./menu-category.routing";
+import { DeleteMenuCategoryComponent } from './delete-menu-category/delete-menu-category.component';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   fgsColor: "#ef5350",
@@ -18,7 +19,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
 };
 
 @NgModule({
-  declarations: [MenuCategoryComponent, AddMenuCategoryComponent],
+  declarations: [MenuCategoryComponent, AddMenuCategoryComponent, DeleteMenuCategoryComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(menuCategoryRoutes),

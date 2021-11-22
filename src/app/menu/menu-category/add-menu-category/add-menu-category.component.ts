@@ -14,6 +14,8 @@ import { FileService } from "app/shared/services/file.service";
 import { MessageService } from "app/shared/services/message.service";
 import { NgxUiLoaderService } from "ngx-ui-loader";
 import _ from "lodash";
+import { DeleteMenuCategoryComponent } from "../delete-menu-category/delete-menu-category.component";
+import { MatDialog } from "@angular/material/dialog";
 
 @Component({
   selector: "add-menu-category",
@@ -56,7 +58,8 @@ export class AddMenuCategoryComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private datePipe: DatePipe,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dialog: MatDialog
   ) {
     this.activatedRoute.params.subscribe((params) => {
       if (params) {
@@ -206,38 +209,36 @@ export class AddMenuCategoryComponent implements OnInit {
 
   onFormSubmit(data: any, duplicate: boolean) {
     this.ngxService.start();
-    data.image = this.image;
-    data.availability = !data.availability;
-    data.productMainType = null;
-    data.productTypeHourList = data.availability
+    let dataList = _.cloneDeep(data);
+
+    dataList.image = this.image;
+    dataList.availability = !dataList.availability;
+    dataList.productMainType = null;
+    dataList.productTypeHourList = dataList.availability
       ? this.updateWorkingHours()
       : null;
     if (
-      (data.availability && data.productTypeHourList == null) ||
-      data.productTypeHourList?.length == 0
+      (dataList.availability && dataList.productTypeHourList == null) ||
+      dataList.productTypeHourList?.length == 0
     ) {
       this.messageService.snakBarErrorMessage("Invalid Category Hours!");
       this.ngxService.stop();
       this.updatedWorkingHours = [];
-      data.availability = !data.availability;
+      dataList.availability = !dataList.availability;
     } else {
       if (this.productTypeId > 0 && duplicate) {
-        if (this.categoryData.name == data.name) {
+        if (this.categoryData.name == dataList.name) {
           this.messageService.snakBarErrorMessage(
             "Please Change Category Name!"
           );
           this.ngxService.stop();
         } else {
-          data.id = null;
-          data.productTypeHourList.forEach((workingHour) => {
-            workingHour.id = null;
-          });
-          this.saveCategoryData(data);
+          this.saveCategoryData(dataList);
         }
       } else if (this.productTypeId > 0) {
-        this.updateCategoryData(this.productTypeId, data);
+        this.updateCategoryData(this.productTypeId, dataList);
       } else {
-        this.saveCategoryData(data);
+        this.saveCategoryData(dataList);
       }
     }
   }
@@ -255,7 +256,7 @@ export class AddMenuCategoryComponent implements OnInit {
       },
       (err) => {
         this.ngxService.stopAll();
-        this.messageService.snakBarErrorMessage("Failed.");
+        this.messageService.snakBarErrorMessage(err.error.message);
       }
     );
   }
@@ -272,7 +273,7 @@ export class AddMenuCategoryComponent implements OnInit {
       },
       (err) => {
         this.ngxService.stopAll();
-        this.messageService.snakBarErrorMessage("Failed.");
+        this.messageService.snakBarErrorMessage(err.error.message);
       }
     );
   }
@@ -281,7 +282,7 @@ export class AddMenuCategoryComponent implements OnInit {
     this.ngxService.stop();
     this.menuService.deleteCategory(id).subscribe(
       (response) => {
-        this.ngxService.stop();
+        this.ngxService.stopAll();
         if (response.operationStatus == 1) {
           this.messageService.snakBarSuccessMessage(
             "Category successfully deleted"
@@ -292,10 +293,20 @@ export class AddMenuCategoryComponent implements OnInit {
         }
       },
       (error) => {
-        this.ngxService.stop();
+        this.ngxService.stopAll();
         this.messageService.snakBarErrorMessage(error.error.error_description);
       }
     );
+  }
+
+  deleteCategory(id: number) {
+    this.dialog.open(DeleteMenuCategoryComponent, {
+      data: {
+        delete: () => {
+          this.deleteCategoryData(id);
+        },
+      },
+    });
   }
 
   onClickDay(index, day) {

@@ -80,3 +80,7 @@ mat-chip {
   top: 50px;
   left: -20%;
 }
+
+.mat-chip.mat-standard-chip.mat-chip-selected.mat-primary {
+  background-color: #009966;
+}
