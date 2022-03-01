@@ -1,0 +1,19 @@
+.add-circle {
+  color: green;
+}
+
+.addnew {
+  font-weight: bold;
+  color: green;
+  display: flex;
+}
+
+.addnew:hover {
+  cursor: pointer;
+  color: rgb(73, 194, 73);
+}
+
+.mat-radio-button ~ .mat-radio-button {
+  padding-top: 16px;
+  margin-left: 16px;
+}

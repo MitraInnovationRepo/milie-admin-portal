@@ -1,0 +1,98 @@
+<!-- <ngx-ui-loader></ngx-ui-loader> -->
+<div class="sub-main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <h4 class="title"> Item Available Hours</h4>
+            </div>
+        </div>
+        <br>
+        <div class="card">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="menu-hours-container" *ngFor="let displayHour of displayHourList; let i = index"
+                        [attr.data-index]="i">
+                        <div class="row day-chip-list">
+                            <div class="col-md-11">
+                                <mat-chip-list selectable="true" multiple="true">
+                                    <mat-chip *ngFor="let day of dayList" [selected]="checkDaySelected(day.id , i)"
+                                        (click)="day.disabled ? null : onClickDay(i, day.id)" [disabled]="day.disabled">
+                                        {{day.name}}&nbsp;
+                                    </mat-chip>
+                                </mat-chip-list>
+                            </div>
+                            <div class="col-md-1">
+                                <mat-icon class="close-icon" (click)="removeWorkingHours(i)">cancel</mat-icon>
+                            </div>
+                        </div>
+                        <div class="row">
+                        </div>
+                        <!-- <div class="row">
+                            <div class="col-md-8" style="margin: 10px 15px; padding: 0;">
+                                <div class="time-slots" style="left: 0%;">
+                                    <p class="time-label">00:00</p>
+                                </div>
+                                <div class="time-slots" style="left: 12.5%;">
+                                    <p class="time-label">03:00</p>
+                                </div>
+                                <div class="time-slots" style="left: 25%;">
+                                    <p class="time-label">06:00</p>
+                                </div>
+                                <div class="time-slots" style="left: 37.5%;">
+                                    <p class="time-label">09:00</p>
+                                </div>
+                                <div class="time-slots" style="left: 50%;">
+                                    <p class="time-label">12:00</p>
+                                </div>
+                                <div class="time-slots" style="left: 62.5%;">
+                                    <p class="time-label">15:00</p>
+                                </div>
+                                <div class="time-slots" style="left: 75%;">
+                                    <p class="time-label">18:00</p>
+                                </div>
+                                <div class="time-slots" style="left: 87.5%; display: flex;">
+                                    <p class="time-label">21:00</p>
+                                    <p class="time-label" style="left: 30%;">24:00</p>
+                                </div>
+                                <app-range-slider [min]="0" [max]="86340" [formControl]="displayHour.range">
+                                </app-range-slider>
+                            </div>
+                        </div> -->
+                        <div class="row">
+                            <div class="col-md-4">
+                                <mat-form-field>
+                                    <mat-label>Opening Time</mat-label>
+                                    <input type="time" matInput placeholder="" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="displayHour.startTime" (ngModelChange)="changeInputValue(i)">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <mat-form-field>
+                                    <mat-label>Closing Time</mat-label>
+                                    <input type="time" matInput placeholder="" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="displayHour.endTime" (ngModelChange)="changeInputValue(i)">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row table-topic">
+                <p class="addnew" (click)="addNewMenuHours()">
+                    <mat-icon class="add-circle">add_circle</mat-icon>
+                    <u>Add More Menu Hours</u>
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <button mat-raised-button class="btn btn-cancel pull-right" type='button'
+                    (click)="close()">Cancel</button>
+                <button mat-raised-button class="btn btn-custom pull-right" type='button' (click)="updateWorkingHours()"
+                    disabled={{!isEdited}}>Update</button>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>

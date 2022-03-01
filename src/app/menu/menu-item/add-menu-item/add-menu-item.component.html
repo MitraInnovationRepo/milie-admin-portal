@@ -1,0 +1,286 @@
+<ngx-ui-loader></ngx-ui-loader>
+<div class="sub-main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form [formGroup]="productForm">
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput formControlName="title" placeholder="Item name" type="text"
+                                            required>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h5><b>Description (optional)</b></h5>
+                                    <mat-form-field class="example-full-width">
+                                        <textarea matInput formControlName="description" placeholder="Description"
+                                            rows="7"></textarea>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h5><b>Categories</b></h5>
+                                    <ng-select [items]="mainCategory" [markFirst]="true" formControlName="productType"
+                                        [ngModel]="selectedProductType" placeholder="Categories" bindLabel="name"
+                                        bindValue="id">
+                                    </ng-select>
+                                </div>
+                                <div class="col-md-1">
+
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="row">
+                                        <input type="file" id="imageName" [ngStyle]="{'display':'none'}"
+                                            (change)="handleFileInput($event.target.files)">
+                                        <label for="imageName">
+                                            <p class="addnew">
+                                                <mat-icon class="add-circle">add_circle</mat-icon>
+                                                <u>{{!imageSrc ? 'Add Item Image' : 'Change Item
+                                                    Image'}}</u>
+                                            </p>
+                                        </label>
+                                    </div>
+                                    <div class="row imageinput1" id="image-uploader">
+                                        <div class='col-md-5'>
+                                            <div *ngIf="imageSrc else elseBlock">
+                                                <img width="150" height="150" id="blah"
+                                                    src="api/file/download/{{imageSrc}}" alt="Uploaded image" />
+                                            </div>
+                                            <ng-template #elseBlock><img width="150" height="150" id="blah"
+                                                    [src]="imageSrc || 'https://i.imgur.com/yQqPfHK.png'"
+                                                    alt="Uploaded image" />
+                                            </ng-template>
+                                        </div>
+                                        <div class='col-md-7'>
+                                            <h6>**Supported file formats : JPG, JPEG, PNG up to 5mb</h6>
+                                            <h6>Minimum pixel requirement: 524 x 524</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br>
+                            <h4><b>Price</b></h4>
+                            <hr>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Product Price" formControlName="rawPrice"
+                                            (change)="totalPrice()" type="number" required>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Commission" formControlName="commission" readonly>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Total Price" formControlName="unitPrice"
+                                            type="number" required>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <h6 style="margin: 0;"> Available Status</h6>
+                                    <mat-checkbox formControlName="status">Sold out</mat-checkbox>
+                                </div>
+                            </div>
+
+                            <br>
+                            <h4><b>Quantity</b></h4>
+                            <hr>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Minimum Order Count"
+                                            formControlName="minOrderQuantity" type="number">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Maximum Order Count"
+                                            formControlName="maxOrderQuantity" type="number">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <!-- <div class="row">
+                                <div class="col-md-6">
+                                    <label>Menu Availability: </label>
+                                    <section class="checkbox-group">
+                                        <mat-checkbox class="example-margin">Breakfast</mat-checkbox>
+                                        <mat-checkbox class="example-margin">Lunch</mat-checkbox>
+                                        <mat-checkbox class="example-margin">Dinner</mat-checkbox>
+                                    </section>
+                                </div>
+                                <div class="col-md-6">
+                                    <div>
+                                        <mat-checkbox formControlName="productAdditional">Packaging required
+                                        </mat-checkbox>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="button" color="primary" mat-mini-fab (click)="addAddonList()">
+                                        <mat-icon>add</mat-icon>
+                                    </button>
+
+                                    <table class="addon-table">
+                                        <tr>
+                                            <th>Add-ons</th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                        <div formArrayName="productAddonList">
+                                            <tr [formGroupName]="i"
+                                                *ngFor="let addon of productForm.get('productAddonList')['controls']; let i=index;">
+
+                                                <div>
+                                                    <td><textarea class="addon-name" matInput placeholder="Name"
+                                                            formControlName="name"></textarea></td>
+                                                    <td><input matInput placeholder="Price" formControlName="price"
+                                                            type="number"></td>
+                                                    <td><input type="hidden" formControlName="status" value="1"></td>
+                                                    <td>
+                                                        <button type="button" color="warn" mat-mini-fab
+                                                            (click)="removeAddonList(i)">
+                                                            <mat-icon>delete</mat-icon>
+                                                        </button>
+                                                    </td>
+                                                </div>
+                                            </tr>
+                                        </div>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="button" color="primary" mat-mini-fab (click)="addAdditionalList()">
+                                        <mat-icon>add</mat-icon>
+                                    </button>
+
+                                    <table class="addon-table">
+                                        <tr>
+                                            <th>Additional Charges</th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                        <div formArrayName="productAdditionalList">
+                                            <tr [formGroupName]="i"
+                                                *ngFor="let additional of productForm.get('productAdditionalList')['controls']; let i=index;">
+
+                                                <div>
+                                                    <td><textarea class="addon-name" matInput placeholder="Name"
+                                                            formControlName="name"></textarea></td>
+                                                    <td><input matInput placeholder="Price" formControlName="price"
+                                                            type="number"></td>
+                                                    <td>
+                                                        <mat-checkbox formControlName="isMandatory">Mandatory
+                                                        </mat-checkbox>
+                                                    </td>
+                                                    <td><input type="hidden" formControlName="status" value="1"></td>
+                                                    <td>
+                                                        <button type="button" color="warn" mat-mini-fab
+                                                            (click)="removeAdditionalList(i)">
+                                                            <mat-icon>delete</mat-icon>
+                                                        </button>
+                                                    </td>
+                                                </div>
+                                            </tr>
+                                        </div>
+                                    </table>
+                                </div>
+                            </div> -->
+
+                            <br>
+                            <h4><b>Item Info</b></h4>
+                            <hr>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <h6><b>Dietary</b></h6>
+                                    <ng-select [items]="mainCategory" [markFirst]="true" formControlName="productType"
+                                        [ngModel]="selectedProductType" placeholder="Dietary" bindLabel="name"
+                                        bindValue="id">
+                                    </ng-select>
+
+                                    <mat-form-field>
+                                        <mat-label>Dietary</mat-label>
+                                        <mat-select formControlName="toppingsControl" multiple>
+
+                                            <mat-select-trigger>
+                                                <mat-chip-list>
+                                                    <mat-chip
+                                                        *ngFor="let topping of productForm.controls['toppingsControl'].value"
+                                                        [removable]="true" (removed)="onToppingRemoved(topping)">
+                                                        {{ topping }}
+                                                        <mat-icon matChipRemove>cancel</mat-icon>
+                                                    </mat-chip>
+                                                </mat-chip-list>
+                                            </mat-select-trigger>
+
+                                            <mat-option *ngFor="let topping of toppingList" [value]="topping">
+                                                {{topping}}</mat-option>
+
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-3">
+                                    <h6><b>Veg / Non-Veg</b></h6>
+                                    <mat-radio-group aria-label="Select an option">
+                                        <mat-radio-button value="1">Option 1</mat-radio-button>
+                                        <mat-radio-button value="2">Option 2</mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+                                <div class="col-md-4">
+                                    <h6><b>Temperature</b></h6>
+                                    <mat-radio-group aria-label="Select an option">
+                                        <mat-radio-button value="1">Option 1</mat-radio-button>
+                                        <mat-radio-button value="2">Option 2</mat-radio-button>
+                                        <mat-radio-button value="2">Option 2</mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <h6><b>Available Time</b></h6>
+                                    <button mat-raised-button class="btn" type='button' style="color:black"
+                                        (click)="onAddWorkingHours()">
+                                        <mat-icon class="add-circle">add_circle</mat-icon>Add Time
+                                    </button>
+                                </div>
+                            </div>
+
+                            <button mat-raised-button class="btn btn-cancel pull-right" type='button'
+                                routerLink="/products">Cancel</button>
+                            <button mat-raised-button class="btn btn-custom pull-right" type='button'
+                                (click)="onFormSubmit(productForm.value)"
+                                [disabled]="productForm.invalid && isImageEmpty">{{buttonText}}</button>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>`

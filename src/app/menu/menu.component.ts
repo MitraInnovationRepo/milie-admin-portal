@@ -60,8 +60,8 @@ export class MenuComponent implements OnInit {
     },
     {
       label: "New Item",
-      route: "new-item",
-      disabled: true,
+      route: "item",
+      disabled: false,
     },
     {
       label: "Modifier Group",

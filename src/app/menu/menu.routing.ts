@@ -21,7 +21,10 @@ export const menuRoutes: Routes = [
         path: "category",
         loadChildren: "./menu-category/menu-category.module#MenuCategoryModule",
       },
+      {
+        path: "item",
+        loadChildren: "./menu-item/menu-item.module#MenuItemModule",
+      },
     ],
   },
 ];
-

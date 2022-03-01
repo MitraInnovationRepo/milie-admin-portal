@@ -1,0 +1,80 @@
+.edit-icon {
+    color: rgb(11, 11, 106);
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 40px;
+  }
+  
+  .menu-hours-container {
+    padding: 20px;
+    border-radius: 10px;
+    border: 0.5px solid rgb(223, 220, 220);
+    width: 100%;
+    -webkit-box-shadow: 0 8px 6px -6px #777;
+    -moz-box-shadow: 0 8px 6px -6px #777;
+    box-shadow: 0 8px 6px -6px #777;
+    position: relative;
+    margin-bottom: 50px;
+  }
+  
+  .day-chip-list {
+    margin-bottom: 30px;
+  }
+  mat-chip {
+    min-width: 80px;
+  }
+  .mat-icon {
+    transform: scale(0.7);
+  }
+  
+  .close-icon {
+    color: rgb(11, 11, 106);
+    cursor: pointer;
+    float: right;
+  }
+  
+  .add-circle {
+    color: green;
+  }
+  
+  .addnew {
+    font-weight: bold;
+    color: green;
+    display: flex;
+  }
+  
+  .addnew:hover {
+    cursor: pointer;
+    color: rgb(73, 194, 73);
+  }
+  
+  .table-topic {
+    padding: 10px 0px;
+    margin-left: 5px;
+  }
+  
+  .title {
+    padding: 20px;
+    font-weight: 800;
+  }
+  
+  .time-slots {
+    position: absolute;
+    height: 50px;
+    width: 12.5%;
+    top: 25px;
+    z-index: 2;
+    border: 1px solid grey;
+  }
+  
+  .time-label {
+    position: relative;
+    font-size: small;
+    top: 50px;
+    left: -20%;
+  }
+  
+  .mat-chip.mat-standard-chip.mat-chip-selected.mat-primary {
+    background-color: #009966;
+  }
+  
